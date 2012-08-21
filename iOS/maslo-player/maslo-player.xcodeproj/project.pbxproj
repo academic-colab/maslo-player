@@ -1,0 +1,688 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9E0932E615E2B45E00A46713 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0932E515E2B45E00A46713 /* Default.png */; };
+		9E0932E815E2B46600A46713 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0932E715E2B46600A46713 /* Default@2x.png */; };
+		9E0932EA15E2B80600A46713 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0932E915E2B80600A46713 /* icon.png */; };
+		9E0932EC15E2B80B00A46713 /* icon1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0932EB15E2B80B00A46713 /* icon1x.png */; };
+		9ED3CD4B151BC0C60039F139 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD4A151BC0C60039F139 /* Foundation.framework */; };
+		9ED3CD4D151BC0C60039F139 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD4C151BC0C60039F139 /* UIKit.framework */; };
+		9ED3CD4F151BC0C60039F139 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD4E151BC0C60039F139 /* CoreGraphics.framework */; };
+		9ED3CD51151BC0C60039F139 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD50151BC0C60039F139 /* AddressBook.framework */; };
+		9ED3CD53151BC0C60039F139 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD52151BC0C60039F139 /* AddressBookUI.framework */; };
+		9ED3CD55151BC0C60039F139 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD54151BC0C60039F139 /* AudioToolbox.framework */; };
+		9ED3CD57151BC0C60039F139 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD56151BC0C60039F139 /* AVFoundation.framework */; };
+		9ED3CD59151BC0C60039F139 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD58151BC0C60039F139 /* CoreLocation.framework */; };
+		9ED3CD5B151BC0C60039F139 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD5A151BC0C60039F139 /* MediaPlayer.framework */; };
+		9ED3CD5D151BC0C60039F139 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD5C151BC0C60039F139 /* QuartzCore.framework */; };
+		9ED3CD5F151BC0C60039F139 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD5E151BC0C60039F139 /* SystemConfiguration.framework */; };
+		9ED3CD61151BC0C60039F139 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD60151BC0C60039F139 /* MobileCoreServices.framework */; };
+		9ED3CD63151BC0C60039F139 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD62151BC0C60039F139 /* CoreMedia.framework */; };
+		9ED3CD6B151BC0C60039F139 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CD6A151BC0C60039F139 /* main.m */; };
+		9ED3CD6E151BC0C60039F139 /* Cordova.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD6D151BC0C60039F139 /* Cordova.framework */; };
+		9ED3CD8D151BC0C60039F139 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9ED3CD8C151BC0C60039F139 /* Capture.bundle */; };
+		9ED3CD8F151BC0C60039F139 /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ED3CD8E151BC0C60039F139 /* Cordova.plist */; };
+		9ED3CD93151BC0C60039F139 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CD92151BC0C60039F139 /* AppDelegate.m */; };
+		9ED3CD96151BC0C60039F139 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CD95151BC0C60039F139 /* MainViewController.m */; };
+		9ED3CD98151BC0C60039F139 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9ED3CD97151BC0C60039F139 /* MainViewController.xib */; };
+		9ED3CD9C151BC0C60039F139 /* verify.sh in Resources */ = {isa = PBXBuildFile; fileRef = 9ED3CD9B151BC0C60039F139 /* verify.sh */; };
+		9ED3CDA4151BC1220039F139 /* PGContentManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDA3151BC1220039F139 /* PGContentManagement.m */; };
+		9ED3CDAA151BC1780039F139 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CD4A151BC0C60039F139 /* Foundation.framework */; };
+		9ED3CDBF151BC22B0039F139 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDB4151BC22B0039F139 /* crypt.h */; };
+		9ED3CDC0151BC22B0039F139 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDB5151BC22B0039F139 /* ioapi.c */; };
+		9ED3CDC1151BC22B0039F139 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDB6151BC22B0039F139 /* ioapi.h */; };
+		9ED3CDC2151BC22B0039F139 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDB7151BC22B0039F139 /* mztools.c */; };
+		9ED3CDC3151BC22B0039F139 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDB8151BC22B0039F139 /* mztools.h */; };
+		9ED3CDC4151BC22B0039F139 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDB9151BC22B0039F139 /* unzip.c */; };
+		9ED3CDC5151BC22B0039F139 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDBA151BC22B0039F139 /* unzip.h */; };
+		9ED3CDC6151BC22B0039F139 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDBB151BC22B0039F139 /* zip.c */; };
+		9ED3CDC7151BC22B0039F139 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDBC151BC22B0039F139 /* zip.h */; };
+		9ED3CDC8151BC22B0039F139 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ED3CDBD151BC22B0039F139 /* ZipArchive.h */; };
+		9ED3CDC9151BC22B0039F139 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9ED3CDBE151BC22B0039F139 /* ZipArchive.mm */; };
+		9ED3CDCD151BC2820039F139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDCB151BC2820039F139 /* libsqlite3.dylib */; };
+		9ED3CDCE151BC2820039F139 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDCC151BC2820039F139 /* libz.dylib */; };
+		9ED3CDD6151BC6AE0039F139 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDD5151BC6AE0039F139 /* libz.1.2.5.dylib */; };
+		9ED3CDD7151BC6F40039F139 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDCB151BC2820039F139 /* libsqlite3.dylib */; };
+		9ED3CDD8151BC7110039F139 /* libZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDA9151BC1780039F139 /* libZipArchive.a */; };
+		9ED3CDD9151BC73D0039F139 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED3CDD5151BC6AE0039F139 /* libz.1.2.5.dylib */; };
+		9ED3CDDC151BC85D0039F139 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 9ED3CDDB151BC85D0039F139 /* www */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9ED3CDCF151BC2A60039F139 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9ED3CD3A151BC0C60039F139 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9ED3CDA8151BC1780039F139;
+			remoteInfo = ZipArchive;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9E0932E515E2B45E00A46713 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9E0932E715E2B46600A46713 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9E0932E915E2B80600A46713 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		9E0932EB15E2B80B00A46713 /* icon1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1x.png; sourceTree = "<group>"; };
+		9ED3CD46151BC0C60039F139 /* maslo-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maslo-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ED3CD4A151BC0C60039F139 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9ED3CD4C151BC0C60039F139 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9ED3CD4E151BC0C60039F139 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9ED3CD50151BC0C60039F139 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		9ED3CD52151BC0C60039F139 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		9ED3CD54151BC0C60039F139 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9ED3CD56151BC0C60039F139 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9ED3CD58151BC0C60039F139 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9ED3CD5A151BC0C60039F139 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		9ED3CD5C151BC0C60039F139 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9ED3CD5E151BC0C60039F139 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9ED3CD60151BC0C60039F139 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		9ED3CD62151BC0C60039F139 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		9ED3CD66151BC0C60039F139 /* masloPlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "masloPlayer-Info.plist"; sourceTree = "<group>"; };
+		9ED3CD6A151BC0C60039F139 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9ED3CD6C151BC0C60039F139 /* maslo-player-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "maslo-player-Prefix.pch"; sourceTree = "<group>"; };
+		9ED3CD6D151BC0C60039F139 /* Cordova.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cordova.framework; path = /Users/Shared/Cordova/Frameworks/Cordova.framework; sourceTree = "<absolute>"; };
+		9ED3CD8C151BC0C60039F139 /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
+		9ED3CD8E151BC0C60039F139 /* Cordova.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
+		9ED3CD91151BC0C60039F139 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		9ED3CD92151BC0C60039F139 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		9ED3CD94151BC0C60039F139 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
+		9ED3CD95151BC0C60039F139 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
+		9ED3CD97151BC0C60039F139 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Classes/MainViewController.xib; sourceTree = "<group>"; };
+		9ED3CD9A151BC0C60039F139 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		9ED3CD9B151BC0C60039F139 /* verify.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = verify.sh; sourceTree = "<group>"; };
+		9ED3CDA2151BC1220039F139 /* PGContentManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGContentManagement.h; sourceTree = "<group>"; };
+		9ED3CDA3151BC1220039F139 /* PGContentManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGContentManagement.m; sourceTree = "<group>"; };
+		9ED3CDA9151BC1780039F139 /* libZipArchive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZipArchive.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ED3CDB4151BC22B0039F139 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		9ED3CDB5151BC22B0039F139 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		9ED3CDB6151BC22B0039F139 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		9ED3CDB7151BC22B0039F139 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		9ED3CDB8151BC22B0039F139 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		9ED3CDB9151BC22B0039F139 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		9ED3CDBA151BC22B0039F139 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		9ED3CDBB151BC22B0039F139 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		9ED3CDBC151BC22B0039F139 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		9ED3CDBD151BC22B0039F139 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		9ED3CDBE151BC22B0039F139 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		9ED3CDCB151BC2820039F139 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		9ED3CDCC151BC2820039F139 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9ED3CDD4151BC4DF0039F139 /* ZipArchive-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZipArchive-Prefix.pch"; sourceTree = "<group>"; };
+		9ED3CDD5151BC6AE0039F139 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		9ED3CDDB151BC85D0039F139 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9ED3CD40151BC0C60039F139 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CDD9151BC73D0039F139 /* libz.1.2.5.dylib in Frameworks */,
+				9ED3CDD8151BC7110039F139 /* libZipArchive.a in Frameworks */,
+				9ED3CDD7151BC6F40039F139 /* libsqlite3.dylib in Frameworks */,
+				9ED3CD4B151BC0C60039F139 /* Foundation.framework in Frameworks */,
+				9ED3CD4D151BC0C60039F139 /* UIKit.framework in Frameworks */,
+				9ED3CD4F151BC0C60039F139 /* CoreGraphics.framework in Frameworks */,
+				9ED3CD51151BC0C60039F139 /* AddressBook.framework in Frameworks */,
+				9ED3CD53151BC0C60039F139 /* AddressBookUI.framework in Frameworks */,
+				9ED3CD55151BC0C60039F139 /* AudioToolbox.framework in Frameworks */,
+				9ED3CD57151BC0C60039F139 /* AVFoundation.framework in Frameworks */,
+				9ED3CD59151BC0C60039F139 /* CoreLocation.framework in Frameworks */,
+				9ED3CD5B151BC0C60039F139 /* MediaPlayer.framework in Frameworks */,
+				9ED3CD5D151BC0C60039F139 /* QuartzCore.framework in Frameworks */,
+				9ED3CD5F151BC0C60039F139 /* SystemConfiguration.framework in Frameworks */,
+				9ED3CD61151BC0C60039F139 /* MobileCoreServices.framework in Frameworks */,
+				9ED3CD63151BC0C60039F139 /* CoreMedia.framework in Frameworks */,
+				9ED3CD6E151BC0C60039F139 /* Cordova.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ED3CD43151BC0C60039F139 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CDD6151BC6AE0039F139 /* libz.1.2.5.dylib in Frameworks */,
+				9ED3CDCD151BC2820039F139 /* libsqlite3.dylib in Frameworks */,
+				9ED3CDCE151BC2820039F139 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ED3CDA6151BC1780039F139 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CDAA151BC1780039F139 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9ED3CD38151BC0C60039F139 = {
+			isa = PBXGroup;
+			children = (
+				9E0932EB15E2B80B00A46713 /* icon1x.png */,
+				9E0932E915E2B80600A46713 /* icon.png */,
+				9E0932E715E2B46600A46713 /* Default@2x.png */,
+				9E0932E515E2B45E00A46713 /* Default.png */,
+				9ED3CDDB151BC85D0039F139 /* www */,
+				9ED3CDD5151BC6AE0039F139 /* libz.1.2.5.dylib */,
+				9ED3CDCB151BC2820039F139 /* libsqlite3.dylib */,
+				9ED3CDCC151BC2820039F139 /* libz.dylib */,
+				9ED3CD64151BC0C60039F139 /* maslo-player */,
+				9ED3CDAB151BC1780039F139 /* ZipArchive */,
+				9ED3CD49151BC0C60039F139 /* Frameworks */,
+				9ED3CD47151BC0C60039F139 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9ED3CD47151BC0C60039F139 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD46151BC0C60039F139 /* maslo-player.app */,
+				9ED3CDA9151BC1780039F139 /* libZipArchive.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9ED3CD49151BC0C60039F139 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD4A151BC0C60039F139 /* Foundation.framework */,
+				9ED3CD4C151BC0C60039F139 /* UIKit.framework */,
+				9ED3CD4E151BC0C60039F139 /* CoreGraphics.framework */,
+				9ED3CD50151BC0C60039F139 /* AddressBook.framework */,
+				9ED3CD52151BC0C60039F139 /* AddressBookUI.framework */,
+				9ED3CD54151BC0C60039F139 /* AudioToolbox.framework */,
+				9ED3CD56151BC0C60039F139 /* AVFoundation.framework */,
+				9ED3CD58151BC0C60039F139 /* CoreLocation.framework */,
+				9ED3CD5A151BC0C60039F139 /* MediaPlayer.framework */,
+				9ED3CD5C151BC0C60039F139 /* QuartzCore.framework */,
+				9ED3CD5E151BC0C60039F139 /* SystemConfiguration.framework */,
+				9ED3CD60151BC0C60039F139 /* MobileCoreServices.framework */,
+				9ED3CD62151BC0C60039F139 /* CoreMedia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9ED3CD64151BC0C60039F139 /* maslo-player */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD6D151BC0C60039F139 /* Cordova.framework */,
+				9ED3CD6F151BC0C60039F139 /* Resources */,
+				9ED3CD90151BC0C60039F139 /* Classes */,
+				9ED3CD99151BC0C60039F139 /* Plugins */,
+				9ED3CD65151BC0C60039F139 /* Supporting Files */,
+			);
+			path = "maslo-player";
+			sourceTree = "<group>";
+		};
+		9ED3CD65151BC0C60039F139 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD66151BC0C60039F139 /* masloPlayer-Info.plist */,
+				9ED3CD6A151BC0C60039F139 /* main.m */,
+				9ED3CD6C151BC0C60039F139 /* maslo-player-Prefix.pch */,
+				9ED3CD8E151BC0C60039F139 /* Cordova.plist */,
+				9ED3CD97151BC0C60039F139 /* MainViewController.xib */,
+				9ED3CD9B151BC0C60039F139 /* verify.sh */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9ED3CD6F151BC0C60039F139 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD8C151BC0C60039F139 /* Capture.bundle */,
+				9ED3CD70151BC0C60039F139 /* en.lproj */,
+				9ED3CD80151BC0C60039F139 /* icons */,
+				9ED3CD87151BC0C60039F139 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		9ED3CD70151BC0C60039F139 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = en.lproj;
+			sourceTree = "<group>";
+		};
+		9ED3CD80151BC0C60039F139 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		9ED3CD87151BC0C60039F139 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		9ED3CD90151BC0C60039F139 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CD91151BC0C60039F139 /* AppDelegate.h */,
+				9ED3CD92151BC0C60039F139 /* AppDelegate.m */,
+				9ED3CD94151BC0C60039F139 /* MainViewController.h */,
+				9ED3CD95151BC0C60039F139 /* MainViewController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		9ED3CD99151BC0C60039F139 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CDA2151BC1220039F139 /* PGContentManagement.h */,
+				9ED3CDA3151BC1220039F139 /* PGContentManagement.m */,
+				9ED3CD9A151BC0C60039F139 /* README */,
+			);
+			name = Plugins;
+			sourceTree = "<group>";
+		};
+		9ED3CDAB151BC1780039F139 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CDD3151BC30B0039F139 /* minizip */,
+				9ED3CDBD151BC22B0039F139 /* ZipArchive.h */,
+				9ED3CDBE151BC22B0039F139 /* ZipArchive.mm */,
+				9ED3CDAC151BC1780039F139 /* Supporting Files */,
+			);
+			path = ZipArchive;
+			sourceTree = "<group>";
+		};
+		9ED3CDAC151BC1780039F139 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CDD4151BC4DF0039F139 /* ZipArchive-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9ED3CDD3151BC30B0039F139 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				9ED3CDB4151BC22B0039F139 /* crypt.h */,
+				9ED3CDB5151BC22B0039F139 /* ioapi.c */,
+				9ED3CDB6151BC22B0039F139 /* ioapi.h */,
+				9ED3CDB7151BC22B0039F139 /* mztools.c */,
+				9ED3CDB8151BC22B0039F139 /* mztools.h */,
+				9ED3CDB9151BC22B0039F139 /* unzip.c */,
+				9ED3CDBA151BC22B0039F139 /* unzip.h */,
+				9ED3CDBB151BC22B0039F139 /* zip.c */,
+				9ED3CDBC151BC22B0039F139 /* zip.h */,
+			);
+			name = minizip;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9ED3CDA7151BC1780039F139 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CDBF151BC22B0039F139 /* crypt.h in Headers */,
+				9ED3CDC1151BC22B0039F139 /* ioapi.h in Headers */,
+				9ED3CDC3151BC22B0039F139 /* mztools.h in Headers */,
+				9ED3CDC5151BC22B0039F139 /* unzip.h in Headers */,
+				9ED3CDC7151BC22B0039F139 /* zip.h in Headers */,
+				9ED3CDC8151BC22B0039F139 /* ZipArchive.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9ED3CD45151BC0C60039F139 /* maslo-player */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9ED3CD9F151BC0C60039F139 /* Build configuration list for PBXNativeTarget "maslo-player" */;
+			buildPhases = (
+				9ED3CD3F151BC0C60039F139 /* Sources */,
+				9ED3CD40151BC0C60039F139 /* Frameworks */,
+				9ED3CD41151BC0C60039F139 /* Resources */,
+				9ED3CD42151BC0C60039F139 /* Sources */,
+				9ED3CD43151BC0C60039F139 /* Frameworks */,
+				9ED3CD44151BC0C60039F139 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9ED3CDD0151BC2A60039F139 /* PBXTargetDependency */,
+			);
+			name = "maslo-player";
+			productName = "maslo-player";
+			productReference = 9ED3CD46151BC0C60039F139 /* maslo-player.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9ED3CDA8151BC1780039F139 /* ZipArchive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9ED3CDB1151BC1780039F139 /* Build configuration list for PBXNativeTarget "ZipArchive" */;
+			buildPhases = (
+				9ED3CDA5151BC1780039F139 /* Sources */,
+				9ED3CDA6151BC1780039F139 /* Frameworks */,
+				9ED3CDA7151BC1780039F139 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZipArchive;
+			productName = ZipArchive;
+			productReference = 9ED3CDA9151BC1780039F139 /* libZipArchive.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9ED3CD3A151BC0C60039F139 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 9ED3CD3D151BC0C60039F139 /* Build configuration list for PBXProject "maslo-player" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				es,
+				de,
+				se,
+			);
+			mainGroup = 9ED3CD38151BC0C60039F139;
+			productRefGroup = 9ED3CD47151BC0C60039F139 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9ED3CD45151BC0C60039F139 /* maslo-player */,
+				9ED3CDA8151BC1780039F139 /* ZipArchive */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9ED3CD41151BC0C60039F139 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CD8D151BC0C60039F139 /* Capture.bundle in Resources */,
+				9ED3CD8F151BC0C60039F139 /* Cordova.plist in Resources */,
+				9ED3CD98151BC0C60039F139 /* MainViewController.xib in Resources */,
+				9ED3CD9C151BC0C60039F139 /* verify.sh in Resources */,
+				9ED3CDDC151BC85D0039F139 /* www in Resources */,
+				9E0932E615E2B45E00A46713 /* Default.png in Resources */,
+				9E0932E815E2B46600A46713 /* Default@2x.png in Resources */,
+				9E0932EA15E2B80600A46713 /* icon.png in Resources */,
+				9E0932EC15E2B80B00A46713 /* icon1x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9ED3CD44151BC0C60039F139 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n\t\t\t\t\t\t\t\tchmod 755 $PROJECT_DIR/$PROJECT_NAME/verify.sh\n\t\t\t\t\t\t\t\t$PROJECT_DIR/$PROJECT_NAME/verify.sh\n\t\t\t\t\t";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9ED3CD3F151BC0C60039F139 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CD6B151BC0C60039F139 /* main.m in Sources */,
+				9ED3CD93151BC0C60039F139 /* AppDelegate.m in Sources */,
+				9ED3CD96151BC0C60039F139 /* MainViewController.m in Sources */,
+				9ED3CDA4151BC1220039F139 /* PGContentManagement.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ED3CD42151BC0C60039F139 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ED3CDA5151BC1780039F139 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ED3CDC0151BC22B0039F139 /* ioapi.c in Sources */,
+				9ED3CDC2151BC22B0039F139 /* mztools.c in Sources */,
+				9ED3CDC4151BC22B0039F139 /* unzip.c in Sources */,
+				9ED3CDC6151BC22B0039F139 /* zip.c in Sources */,
+				9ED3CDC9151BC22B0039F139 /* ZipArchive.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9ED3CDD0151BC2A60039F139 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9ED3CDA8151BC1780039F139 /* ZipArchive */;
+			targetProxy = 9ED3CDCF151BC2A60039F139 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		9ED3CD9D151BC0C60039F139 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7,
+					armv6,
+				);
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9ED3CD9E151BC0C60039F139 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7,
+					armv6,
+				);
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9ED3CDA0151BC0C60039F139 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maslo-player/maslo-player-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1,",
+					"CORDOVA_FRAMEWORK=1",
+				);
+				INFOPLIST_FILE = "maslo-player/masloPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak_library",
+					/usr/lib/libSystem.B.dylib,
+				);
+				PRODUCT_NAME = "maslo-player";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9ED3CDA1151BC0C60039F139 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/Cordova/Frameworks;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maslo-player/maslo-player-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NDEBUG=1,",
+					"CORDOVA_FRAMEWORK=1",
+				);
+				INFOPLIST_FILE = "maslo-player/masloPlayer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak_library",
+					/usr/lib/libSystem.B.dylib,
+				);
+				PRODUCT_NAME = "maslo-player";
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9ED3CDB2151BC1780039F139 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DSTROOT = /tmp/ZipArchive.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZipArchive/ZipArchive-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		9ED3CDB3151BC1780039F139 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DSTROOT = /tmp/ZipArchive.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZipArchive/ZipArchive-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9ED3CD3D151BC0C60039F139 /* Build configuration list for PBXProject "maslo-player" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9ED3CD9D151BC0C60039F139 /* Debug */,
+				9ED3CD9E151BC0C60039F139 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9ED3CD9F151BC0C60039F139 /* Build configuration list for PBXNativeTarget "maslo-player" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9ED3CDA0151BC0C60039F139 /* Debug */,
+				9ED3CDA1151BC0C60039F139 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9ED3CDB1151BC1780039F139 /* Build configuration list for PBXNativeTarget "ZipArchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9ED3CDB2151BC1780039F139 /* Debug */,
+				9ED3CDB3151BC1780039F139 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9ED3CD3A151BC0C60039F139 /* Project object */;
+}
