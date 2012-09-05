@@ -981,19 +981,20 @@ function computeQuizResults(jsonObj){
     }
     summary += "</ul>";
     // TODO: Potentially provide customized messages for each quiz
+
+    percent = Math.round(100 * correct / (correct + wrong));
+    var start = "<p/>You scored " + percent + "%."
+
     var numerus1 = "question";
     if (correct != 1)
         numerus1 += "s";
     var numerus2 = "question";
     if (wrong != 1)
         numerus2 += "s";
-    var start = "You got "+correct+" "+numerus1+" right and "+wrong+" "
+    start += "<p/>You answered "+correct+" "+numerus1+" correct and "+wrong+" "
         +numerus2+" wrong.";
-    if (wrong == 0)
-        start = "Congratulations! All your answers were correct.";
-    if (correct == 0)
-        start = "So sorry. You answered all questions incorrectly.";
     $("#content").append(summary);
+    $("#content").append(start);
     window.setTimeout('resetValues();',700);
     
 }
