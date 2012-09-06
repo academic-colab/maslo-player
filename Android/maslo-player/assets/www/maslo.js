@@ -994,10 +994,9 @@ function computeQuizResults(jsonObj){
         summary += listItem + "</li>";
     }
     summary += "</ul>";
-    // TODO: Potentially provide customized messages for each quiz
 
     percent = Math.round(100 * correct / (correct + wrong));
-    var start = "<p/>You scored " + percent + "%."
+    var results = "<p/>You scored " + percent + "%."
 
     var numerus1 = "question";
     if (correct != 1)
@@ -1005,10 +1004,10 @@ function computeQuizResults(jsonObj){
     var numerus2 = "question";
     if (wrong != 1)
         numerus2 += "s";
-    start += "<p/>You answered "+correct+" "+numerus1+" correct and "+wrong+" "
+    results += "<p/>You answered "+correct+" "+numerus1+" correct and "+wrong+" "
         +numerus2+" wrong.";
+    $("#content").append(results);
     $("#content").append(summary);
-    $("#content").append(start);
     window.setTimeout('resetValues();',700);
     
 }
