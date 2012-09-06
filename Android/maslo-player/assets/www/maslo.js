@@ -415,44 +415,52 @@ function setWipe(currIndex){
     $("#goRight").unbind("click");
     $("#goRight").click(function(){
                        if (globalPackLinks == null)
-                       return false;
+                           return false;
                        if (currIndex+1 < globalPackLinks.length){
-                       globalPackLinks[currIndex+1].click();
+                           $('html, body').animate({ scrollTop: 0}, 0);
+                           globalPackLinks[currIndex+1].click();
                        } else {
-                       globalPackLinks[0].click();
+                           $('html, body').animate({ scrollTop: 0}, 0);
+                           globalPackLinks[0].click();
                        }
                        return false;
                        });
     $("#goLeft").unbind("click");
     $("#goLeft").click(function(){
                         if (globalPackLinks == null)
-                        return false;
+                            return false;
                         if (currIndex-1 >= 0){
-                        globalPackLinks[currIndex-1].click();
+                           $('html, body').animate({ scrollTop: 0}, 0);
+                           globalPackLinks[currIndex-1].click();
                         } else {
-                        globalPackLinks[globalPackLinks.length-1].click();
+                           $('html, body').animate({ scrollTop: 0}, 0);
+                           globalPackLinks[globalPackLinks.length-1].click();
                         }
                         
                         });
     $("#allDiv").unbindSwipe();
     $("#allDiv").touchSwipeRight(function(e){
                                  if (globalPackLinks == null)
-                                 return false;
+                                     return false;
                                  if (currIndex-1 >= 0){
-                                 globalPackLinks[currIndex-1].click();
+                                     $('html, body').animate({ scrollTop: 0}, 0);
+                                     globalPackLinks[currIndex-1].click();
                                  } else {
-                                 globalPackLinks[globalPackLinks.length-1].click();
+                                     $('html, body').animate({ scrollTop: 0}, 0);
+                                     globalPackLinks[globalPackLinks.length-1].click();
                                  }
                                  return false;
                                  });
     
     $("#allDiv").touchSwipeLeft(function(e){
                                 if (globalPackLinks == null)
-                                return false;
+                                    return false;
                                 if (currIndex+1 < globalPackLinks.length){
-                                globalPackLinks[currIndex+1].click();
+                                    $('html, body').animate({ scrollTop: 0}, 0);
+                                    globalPackLinks[currIndex+1].click();
                                 } else {
-                                globalPackLinks[0].click();
+                                    $('html, body').animate({ scrollTop: 0}, 0);
+                                    globalPackLinks[0].click();
                                 }
                                 return false;
                                 });
