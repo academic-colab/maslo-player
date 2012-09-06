@@ -101,7 +101,7 @@ function installItem(title, origin, which, link, version, reply) {
     if (reply) {
     	if (inDownload){
     		myAlert("You have currently a different download running. Please wait for your next download until the\
-    		current on is completed.");
+    		current one is completed.");
     		return false;
     	}
     	inDownload = true;
