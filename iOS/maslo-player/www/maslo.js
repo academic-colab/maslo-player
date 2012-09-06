@@ -728,16 +728,22 @@ function queryQuizFeedbackPrefs(argPath, argTitle, currId){
     titleDiv.unbind("click");
     titleDiv.click(function(e) {moveTitle("#"+tDiv, argTitle, 0, 500, 22);});
     
-    var q = "Do you want feedback after every question?"
+    var q = "Do you want feedback after every question?";
     $("<h3/>", {  html: q }).appendTo("#content");
     var inp = "<input type='radio' name='wantFeedback' value='yes'>yes</input>"; 
     inp += "&nbsp;&nbsp;&nbsp;&nbsp;<input type='radio' name='wantFeedback' value='no' \
         checked='checked'>no</input>"
-    var cb = '<p/><button class="otherButton" name="submit" \
-        onClick="javascript:checkFeedbackValues();createQuiz(\''+argPath+'\', \
-            \''+argTitle+'\');">start quiz</button>';
     $('#answers').append(inp);
-    $('#answers').append(cb);
+
+    button = $('<button class="otherButton" name="submit">start quiz</button>');
+    button.click(function(e){
+            checkFeedbackValues();
+            createQuiz(argPath, argTitle);
+            return false;
+        });
+
+    $('#answers').append('<p/>');
+    $('#answers').append(button);
 }
 
 /**
