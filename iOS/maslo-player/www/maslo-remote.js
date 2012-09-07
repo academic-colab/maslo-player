@@ -69,10 +69,16 @@ function updateItem(title, origin, which, link, version, reply){
         return false;
     }
     if (reply) {
+		if (inDownload) {
+			myAlert("You currently have another download in progress. Please wait for the current one to complete before you start another.");
+			return false;
+		}
+		inDownload = true;
         fileDownloadMgr.updateContent(function(data) {
                                         installSucceeded(data, which, title, link, true);
                                         },
                                         function(error) { 
+										inDownload = false;
                                         myAlert("Update failed: <br/>"+error);
                                         },
                                         origin,"download.zip", title, version);
@@ -107,10 +113,16 @@ function installItem(title, origin, which, link, version, reply) {
         return false;
     }
     if (reply) {
+		if (inDownload) {
+			myAlert("You currently have another download in progress. Please wait for the current one to complete before you start another.");
+			return false;
+		}
+		inDownload = true;
         fileDownloadMgr.downloadContent(function(data) {
                                         installSucceeded(data, which, title, link);
                                         },
                                         function(error) { 
+										inDownload = false;
                                         myAlert("Download failed: <br/>"+error);
                                         },
                                         origin,"download.zip", title, version, true);
@@ -136,9 +148,9 @@ function processAjax(data, existingContent, header) {
                                        
                                        }
                                        }
-                                       
-                                       return processAjax(data, existingContent);
-                                       }, function(data){alert("ERROR");});
+                                       processAjax(data, existingContent);
+                                       return false;
+                                       }, function(data){myAlert("ERROR");});
     } else {
         var response = jQuery.parseJSON(data);
         var content = response["data"];
@@ -170,7 +182,7 @@ function processAjax(data, existingContent, header) {
          var path = content[i].filename;
          var version = content[i].version
          var previewMsg = null;
-         if ("preview" in content[i]) {
+         if ("preview" in content[i]) 
              previewMsg = content[i].preview;
          var sections = null;
          if ("sections" in content[i])
@@ -258,7 +270,7 @@ function processAjax(data, existingContent, header) {
          else 
          trClass = "light";
         } catch(err) {
-            alert(err);
+            myAlert(err);
         }
         }
         

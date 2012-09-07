@@ -347,6 +347,7 @@ function deleteItem(title, which, reply){
  * link: link associated with this table row entry
  */
 function installSucceeded(result, which, title, link, isUpdate) {
+	inDownload = false;	
     which.html("Installed");
     which.removeClass("installButton").addClass("installedButton");
     if (isUpdate != null && isUpdate)

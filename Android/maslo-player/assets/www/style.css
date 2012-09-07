@@ -1,7 +1,7 @@
 
 body {
-    background-color: #F7FCFE;
-    color:#373A3F;
+    background-color: #FFFFFF;/* &light_row */;
+    color:#000000;/* &light_row_font */;
     font-family: helvetica;
     margin: 0px; 
     padding: 0px;
@@ -43,14 +43,14 @@ div#actualContent {
 
 tr.dark td.logo {
     text-align: right;
-    background: #8492A4;
+    background: #000000;/* &header */;
     padding-right: 10px;
     height: 40px;
 }
 
 tr.dark td.sort {
     text-align: right;
-    background: #8492A4;
+    background: #000000;/* &header */;
     padding-left: 10px;
     height: 40px;
     width: 15%;
@@ -58,7 +58,7 @@ tr.dark td.sort {
 
 tr.dark td.edit {
     text-align: left;
-    background: #8492A4;
+    background: #000000;/* &header */;
     padding-right: 10px;
     height: 40px;
     width: 15%;
@@ -66,8 +66,8 @@ tr.dark td.edit {
 
 tr.dark td.header {
     text-align: center;
-    background: #8492A4;
-    color: #FFFFFF;
+    background: #000000;/* &header */;
+    color: #FFFFFF;/* &header_font */
     height: 40px;
     font-weight: bold;
     padding-left: 10px;
@@ -77,8 +77,8 @@ tr.dark td.header {
 }
 
 tr.dark td{
-    background: #CCDAE3;
-    color: #FFFFFF;
+    background: #A3A3A3;/* &dark_row */;
+    color: #000000;/* &light_row_font */;
     height: 40px;
     width: 60px;
 }
@@ -113,8 +113,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background:#373A3F;
+    color: #FFFFFF;/* &button_font */;
+    background:  #A3A3A3;/* &button_color */;
     height:25px;
     width:50px;
 }
@@ -128,8 +128,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background:#373A3F;
+    color: #FFFFFF;/* &button_font */;
+    background: #000000;/* &button_color */;
     height:30px;
     width:65px;
 }
@@ -143,8 +143,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background:#373A3F;
+    color: #FFFFFF;/* &button_font */;
+    background:  #A3A3A3;/* &button_color */;
     height:25px;
     width:25px;
     display:none;
@@ -160,8 +160,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background:#373A3F;
+    color: #FFFFFF;/* &button_font */;
+    background:  #000000;/* &button_color */;
     height:25px;
     width:25px;
 }
@@ -175,8 +175,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background:#373A3F;
+    color: #FFFFFF;/* &button_font */;
+    background: #A3A3A3;/* &button_color */;
     height:25px;
     width:50px;
     display:none;
@@ -192,8 +192,8 @@ tr.editMenu {
     display:inline-block;
     font-weight:bold;
     font-size:60%;
-    color: #FFFFFF;
-    background: #B80000;
+    color: #FFFFFF;/* &button_font */;
+    background: #B80000;/* &button_color */;
     height:25px;
     width:50px;
 }
@@ -241,13 +241,13 @@ tr.editMenu {
     font-weight:bold;
     font-size:60%;
     color: #FFFFFF;
-    background: #8492A4;
+    background: #000000 /*dark*/;
     height:25px;
     width:50px;
 }
 
 tr.dark td.delete {
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     width: 10px;
     font-family: helvetica;
     padding-left: 10px;
@@ -259,7 +259,7 @@ tr.dark td.delete {
 
 tr.dark td.left {
     font-weight:bold;
-	background: #CCDAE3;
+	background: #A3A3A3;/* &dark_row */;
     padding-right: 5px;
     padding-left: 10px;
     padding-top: 5px;
@@ -271,7 +271,7 @@ tr.dark td.left {
 
 tr.dark td.right {
     border-left: 1px solid #FFFFFF;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     font-style: italic;
     font-family: helvetica;
     width: 20%;
@@ -279,7 +279,7 @@ tr.dark td.right {
 
 
 tr.light td.delete {   
-    background: #F7FCFE;
+    background: #FFFFFF;/* &light_row */;
     width: 10%;
     font-family: helvetica;
     padding-left: 10px;
@@ -290,7 +290,7 @@ tr.light td.delete {
 
 
 tr.light td.left {
-    background: #F7FCFE;
+    background: #FFFFFF;/* &light_row */;
     padding-right: 5px;
     padding-left: 10px;
     padding-top: 5px;
@@ -303,7 +303,7 @@ tr.light td.left {
 
 tr.light td.right {
     border-left: 1px solid #FFFFFF;
-    background: #F7FCFE;
+    background: #FFFFFF;/* &light_row */;
     font-style: italic;
     font-family: helvetica;
 }
@@ -321,9 +321,9 @@ tr.light td.right {
 
 #menuTable tr td {
     border-bottom: 1px solid #FFFFFF;
-    background: #8492A4;
+    background: #000000 /*dark*/;
     font-family: helvetica;
-    color:#373A3F;
+    color:#000000 /*dark font*/;
 }
 
 div.italic {
@@ -331,9 +331,15 @@ div.italic {
     font-family: helvetica;
 }
 
-a:link {text-decoration: none;font-weight:bold;color: #373A3F; }
-a:visited {text-decoration: none;font-weight:bold;color: #373A3F;}
-a:active {text-decoration: none;font-weight:bold;color: #373A3F;}
+a:link {text-decoration: none;font-weight:bold;
+		color: #000000;/* &light_row_font */; 
+		}
+a:visited {text-decoration: none;font-weight:bold;
+	color: #000000;/* &light_row_font */;
+	}
+a:active {text-decoration: none;font-weight:bold;
+	color: #000000;/* &light_row_font */;
+	}
 
 
 
@@ -358,7 +364,7 @@ div#popupCorrect {
     overflow:auto;
     margin: 100px auto 0 auto;
     padding: 10px;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     border: 2px solid #1a1a1a;
     display: none;
     position: absolute;
@@ -376,7 +382,7 @@ div#popupFalse {
     overflow:auto;
     margin: 100px auto 0 auto;
     padding: 10px;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     border: 2px solid #1a1a1a;
     display: none;
     position: absolute;
@@ -394,7 +400,7 @@ div#popupMessage {
     overflow:auto;
     margin: 100px auto 0 auto;
     padding: 10px;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     border: 2px solid #1a1a1a;
     display: none;
     position: absolute;
@@ -412,7 +418,7 @@ div#confirmDialog {
     overflow:auto;
     margin: 100px auto 0 auto;
     padding: 10px;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
     border: 2px solid #1a1a1a;
     display: none;
     position: absolute;
@@ -472,7 +478,7 @@ div#popupBackground{
     position:absolute;
     z-index:2;
     color:#000052;
-    background-color:#8492A4;
+    background-color:#000000;/* &header */;
     width: 45%;
     height: 150px;
     border: 2px solid #000000;
@@ -486,7 +492,7 @@ div#popupBackground{
 #spacerDiv{
     display:none;
     height: 40px;
-    background: #CCDAE3;
+    background: #A3A3A3;/* &dark_row */;
 }
 
 

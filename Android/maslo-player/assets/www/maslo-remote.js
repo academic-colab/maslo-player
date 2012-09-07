@@ -19,12 +19,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
-
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 //===========================================================================
 //  Content install/delete functions
 //===========================================================================
 
+/***
+ * Check network status
+ * return: -1: No network
+ *         0 : WIFI
+ *         1 : Mobile network
+ */
 function checkNetwork(){
 	var networkState = navigator.network.connection.type;
 	if (networkState == Connection.NONE)
@@ -34,6 +42,9 @@ function checkNetwork(){
 	return 1;
 }
 
+/***
+ * Update installed content pack to most recent version
+ */
 function updateItem(title, origin, which, link, version, reply){
     if (which.html() == "Installed" || which.html() == "Install")
         return false;
@@ -58,16 +69,16 @@ function updateItem(title, origin, which, link, version, reply){
         return false;
     }
     if (reply) {
-    	if (inDownload){
-    		myAlert("You currently have another download in progress. Please wait for the current one to complete before you start another.");
-    		return false;
-    	}
-    	inDownload = true;
+		if (inDownload) {
+			myAlert("You currently have another download in progress. Please wait for the current one to complete before you start another.");
+			return false;
+		}
+		inDownload = true;
         fileDownloadMgr.updateContent(function(data) {
                                         installSucceeded(data, which, title, link, true);
                                         },
                                         function(error) { 
-                                        inDownload = false;
+										inDownload = false;
                                         myAlert("Update failed: <br/>"+error);
                                         },
                                         origin,"download.zip", title, version);
@@ -75,6 +86,9 @@ function updateItem(title, origin, which, link, version, reply){
     return false;
 }
 
+/***
+ * Install content pack
+ */
 function installItem(title, origin, which, link, version, reply) {
     if (which.html() == "Installed")
         return false;
@@ -99,17 +113,16 @@ function installItem(title, origin, which, link, version, reply) {
         return false;
     }
     if (reply) {
-    	if (inDownload){
-    		myAlert("You have currently a different download running. Please wait for your next download until the\
-    		current one is completed.");
-    		return false;
-    	}
-    	inDownload = true;
+		if (inDownload) {
+			myAlert("You currently have another download in progress. Please wait for the current one to complete before you start another.");
+			return false;
+		}
+		inDownload = true;
         fileDownloadMgr.downloadContent(function(data) {
                                         installSucceeded(data, which, title, link);
                                         },
                                         function(error) { 
-                                        inDownload = false;
+										inDownload = false;
                                         myAlert("Download failed: <br/>"+error);
                                         },
                                         origin,"download.zip", title, version, true);
@@ -127,15 +140,15 @@ function processAjax(data, existingContent, header) {
                                        var existingContent = {};
                                        if (input != null && input != "") {
                                        var json =  jQuery.parseJSON(input);
-                                       json = json["rows"];                                                                              
+                                       json = json["rows"];
                                        for (var i = 0 ; i < json.length; i++){
                                        // for now it is the title and path
                                        // eventually it will be hash ID
                                        existingContent[json[i][0]] = [json[i][1],json[i][4]];  
                                        
                                        }
-                                       }                                       
-                                       processAjax(data, existingContent);                                      
+                                       }
+                                       processAjax(data, existingContent);
                                        return false;
                                        }, function(data){myAlert("ERROR");});
     } else {
@@ -149,14 +162,13 @@ function processAjax(data, existingContent, header) {
                 myAlert("No content packs available for download.");
             }
         }
-        
         clearAll();
         globalPackLinks = null;
         globalPack = "";
         if (header != null)
                 $("#title").html(header);
         else
-            $("#title").html("Store");        
+            $("#title").html("Store");
         
         for (var i = 0 ; i < content.length; i++) {
             content[i].filename = content[i].filename.replace("\\/","/")
@@ -170,7 +182,7 @@ function processAjax(data, existingContent, header) {
          var path = content[i].filename;
          var version = content[i].version
          var previewMsg = null;
-         if ("preview" in content[i])
+         if ("preview" in content[i]) 
              previewMsg = content[i].preview;
          var sections = null;
          if ("sections" in content[i])
@@ -181,7 +193,7 @@ function processAjax(data, existingContent, header) {
          var td1 = $("<td>", {'class': "left"}); 
          var aTag = $("<a>", {'href': "#", 'html': title});
          if (!(title in existingContent)) {
-         aTag.click( ( function(t, s) { 
+         aTag.click( ( function(t, s,p) { 
          return function(e) {
          if (s != null) {
             var allSections = "";
@@ -190,10 +202,10 @@ function processAjax(data, existingContent, header) {
             }
             myAlert("Sections relevant to search query:<br/><p/>"+allSections);
         } else {
-         if (previewMsg == null)
+         if (p == null)
             myAlert("Clicking the 'Install' button will install content pack <p/><b>"+t+"</b>");
          else 
-            myAlert(previewMsg);          
+            myAlert(p);          
         }
          return false; 
          }  
@@ -260,16 +272,17 @@ function processAjax(data, existingContent, header) {
         } catch(err) {
             myAlert(err);
         }
-      }
+        }
         
     }
-    
     return false;
 }
 
+/***
+ * Retrieve and show all available content from remote
+ */
 function showAvailableContent(remote, successFunction, sendData) {
     $("#editButton").hide();
-    $("#sortButton").hide();
     var conn = checkNetwork();
     if (conn < 0) {
     	myAlert("No network connection available!");
@@ -291,8 +304,7 @@ function showAvailableContent(remote, successFunction, sendData) {
            dataType: "text",
            data: sendData,
            success: function (data) {
-            successFun(data);                     
-            return false;
+            successFun(data);
            },
            error:function (xhr, ajaxOptions, thrownError){
            myAlert("Network connection currently unavailable!");
@@ -300,11 +312,12 @@ function showAvailableContent(remote, successFunction, sendData) {
            }
            
            });
-    
     return false;
 }
 
-
+/***
+ * Perform global search
+ */ 
 function doSearchGlobally(remoteData, localData){ 
     $("#search").hide();
     $("#spacerDiv").hide();

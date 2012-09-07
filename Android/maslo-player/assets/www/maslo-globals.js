@@ -19,7 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
-
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 var fileDownloadMgr = null;
 var videoPlayer = null;
