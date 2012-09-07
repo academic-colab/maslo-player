@@ -170,7 +170,7 @@ function processAjax(data, existingContent, header) {
          var path = content[i].filename;
          var version = content[i].version
          var previewMsg = null;
-         if ("preview" in content[i])
+         if ("preview" in content[i]) {
              previewMsg = content[i].preview;
          var sections = null;
          if ("sections" in content[i])
@@ -181,7 +181,7 @@ function processAjax(data, existingContent, header) {
          var td1 = $("<td>", {'class': "left"}); 
          var aTag = $("<a>", {'href': "#", 'html': title});
          if (!(title in existingContent)) {
-         aTag.click( ( function(t, s) { 
+         aTag.click( ( function(t, s,p) { 
          return function(e) {
          if (s != null) {
             var allSections = "";
@@ -190,10 +190,10 @@ function processAjax(data, existingContent, header) {
             }
             myAlert("Sections relevant to search query:<br/><p/>"+allSections);
         } else {
-         if (previewMsg == null)
+         if (p == null)
             myAlert("Clicking the 'Install' button will install content pack <p/><b>"+t+"</b>");
          else 
-            myAlert(previewMsg);          
+            myAlert(p);          
         }
          return false; 
          }  
