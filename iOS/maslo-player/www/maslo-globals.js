@@ -55,8 +55,13 @@ var showEdit = true;
 
 var documentsDirPrefix = "../../Documents/Content/";
 
+var inDownload = false;  // currently downloading?
+
 //****
 var inBrowser = false;
+
+//if project name changes, the following entry must be changed too
+var androidDirPrefix = "/data/data/org.academiccolab.masloPlayer/files/";
 
 // Remark: This value needs to be replaced by your actual MASLO store URL
 var remoteStartUrl = "your_MASLO_store_URL_here";
