@@ -65,7 +65,7 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
                 aLink.click(
                             function(e) {
                                 displayContent(dataPath, jsonObj.type, 
-                                               jsonObj.title, argPath);
+                                               jsonObj.title, argPath, jsonObj.id);
                                 return false;
                             }
                 );
@@ -128,12 +128,12 @@ function traverseIterative(jsonObj, argPath, relevant){
                         }(dataPath, cur.title, i));
 
         } else {
-            aLink.click(function(path, type, title, aPath){
-                        return function(e){
-                        displayContent(path, type, title, aPath);
+            aLink.click(function(path, type, title, aPath, id){
+                    return function(e){
+                        displayContent(path, type, title, aPath, id);
                         return false;
-                        }
-                        }(dataPath, cur.type, cur.title, argPath));
+                    }
+                }(dataPath, cur.type, cur.title, argPath, cur.id));
    
         }
         if (relevant == null || itemInList(cur.title, relevant)) {
@@ -566,15 +566,16 @@ function displayContentCore(argPath, type, jsObj){
  * return: void
  */
 
-function displayContent(argPath, type, title, pack) {
+function displayContent(argPath, type, title, pack, id) {
     clearAll();
     var currIndex = 0;
     var jsObject = readJSON(pack+'/manifest');
     var jsObj = null;
     for (var i = 0 ; i < jsObject.length; i++){
-        if (jsObject[i].title == title){
+        if (jsObject[i].id == id){
             jsObj = jsObject[i];
             currIndex = i;
+            break;
         }
         
     }
