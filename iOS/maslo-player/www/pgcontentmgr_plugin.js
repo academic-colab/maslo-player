@@ -27,8 +27,8 @@ function PGContentManagement() {
 }
 
 PGContentManagement.prototype.init = function(success, failure){
-    Cordova.exec("PGContentManagement.initializeDatabase");
-    Cordova.exec(success, failure,
+    cordova.exec("PGContentManagement.initializeDatabase");
+    cordova.exec(success, failure,
                   "PGContentManagement", "getContentPath",[]);
     
     return false;
@@ -39,12 +39,12 @@ function(success, failure, url,destFileName,title, version) {
     var data = "None yet";
     var processedURL = url.replace(/\\ /g, "%20");
     var downloadSuccess = function(data){
-         Cordova.exec("PGContentManagement.removeContent", title);
-         Cordova.exec(success, failure,
+         cordova.exec("PGContentManagement.removeContent", title);
+         cordova.exec(success, failure,
                      "PGContentManagement", "unzipContent", 
                      [data,title, version]);
     }
-    Cordova.exec(downloadSuccess, failure,
+    cordova.exec(downloadSuccess, failure,
                  "PGContentManagement", "downloadContent", 
                  [processedURL,destFileName,title, version, false]);
     return data;
@@ -59,18 +59,18 @@ PGContentManagement.prototype.downloadContent =
     }
     var data = "None yet";
     var processedURL = url.replace(/\\ /g, "%20");
-    Cordova.exec(success, failure,
+    cordova.exec(success, failure,
                               "PGContentManagement", "downloadContent", 
                               [processedURL,destFileName,title, version, wantUZip]);
     return data;
 }
 
 PGContentManagement.prototype.deleteContent = function(path) {
-    Cordova.exec("PGContentManagement.removeContent", path);
+    cordova.exec("PGContentManagement.removeContent", path);
 }
 
 PGContentManagement.prototype.getContentList = function(success, fail) {
-   return Cordova.exec(success, fail, "PGContentManagement", 
+   return cordova.exec(success, fail, "PGContentManagement", 
                         "getCurrentContentList", []);
 }
 
@@ -79,7 +79,7 @@ PGContentManagement.prototype.searchLocally =
         lst = [query];
         if (packTitle != null)
             lst.push(packTitle);
-        Cordova.exec(success, failure, "PGContentManagement", "searchLocally",
+        cordova.exec(success, failure, "PGContentManagement", "searchLocally",
                       lst);
     
     }
@@ -89,6 +89,6 @@ PGContentManagement.prototype.PGContentManagementComplete = function(data) {
 }
 
 
-Cordova.addConstructor(function() {
+cordova.addConstructor(function() {
                         window.contentMgr = new PGContentManagement();
                         });

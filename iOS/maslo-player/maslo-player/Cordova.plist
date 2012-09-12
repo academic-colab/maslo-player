@@ -5,57 +5,63 @@
 	<key>UIWebViewBounce</key>
 	<true/>
 	<key>TopActivityIndicator</key>
-	<string>black</string>
+	<string>gray</string>
 	<key>EnableLocation</key>
 	<false/>
 	<key>EnableViewportScale</key>
-	<true/>
+	<false/>
 	<key>AutoHideSplashScreen</key>
 	<true/>
 	<key>ShowSplashScreenSpinner</key>
 	<true/>
 	<key>MediaPlaybackRequiresUserAction</key>
-	<true/>
+	<false/>
 	<key>AllowInlineMediaPlayback</key>
-	<true/>
+	<false/>
 	<key>OpenAllWhitelistURLsInWebView</key>
 	<false/>
+	<key>BackupWebStorage</key>
+	<true/>
 	<key>ExternalHosts</key>
 	<array>
 		<string>*</string>
 	</array>
 	<key>Plugins</key>
 	<dict>
-		<key>org.apache.cordova.accelerometer</key>
-		<string>CDVAccelerometer</string>
-		<key>org.apache.cordova.camera</key>
-		<string>CDVCamera</string>
-		<key>org.apache.cordova.connection</key>
-		<string>CDVConnection</string>
-		<key>org.apache.cordova.contacts</key>
-		<string>CDVContacts</string>
-		<key>org.apache.cordova.debugconsole</key>
-		<string>CDVDebugConsole</string>
-		<key>org.apache.cordova.file</key>
-		<string>CDVFile</string>
-		<key>org.apache.cordova.filetransfer</key>
-		<string>CDVFileTransfer</string>
-		<key>org.apache.cordova.geolocation</key>
-		<string>CDVLocation</string>
-		<key>org.apache.cordova.notification</key>
-		<string>CDVNotification</string>
-		<key>org.apache.cordova.media</key>
-		<string>CDVSound</string>
-		<key>org.apache.cordova.mediacapture</key>
-		<string>CDVCapture</string>
-		<key>org.apache.cordova.splashscreen</key>
-		<string>CDVSplashScreen</string>
-		<key>org.apache.cordova.battery</key>
-		<string>CDVBattery</string>
 		<key>PGContentManagement</key>
 		<string>PGContentManagement</string>
-		<key>pgcontentmgr_plugin</key>
-		<string>pgcontentmgr_plugin.js</string>
+		<key>Device</key>
+		<string>CDVDevice</string>
+		<key>Logger</key>
+		<string>CDVLogger</string>
+		<key>Compass</key>
+		<string>CDVLocation</string>
+		<key>Accelerometer</key>
+		<string>CDVAccelerometer</string>
+		<key>Camera</key>
+		<string>CDVCamera</string>
+		<key>NetworkStatus</key>
+		<string>CDVConnection</string>
+		<key>Contacts</key>
+		<string>CDVContacts</string>
+		<key>Debug Console</key>
+		<string>CDVDebugConsole</string>
+		<key>File</key>
+		<string>CDVFile</string>
+		<key>FileTransfer</key>
+		<string>CDVFileTransfer</string>
+		<key>Geolocation</key>
+		<string>CDVLocation</string>
+		<key>Notification</key>
+		<string>CDVNotification</string>
+		<key>Media</key>
+		<string>CDVSound</string>
+		<key>Capture</key>
+		<string>CDVCapture</string>
+		<key>SplashScreen</key>
+		<string>CDVSplashScreen</string>
+		<key>Battery</key>
+		<string>CDVBattery</string>
 	</dict>
 </dict>
 </plist>

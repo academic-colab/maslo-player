@@ -19,17 +19,13 @@
 
 //
 //  MainViewController.h
-//  MASLOiOS
+//  maslo-player
 //
-//  Created by  on 3/22/12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Created by Cathrin Weiss (cathrin.weiss@uwex.edu) .
+//  Copyright Academic ADL Co-Lab, University of Wisconsin-Extension, 2012. All rights reserved.
 //
 
-#ifdef CORDOVA_FRAMEWORK
-    #import <Cordova/CDVViewController.h>
-#else
-    #import "CDVViewController.h"
-#endif
+#import <Cordova/CDVViewController.h>
 
 @interface MainViewController : CDVViewController
 

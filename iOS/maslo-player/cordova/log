@@ -1,3 +1,4 @@
+#! /bin/sh 
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,4 +18,9 @@
 # under the License.
 #
 
-Put the .h and .m files of your plugin here. The .js files of your plugin belong in the www folder.
+# 
+# USAGE
+#
+#  ./log [path]
+#
+tail -f ${1:-".."}/console.log
