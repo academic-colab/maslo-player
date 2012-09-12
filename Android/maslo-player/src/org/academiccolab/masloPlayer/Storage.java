@@ -27,11 +27,6 @@ import org.json.JSONArray;
 import android.database.Cursor;
 import android.database.sqlite.*;
 import java.io.*;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,10 +35,8 @@ import java.util.*;
 
 import java.util.zip.*;
  
-import android.os.Build;
 import android.util.Log;
 
-import android.content.Context;
 
 /**
  * @author Cathrin Weiss (cathrin.weiss@uwex.edu)
@@ -125,8 +118,8 @@ public SQLiteDatabase openDB(String dbPath){
 * Initialize database - if exists just open, if not, open and create tables.
 */
 public void initDB(){ 
-	if (this.path == null) {		
-		this.path = cMgr.ctx.getContext().getFilesDir().getAbsolutePath();//ctx.getApplicationContext().getDir("Content", Context.MODE_PRIVATE).getPath();
+	if (this.path == null) {	
+		this.path = cMgr.cordova.getActivity().getFilesDir().getAbsolutePath();//ctx.getApplicationContext().getDir("Content", Context.MODE_PRIVATE).getPath();
 	}
 	String dbName =  this.path+File.separator +"content.db";
 	boolean exists = (new File(dbName)).exists();
@@ -264,7 +257,7 @@ public String doUnzip(String path, String title, String version) {
 }
 
 
-public String downloadFile(String url, String title, String fname, String version, String wantUZip, Context ctx){
+public String downloadFile(String url, String title, String fname, String version, String wantUZip){
 	String path = this.path + File.separator + fname;
 	currentPath = path;
 	currentTitle = title;
@@ -302,7 +295,7 @@ public String performSearchLocally(String query, String title){
 
 	try {
 		
-		InputStream istr = cMgr.ctx.getContext().getAssets().open("stopwords.txt");
+		InputStream istr = cMgr.cordova.getActivity().getAssets().open("stopwords.txt");
 		
 		String content = "";		
 		try {

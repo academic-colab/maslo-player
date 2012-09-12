@@ -24,6 +24,9 @@ VideoPlayer.prototype.play = function(url) {
 /**
  * Load VideoPlayer
  */
-cordova.addConstructor(function() {
-    cordova.addPlugin("videoPlayer", new VideoPlayer());
-});
+if(!window.plugins) {
+    window.plugins = {};
+}
+if (!window.plugins.videoPlayer) {
+    window.plugins.videoPlayer = new VideoPlayer();
+}

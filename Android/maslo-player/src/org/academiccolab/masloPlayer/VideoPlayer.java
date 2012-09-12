@@ -16,6 +16,7 @@ import java.io.InputStream;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.util.Log;
 import org.apache.cordova.api.Plugin;
 import org.apache.cordova.api.PluginResult;
 
+@SuppressLint("WorldReadableFiles")
 public class VideoPlayer extends Plugin {
     private static final String YOU_TUBE = "youtube.com";
     private static final String ASSETS = "file:///android_asset/";
@@ -50,7 +52,8 @@ public class VideoPlayer extends Plugin {
     }
     
 
-    private void playVideo(String url) throws IOException {
+    @SuppressWarnings("deprecation")
+	private void playVideo(String url) throws IOException {
         // Create URI
         Uri uri = Uri.parse(url);
         
@@ -67,12 +70,12 @@ public class VideoPlayer extends Plugin {
             String filename = filepath.substring(filepath.lastIndexOf("/")+1, filepath.length());
 
             // Don't copy the file if it already exists 
-            File fp = new File(this.ctx.getContext().getFilesDir() + "/" + filename);
+            File fp = new File(this.cordova.getContext().getFilesDir() + "/" + filename);
             if (!fp.exists()) {
                 this.copy(filepath, filename, true);
             }            
             // change uri to be to the new file in internal storage
-            uri = Uri.parse("file://" + this.ctx.getContext().getFilesDir() + "/" + filename);
+            uri = Uri.parse("file://" + this.cordova.getContext().getFilesDir() + "/" + filename);
             
             // Display video player
             intent = new Intent(Intent.ACTION_VIEW);
@@ -84,20 +87,20 @@ public class VideoPlayer extends Plugin {
             intent.setDataAndType(uri, "video/*");
         }
         
-        this.ctx.startActivity(intent);
+        this.cordova.getActivity().startActivity(intent);
     }
-
-    private void copy(String fileFrom, String fileTo, boolean isFullPath) throws IOException {
+    
+	private void copy(String fileFrom, String fileTo, boolean isFullPath) throws IOException {
         // get file to be copied from assets
     	
         InputStream in;
     	if (!isFullPath)
-    		in = this.ctx.getAssets().open(fileFrom);
+    		in = this.cordova.getActivity().getAssets().open(fileFrom);
     	else 
     		in = new FileInputStream(new File(fileFrom));
         // get file where copied too, in internal storage. 
         // must be MODE_WORLD_READABLE or Android can't play it
-        FileOutputStream out = this.ctx.getContext().openFileOutput(fileTo, Context.MODE_WORLD_READABLE);
+        FileOutputStream out = this.cordova.getActivity().openFileOutput(fileTo, Context.MODE_WORLD_READABLE);
 
         // Transfer bytes from in to out
         byte[] buf = new byte[1024];

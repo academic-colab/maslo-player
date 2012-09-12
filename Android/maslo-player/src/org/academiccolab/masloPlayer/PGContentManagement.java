@@ -21,17 +21,14 @@
  *****************************************************************************/
 package org.academiccolab.masloPlayer;
 
-import java.io.IOException;
 
 import org.apache.cordova.api.Plugin;
 import org.apache.cordova.api.PluginResult;
-import org.apache.cordova.api.LOG;
 import org.apache.cordova.api.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.util.Log;
 
 /**
@@ -85,7 +82,7 @@ public class PGContentManagement extends Plugin {
 			String version = data.getString(3);
 			String wantUzip = data.getString(4);
 			
-			String resultStr = myStorage.downloadFile(url, title, destFile, version, wantUzip,(Context)this.ctx);
+			String resultStr = myStorage.downloadFile(url, title, destFile, version, wantUzip);
 			//result = new PluginResult(Status.NO_RESULT);
 			//result.setKeepCallback(true);
 			if (resultStr == null){

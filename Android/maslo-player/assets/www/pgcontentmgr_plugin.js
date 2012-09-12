@@ -93,6 +93,11 @@ PGContentManagement.prototype.PGContentManagementComplete = function(data) {
 }
 
 
-cordova.addConstructor(function() {
-                         cordova.addPlugin("fileDownloadMgr", new PGContentManagement());                         
-                        });
+
+if(!window.plugins) {
+    window.plugins = {};
+}
+if (!window.plugins.fileDownloadMgr) {
+    window.plugins.fileDownloadMgr = new PGContentManagement();
+}
+
