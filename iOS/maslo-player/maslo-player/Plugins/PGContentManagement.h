@@ -57,7 +57,7 @@
 -(BOOL) deleteFile:(NSString*)fileName;
 -(BOOL) deleteDirectory:(NSString*)path;
 -(BOOL) initDB;
--(BOOL) executeDBStatement: (NSString*)databasePath withQuery: (NSString*)query;
+-(BOOL) executeDBStatement: (NSString*)databasePath withQuery: (NSString*)query withArgs:(NSArray*)args;
 -(void) importSearchIndex: (NSString*)databasePath withOrigin:(NSString*)path;
 -(NSMutableArray*) readFromDatabase: (NSString*)databasePath withQuery:(NSString*)query withArguments:(NSArray*)args;
 

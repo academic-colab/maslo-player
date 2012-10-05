@@ -144,7 +144,7 @@ function processAjax(data, existingContent, header) {
                                        for (var i = 0 ; i < json.length; i++){
                                        // for now it is the title and path
                                        // eventually it will be hash ID
-                                       existingContent[json[i][0]] = [json[i][1],json[i][4]];  
+                                       existingContent[unescape(json[i][0])] = [unescape(json[i][1]),unescape(json[i][4])];  
                                        
                                        }
                                        }

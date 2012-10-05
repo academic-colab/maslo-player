@@ -86,10 +86,10 @@
     if ([results count] > 0) {
         NSString *deletionPath = [[results objectAtIndex:0] objectAtIndex:1];
         [self deleteDirectory:deletionPath];
-        query = [@"" stringByAppendingFormat:@"DELETE FROM content WHERE title = '%@'", title];
-        [self executeDBStatement:newFilePath withQuery:query];
-        query = [@"" stringByAppendingFormat:@"DELETE FROM content_search WHERE pack = '%@'", title];
-        [self executeDBStatement:newFilePath withQuery:query];
+        query = [@"" stringByAppendingFormat:@"DELETE FROM content WHERE title = ?"];
+        [self executeDBStatement:newFilePath withQuery:query withArgs:arguments];
+        query = [@"" stringByAppendingFormat:@"DELETE FROM content_search WHERE pack = ?"];
+        [self executeDBStatement:newFilePath withQuery:query withArgs:arguments];
     }
     [results dealloc];
 }
@@ -319,8 +319,10 @@
         NSString *dir = [dirName  substringToIndex:[dirName length]-1];
         newLocalPath = [@"" stringByAppendingFormat:@"%@/Content/%@", documentsDirectory, dir ];
         
-        NSString *query = [@"" stringByAppendingFormat:@"INSERT INTO content VALUES ('%@', '%@', '', '', '%@')", title, newLocalPath, version];
-        BOOL result = [self executeDBStatement:dbPath withQuery:query];  
+        NSString *query = [@"" stringByAppendingFormat:@"INSERT INTO content VALUES (?, ?, '', '', ?)"];
+        NSArray *args = [NSArray arrayWithObjects:title, newLocalPath, version, nil];
+    
+        BOOL result = [self executeDBStatement:dbPath withQuery:query withArgs:args];
         NSString *originDB = [newLocalPath stringByAppendingPathComponent:@"search.db"];
         if (!result)
             newLocalPath = nil;
@@ -373,28 +375,40 @@
     BOOL result = false;
     if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
         NSString *query = @"CREATE TABLE content (title text, path text, created text, partOfProgram text, version text)";
-        result = [self executeDBStatement:dbPath withQuery:query];
+        result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
         query = @"CREATE VIRTUAL TABLE content_search using FTS3(pack,section,content,tokenize=porter)";
-        result = [self executeDBStatement:dbPath withQuery:query];
+        result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
 	}
      
     return result;
 }
 
 // execute database statement
--(BOOL) executeDBStatement: (NSString*)databasePath withQuery: (NSString*)query {
+-(BOOL) executeDBStatement: (NSString*)databasePath withQuery: (NSString*)query withArgs:(NSArray*)args {
     sqlite3 *database;
     char *errMsg;
     BOOL result = false;
-    const char* sqlStatement = [query UTF8String];
+    
     if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK) {
-        if (sqlite3_exec(database, sqlStatement, NULL, NULL, &errMsg) == SQLITE_OK) {
-            result = true;
-        } else {
-            NSString *bar = [NSString stringWithCString:errMsg encoding:NSUTF8StringEncoding];
-            NSLog(@"Errors when executing DB statement: %@ ", bar);
+        sqlite3_stmt *compiledStatement;
+        const char* sqlStatement = [query UTF8String];
+		if(sqlite3_prepare_v2(database, sqlStatement, -1, &compiledStatement, NULL) == SQLITE_OK) {
+            if (args != nil) {
+                for (int i = 0; i < [args count]; i++){
+                    sqlite3_bind_text(compiledStatement, i+1, [[args objectAtIndex:i] UTF8String], -1, SQLITE_TRANSIENT);
+                }
+            }
+            
+            if (sqlite3_step(compiledStatement) == SQLITE_DONE) {
+                sqlite3_finalize(compiledStatement);
+                result = true;
+            }
         }
         sqlite3_close(database);
+    }
+    if (!result){
+        NSString *bar = [NSString stringWithCString:errMsg encoding:NSUTF8StringEncoding];
+        NSLog(@"Errors when executing DB statement: %@ ", bar);
     }
     return result;
 }

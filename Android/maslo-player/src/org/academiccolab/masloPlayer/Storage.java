@@ -354,7 +354,6 @@ public String performSearchLocally(String query, String title){
 		String res = allResult.toString();
 		if (pack.equals(""))
 			res = "[]";
-		res = res.replaceAll("\\\\", "");		
 		result = "{\"rows\": "+res+"}";		
 		
 	} catch (FileNotFoundException e) {
@@ -440,6 +439,7 @@ private boolean isDDL(String query) {
 * @param tx_id
 *            Transaction id
 */
+
 public String processResults(Cursor cur, String tx_id) {
 
 	String result = "[]";
@@ -453,14 +453,13 @@ public String processResults(Cursor cur, String tx_id) {
 		do {
 			JSONArray row = new JSONArray();
 				for (int i = 0; i < colCount; ++i) {
-					value = cur.getString(i);
+					value = cur.getString(i);					
 					row.put(value);
 				}
 				fullresult.put(row);
 
 		} while (cur.moveToNext());
 		result = fullresult.toString();
-		result = result.replaceAll("\\\\", "");
 	}
 	
 	

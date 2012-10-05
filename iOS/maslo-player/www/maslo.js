@@ -34,12 +34,15 @@
  * argPath : the path to the currently active content pack
  * return: void
  */
-function traverse(jsonObj, argPath, appendWhere, limitList) {
+function traverse(pTitle ,jsonObj, argPath, appendWhere, limitList) {
     globalPack = argPath;
+    argPath = makeURLSane(argPath);
     if( typeof jsonObj == "object" ) {
         var displayItems = ["text", "image", "video", "audio", "quiz"];
         if (itemInList(jsonObj.type, displayItems) && (limitList == null || itemInList(jsonObj.title, limitList))) {
             var dataPath = documentsDirPrefix+jsonObj.path;
+            dataPath =makeURLSane(dataPath);
+            
             var aLink = $("<a/>", {
                           'href' : "#",
                           'html': jsonObj.title
@@ -70,11 +73,7 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
                             }
                 );
             }
-            /*if (jsonObj.type == "image"){
-                var miniImage = '<img src="'+dataPath+
-                '" height="1px" width="1px"/>';
-                $('#mini').append(miniImage);
-            }*/
+
             var row = $("<tr/>", {
                         'class': trClass
                         });
@@ -92,7 +91,7 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
             $(appendWhere).append(row);
         } else {
             for (var k in jsonObj)
-                traverse(jsonObj[k], argPath, appendWhere, limitList);
+                traverse(pTitle, jsonObj[k], argPath, appendWhere, limitList);
         }
     }
 }
@@ -104,12 +103,14 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
  * argPath : the path to the currently active content pack
  * return: list of action links
  */
-function traverseIterative(jsonObj, argPath, relevant){
+function traverseIterative(pTitle, jsonObj, argPath, relevant){
     var itemList = [];
+    argPath = makeURLSane(argPath);
     for (i = 0 ; i < jsonObj.length; i++){
         
         var cur = jsonObj[i];
         var dataPath = documentsDirPrefix+cur.path;
+        dataPath = makeURLSane(dataPath);
         var aLink = $("<a/>", {
                       'href': "#",
                       'html': cur.title
@@ -310,15 +311,17 @@ function showLibrary(jsObj, headline) {
             if (limitList == null){
                 lList = "null";
             }
-            var clickLink = '<a href="#" onclick="javascript:createContentSelection(\''+path+'\',\''+title+'\', '+lList+');return false;">'+title+'</a>';
-            actionCol.append(clickLink);
-            row.append(actionCol);
 
-            content = "<td class='delete'>\
-            <div class='delRight'>\
-            <button class='deleteButton' \
-            onClick='deleteItem(\""+title+"\", this);');'>Delete</button>\
-            </div></td>";
+            var ptitle = makeSane(title);
+            var clickLink = '<a href="#" onclick="javascript:createContentSelection(\''+escape(path)+'\',\''+escape(title)+'\', '+lList+');return false;">'+ptitle+'</a>';
+            actionCol.append(clickLink);
+            row.append(actionCol);            
+            
+            content = '<td class="delete">\
+            <div class="delRight">\
+            <button class="deleteButton" \
+            onClick="deleteItem(\''+escape(title)+'\', this);return false;">Delete</button>\
+            </div></td>';
             row.append(content);
             $('#contentList').append(row);
           if (trClass == "light")
@@ -338,14 +341,18 @@ function showLibrary(jsObj, headline) {
  */
 function createContentSelection(argPath, title, limitList){
         clearAll();
+        argPath = unescape(argPath);
+        title = unescape(title);
         globalPackLinks = null;
         trClass = "dark";
         var fPath = argPath;
         if (argPath == null || argPath == "") {
             fPath = globalPack;
         }
+        fPath = makeURLSane(fPath);
         var jsObj= readJSON(fPath+'/manifest');
-        var result = traverse(jsObj, fPath, "#contentList", limitList);
+    
+        var result = traverse(title, jsObj, fPath, "#contentList", limitList);
         $("#searchButton").unbind('click');
         $("#searchButton").click(function(e) {searchLocally(title); 
                              adjustViewport(false); 
@@ -358,7 +365,7 @@ function createContentSelection(argPath, title, limitList){
         titleDiv.click(function(e) {moveTitle("#headTitle", title, 0, 500, 20);});
         $("#editButton").hide();
         $("#sortButton").hide();
-        globalPackLinks = traverseIterative(jsObj, argPath);
+        globalPackLinks = traverseIterative(title, jsObj, fPath);
         $("#goBack").unbind("click");
         $("#goBack").click(function(){ createContentSelection(argPath,title,limitList); return false;});
 
@@ -493,7 +500,7 @@ function setWipe(currIndex){
  * return: false
  */
 function displayContentCore(argPath, type, jsObj){
-    
+    argPath = makeURLSane(argPath);
     var desc = getDescription(jsObj, type, argPath);    
     if (type == "text") {
         var txt = readText(argPath);
@@ -569,7 +576,7 @@ function displayContentCore(argPath, type, jsObj){
 function displayContent(argPath, type, title, pack, id) {
     clearAll();
     var currIndex = 0;
-    var jsObject = readJSON(pack+'/manifest');
+    var jsObject = readJSON(makeURLSane(pack)+'/manifest');
     var jsObj = null;
     for (var i = 0 ; i < jsObject.length; i++){
         if (jsObject[i].id == id){
@@ -813,19 +820,19 @@ function retrieveQuestions(jsonObj, argPath) {
         
         var cur = jsonObj[currentId];
         globalQuiz = cur;
-        var descFile = documentsDirPrefix + cur.path + ".dsc";
+        var descFile = makeURLSane(documentsDirPrefix + cur.path) + ".dsc";
 
         var desc = readText(descFile);
         var questionText = (desc && desc != "") ? desc : cur.title;
         $("<h3/>", {'id': "headInfo" , 'html': questionText }).appendTo("#content");
         var moreInfo = "Question "+(currentId+1)+"/"+jsonObj.length+":<p/>";
         $("<div/>", {'class': "italic",  'html': moreInfo }).prependTo("#content");
-        var answerPath = documentsDirPrefix + cur.path
+        var answerPath = makeURLSane(documentsDirPrefix + cur.path);
         if (cur.attachments != null) {
             $("#content").append("<p/>");
             for (var att in cur.attachments){
                 att = cur.attachments[att];
-                var sourcePath = documentsDirPrefix +att.path;
+                var sourcePath = makeURLSane(documentsDirPrefix +att.path);
                 sourcePath = sourcePath.replace(/ /g, "%20");
                 var ret = displayContentCore(sourcePath , att.type, att);
             }
@@ -988,7 +995,7 @@ function computeQuizResults(jsonObj){
         var question = jsonObj[key];        
         var listItem = "<li><b>Question "+(eval(key)+1)+": </b> ";
         var res = qmap[key];
-        var answers = readJSON(documentsDirPrefix + question.path);
+        var answers = readJSON(makeURLSane(documentsDirPrefix + question.path));
         var allGood = true;
         var feedback = ""
         for (i = 0 ; i < answers.length; i++){

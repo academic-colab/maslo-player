@@ -226,7 +226,7 @@ function sort(up, label, content) {
  * Show library of installed content packs 
  * return: void
  */
-function showLibrary(jsObj) {
+/*function showLibrary(jsObj) {
     
     trClass = "dark";
     if (jsObj == null && !inBrowser){
@@ -271,7 +271,7 @@ function showLibrary(jsObj) {
         }
     }
     showEdit = true;
-}
+}*/
 
 /***
  * Toggle delete button appearance 
@@ -321,6 +321,7 @@ function swapTRClass(which){
  * which: the table row object containing the deleted pack
  */
 function deleteItem(title, which, reply){
+    title = unescape(title);
     if (reply == null){
         
         var msg = 'Are you sure you want to delete '+title+'?';

@@ -378,3 +378,19 @@ function showAltMenu(){
     footerIsAlt = true;
     return false;
 }
+
+function makeSane(arg){
+    var result = arg.replace(/"/g, '\"');
+    result = result.replace(/'/g, "\'");
+    return result;
+}
+
+function makeURLSane(arg){
+    var result = arg.replace(/\?/g, "%3F");
+    result = result.replace(/"/g, '%22');
+    result = result.replace(/'/g, '%27');
+    return result;
+}
+                            
+
+                            

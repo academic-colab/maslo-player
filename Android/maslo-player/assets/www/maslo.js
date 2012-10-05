@@ -19,7 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
-
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 //===========================================================================
 //  Content generation functions
@@ -32,12 +34,15 @@
  * argPath : the path to the currently active content pack
  * return: void
  */
-function traverse(jsonObj, argPath, appendWhere, limitList) {
+function traverse(pTitle ,jsonObj, argPath, appendWhere, limitList) {
     globalPack = argPath;
+    argPath = makeURLSane(argPath);
     if( typeof jsonObj == "object" ) {
         var displayItems = ["text", "image", "video", "audio", "quiz"];
         if (itemInList(jsonObj.type, displayItems) && (limitList == null || itemInList(jsonObj.title, limitList))) {
             var dataPath = documentsDirPrefix+jsonObj.path;
+            dataPath =makeURLSane(dataPath);
+            
             var aLink = $("<a/>", {
                           'href' : "#",
                           'html': jsonObj.title
@@ -68,6 +73,7 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
                             }
                 );
             }
+
             var row = $("<tr/>", {
                         'class': trClass
                         });
@@ -85,7 +91,7 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
             $(appendWhere).append(row);
         } else {
             for (var k in jsonObj)
-                traverse(jsonObj[k], argPath, appendWhere, limitList);
+                traverse(pTitle, jsonObj[k], argPath, appendWhere, limitList);
         }
     }
 }
@@ -97,12 +103,14 @@ function traverse(jsonObj, argPath, appendWhere, limitList) {
  * argPath : the path to the currently active content pack
  * return: list of action links
  */
-function traverseIterative(jsonObj, argPath, relevant){
+function traverseIterative(pTitle, jsonObj, argPath, relevant){
     var itemList = [];
+    argPath = makeURLSane(argPath);
     for (i = 0 ; i < jsonObj.length; i++){
         
         var cur = jsonObj[i];
         var dataPath = documentsDirPrefix+cur.path;
+        dataPath = makeURLSane(dataPath);
         var aLink = $("<a/>", {
                       'href': "#",
                       'html': cur.title
@@ -136,6 +144,9 @@ function traverseIterative(jsonObj, argPath, relevant){
     return itemList;
 }
 
+/***
+ * Evaluate settings screen accordingly
+ */ 
 function evalSettings(){
     var value = $("#feedbackSelect").val();
     
@@ -151,6 +162,9 @@ function evalSettings(){
     myAlert("Settings saved.");
 }
 
+/***
+ * Initialize settings screen
+ */
 function settingsScreen(){
     clearAll();
     adjustViewport(true);
@@ -191,30 +205,35 @@ function settingsScreen(){
     
 }
 
-
+/***
+ * Perform local search 
+ * @packTitle: optional, if not null, then search will be performed just within given
+ *    content pack, otherwise on all installed packs
+ */
 function searchLocally(packTitle){
     $("#spacerDiv").hide();
     var value = $("#searchField").val();
     fileDownloadMgr.searchLocally(
             function(data){
                 var jData = jQuery.parseJSON(data); 
-                jData = jData["rows"];                
+                jData = jData["rows"];
                 if (packTitle != null){
                 if (jData.length == 0){
                     $("#search").hide();
                     myAlert("No local search results found for your query.");
                     return false;
-                }                
+                }
                 var title = jData[0][0];
                 var path = jData[0][1];
-                var limitList = jData[0][2];                
+                var limitList = jData[0][2];
+                
                 createContentSelection(path, title, limitList);
                 return false;
                 }
                 showLibrary(jData, "Local Search Results");
                 return false;
             }, function(err) {
-                    myAlert("err:"+err);
+                    alert("err:"+err);
                     return false;
                 }, value, packTitle);
     return false;
@@ -230,9 +249,9 @@ function showLibrary(jsObj, headline) {
     $("#editButton").show();
     $("#sortButton").show();
     trClass = "dark";
-    if (jsObj == null ){    		
+    if (jsObj == null && !inBrowser){
             fileDownloadMgr.getContentList(retrieveContentJSON, error);
-    } else {      
+    } else {        
         $("#searchButton").unbind('click');
         $("#searchButton").click(function(e) {searchLocally(); 
                                  adjustViewport(false); 
@@ -240,6 +259,9 @@ function showLibrary(jsObj, headline) {
                                  
         globalPack = "";
         
+        if (inBrowser) {
+            jsObj= readJSON('index.json');
+        }
         $("#title").html("Home");
         if (headline != null)
             $("#title").html(headline);
@@ -249,17 +271,17 @@ function showLibrary(jsObj, headline) {
                 myAlert("No local search results found for your query.");                
                 return false;
             }
-            setTimeout(function(e){myAlert("No content packs installed at this time. Please check the 'Shop' for available content.");showHelp();return false;},  1000);
+            setTimeout(function(e){myAlert("No content packs installed at this time. Please check the 'Shop' for available content.");return false;},  1500);
             return false;
-        }                
+        }
         for (var i = 0 ; i < jsObj.length; i++) {
             var limitList = null;
             if (inBrowser) {
                 var title = jsObj[i].path;
                 var path = title;
             } else {
-                var title = jsObj[i][0];
-                var path = jsObj[i][1];
+                var title = unescape(jsObj[i][0]);
+                var path = unescape(jsObj[i][1]);
                 if (jsObj[i].length > 2) {
                     limitList = jsObj[i][2];
                     if (limitList == "")
@@ -278,7 +300,6 @@ function showLibrary(jsObj, headline) {
             row.append(col);
             
             var actionCol = $('<td class="left"/>');
-            //var clickLink = $("<a>", {'href': "#", 'html': title});            
             var lList = "[";
             for (var j in limitList){
                     lList += "'"+limitList[j]+"',";
@@ -286,28 +307,21 @@ function showLibrary(jsObj, headline) {
             if (limitList != null){
                 lList[lList.length-1] = "";
             }
-            lList += "]";            
+            lList += "]";
             if (limitList == null){
                 lList = "null";
             }
-            var clickLink = '<a href="#" onclick="javascript:createContentSelection(\''+path+'\',\''+title+'\', '+lList+');return false;">'+title+'</a>';
-            /*clickLink.click((function(l, t, s) {
-                             return function(e) {
-                             $("#goBack").unbind("click");
-                             $("#goBack").click(function(){ createContentSelection(l,t,s); return false;});
-                             createContentSelection(l,t,s); 
-                             return false;
-                             }
-                             })(path, title, limitList)
-            );*/
-            actionCol.append(clickLink);
-            row.append(actionCol);
 
-            content = "<td class='delete'>\
-            <div class='delRight'>\
-            <button class='deleteButton' \
-            onClick='deleteItem(\""+title+"\", this);');'>Delete</button>\
-            </div></td>";
+            var ptitle = makeSane(title);
+            var clickLink = '<a href="#" onclick="javascript:createContentSelection(\''+escape(path)+'\',\''+escape(title)+'\', '+lList+');return false;">'+ptitle+'</a>';
+            actionCol.append(clickLink);
+            row.append(actionCol);            
+            
+            content = '<td class="delete">\
+            <div class="delRight">\
+            <button class="deleteButton" \
+            onClick="deleteItem(\''+escape(title)+'\', this);return false;">Delete</button>\
+            </div></td>';
             row.append(content);
             $('#contentList').append(row);
           if (trClass == "light")
@@ -325,17 +339,20 @@ function showLibrary(jsObj, headline) {
  * Generate content pack overview
  * return: void
  */
-function createContentSelection(argPath, title, limitList){		
+function createContentSelection(argPath, title, limitList){
         clearAll();
-        //$("#mini").empty();
+        argPath = unescape(argPath);
+        title = unescape(title);
         globalPackLinks = null;
         trClass = "dark";
         var fPath = argPath;
         if (argPath == null || argPath == "") {
             fPath = globalPack;
         }
-        var jsObj= readJSON(fPath+'/manifest');        
-        var result = traverse(jsObj, fPath, "#contentList", limitList);
+        fPath = makeURLSane(fPath);
+        var jsObj= readJSON(fPath+'/manifest');
+    
+        var result = traverse(title, jsObj, fPath, "#contentList", limitList);
         $("#searchButton").unbind('click');
         $("#searchButton").click(function(e) {searchLocally(title); 
                              adjustViewport(false); 
@@ -346,10 +363,9 @@ function createContentSelection(argPath, title, limitList){
         moveTitle("#headTitle", title, 0, 500, 20);
         titleDiv.unbind("click");
         titleDiv.click(function(e) {moveTitle("#headTitle", title, 0, 500, 20);});
-        //("#title").html(title);
         $("#editButton").hide();
         $("#sortButton").hide();
-        globalPackLinks = traverseIterative(jsObj, argPath);
+        globalPackLinks = traverseIterative(title, jsObj, fPath);
         $("#goBack").unbind("click");
         $("#goBack").click(function(){ createContentSelection(argPath,title,limitList); return false;});
 
@@ -359,6 +375,10 @@ function createContentSelection(argPath, title, limitList){
 
 //===========================================================================
 
+
+/***
+ * Collect all text nodes within a given DOM element
+ */
 function collectTextNodes(element, lst) {
     for (var child= element.firstChild; child!==null; child= child.nextSibling) {
         if (child.nodeType===3)
@@ -368,7 +388,9 @@ function collectTextNodes(element, lst) {
     }
 }
 
-
+/***
+ * Perform full text search on a given page, mark hits in yellow, and scroll to first match
+ */
 function searchForText(){    
     var value = $("#searchField").val();
     if (value == ""){
@@ -411,6 +433,9 @@ function searchForText(){
     return false;
 }
 
+/***
+ * Set wipe functions
+ */
 function setWipe(currIndex){
     $("#goRight").unbind("click");
     $("#goRight").click(function(){
@@ -431,17 +456,17 @@ function setWipe(currIndex){
                             return false;
                         if (currIndex-1 >= 0){
                            $('html, body').animate({ scrollTop: 0}, 0);
-                           globalPackLinks[currIndex-1].click();
+                            globalPackLinks[currIndex-1].click();
                         } else {
                            $('html, body').animate({ scrollTop: 0}, 0);
-                           globalPackLinks[globalPackLinks.length-1].click();
+                            globalPackLinks[globalPackLinks.length-1].click();
                         }
                         
                         });
     $("#allDiv").unbindSwipe();
     $("#allDiv").touchSwipeRight(function(e){
                                  if (globalPackLinks == null)
-                                     return false;
+                                 return false;
                                  if (currIndex-1 >= 0){
                                      $('html, body').animate({ scrollTop: 0}, 0);
                                      globalPackLinks[currIndex-1].click();
@@ -454,7 +479,7 @@ function setWipe(currIndex){
     
     $("#allDiv").touchSwipeLeft(function(e){
                                 if (globalPackLinks == null)
-                                    return false;
+                                return false;
                                 if (currIndex+1 < globalPackLinks.length){
                                     $('html, body').animate({ scrollTop: 0}, 0);
                                     globalPackLinks[currIndex+1].click();
@@ -467,11 +492,16 @@ function setWipe(currIndex){
 
 }
 
-function displayContentCore(argPath, type, jsObj, descWhere){
-    
-    var desc = getDescription(jsObj, type, argPath);
-
-    
+/***
+ * Catch-all function to process and display non-quiz content
+ * argPath : the path to the content to displayed, i.e. text/image/.. file
+ * type : content type
+ * jsObj : the current content pack
+ * return: false
+ */
+function displayContentCore(argPath, type, jsObj){
+    argPath = makeURLSane(argPath);
+    var desc = getDescription(jsObj, type, argPath);    
     if (type == "text") {
         var txt = readText(argPath);
         if (txt)
@@ -508,8 +538,9 @@ function displayContentCore(argPath, type, jsObj, descWhere){
         <source src="'+documentsDirPrefix+argPath+'" type="video/mp4" /> \
         </video><p/>';
 		if (device.platform == "Android") {   
-        	newContent = '<p/><p/><center><button id="audioPlay" class="playButton"onClick="videoPlayer.play(\''+argPath+'\');">\u25b6</button> \
-        	<br/>(click button to play video)</center><p/>';        
+        	newContent = '<center><video  id="videoPlay"  width="60%" onClick="videoPlayer.play(\''+argPath+'\');">\
+        	<source src="'+argPath+'"  /> \
+        	</video><br/>(click to play video)</center><p/>';        
 		}
         var result = $('#content').append(newContent);
     } else if (type == "audio") {
@@ -519,7 +550,7 @@ function displayContentCore(argPath, type, jsObj, descWhere){
         </center><p/><p/>';
 		if (device.platform == "Android") {
         	newContent = '<p/><p/><center>\
-        	<button id="audioPlay" class="playButton"onClick="videoPlayer.play(\''+argPath+'\');">\u25b6</button>\
+        	<button id="audioPlay" class="dirButton"onClick="videoPlayer.play(\''+argPath+'\');">\u25b6</button>\
         	</center><p/><p/>';
 		}      
 		var result = $('#content').append(newContent);
@@ -545,7 +576,7 @@ function displayContentCore(argPath, type, jsObj, descWhere){
 function displayContent(argPath, type, title, pack, id) {
     clearAll();
     var currIndex = 0;
-    var jsObject = readJSON(pack+'/manifest');
+    var jsObject = readJSON(makeURLSane(pack)+'/manifest');
     var jsObj = null;
     for (var i = 0 ; i < jsObject.length; i++){
         if (jsObject[i].id == id){
@@ -789,19 +820,19 @@ function retrieveQuestions(jsonObj, argPath) {
         
         var cur = jsonObj[currentId];
         globalQuiz = cur;
-        var descFile = documentsDirPrefix + cur.path + ".dsc";
+        var descFile = makeURLSane(documentsDirPrefix + cur.path) + ".dsc";
 
         var desc = readText(descFile);
         var questionText = (desc && desc != "") ? desc : cur.title;
         $("<h3/>", {'id': "headInfo" , 'html': questionText }).appendTo("#content");
         var moreInfo = "Question "+(currentId+1)+"/"+jsonObj.length+":<p/>";
         $("<div/>", {'class': "italic",  'html': moreInfo }).prependTo("#content");
-        var answerPath = documentsDirPrefix + cur.path
+        var answerPath = makeURLSane(documentsDirPrefix + cur.path);
         if (cur.attachments != null) {
             $("#content").append("<p/>");
             for (var att in cur.attachments){
                 att = cur.attachments[att];
-                var sourcePath = documentsDirPrefix +att.path;
+                var sourcePath = makeURLSane(documentsDirPrefix +att.path);
                 sourcePath = sourcePath.replace(/ /g, "%20");
                 var ret = displayContentCore(sourcePath , att.type, att);
             }
@@ -964,7 +995,7 @@ function computeQuizResults(jsonObj){
         var question = jsonObj[key];        
         var listItem = "<li><b>Question "+(eval(key)+1)+": </b> ";
         var res = qmap[key];
-        var answers = readJSON(documentsDirPrefix + question.path);
+        var answers = readJSON(makeURLSane(documentsDirPrefix + question.path));
         var allGood = true;
         var feedback = ""
         for (i = 0 ; i < answers.length; i++){
