@@ -148,28 +148,48 @@ function traverseIterative(pTitle, jsonObj, argPath, relevant){
  * Evaluate settings screen accordingly
  */ 
 function evalSettings(){
+    var feedback  = $("#feedbackSelect").val();
+    var reporting = $("#reportingSelect").val();
+    var email     = $("#reportingEmail").val();
+    var server    = $("#serverSelect").val();
+    
+    //
+    // First validate settings.  If any of them fail we will not save.
+    //
+    if(email && !validateEmailAddress(email)) {
+        myAlert("Error in email address.  Settings will NOT be saved.");
+        return false;
+    }
+
+    //
+    // Validation succeeded.  Store the values.
+    //
+
     // Store quiz feedback value
-    var value = $("#feedbackSelect").val();
-    if (value == "true"){
+    if (feedback == "true"){
         settingsFeedback = true;
-    } else  if (value == "false") {
+    }
+    else if (feedback == "false") {
         settingsFeedback = false;
-    } else {
+    }
+    else {
         settingsFeedback = null;
     }
 
     // Store TinCan reporting value
-    var value = $("#reportingSelect").val();
-    if (value == "true"){
+    if (reporting == "true"){
         settingsReporting = true;
     }
     else {
         settingsReporting = false;
     }
 
+    if(email) {
+        settingsEmail = email;
+    }
+
     // Store server URL value
-    value = $("#serverSelect").val();
-    remoteHost = value;
+    remoteHost = server;
 
     myAlert("Settings saved.");
 }
@@ -197,11 +217,15 @@ function settingsScreen(){
     // Add option for TinCan reporting
     content += "<hr/><p/>";
     content += "<b>Default setting for TinCan reporting:</b><p/>";
-    content += "<form>";
     content += "<select id='reportingSelect'>";
     content += "<option value='true'>reporting on</option>";
     content += "<option value='false'>reporting off</option>";
     content += "</select>";
+
+    // Add option for email for TinCan reporting
+    content += "<p/><b>(Optional) Email for TinCan reporting:</b><p/>";
+    content += "<input type='text' id='reportingEmail' name='reportingEmail'>";
+    content += "<br/>Note: If you do not supply an email you can identify your records using this unique (and anonymous) identifier: " + "TODO";  // TODO - get unique ID
 
     // Get server data
     var url = remoteStartUrl + "servers.php";
@@ -232,6 +256,8 @@ function settingsScreen(){
     $("#content").append(content);
     $("#feedbackSelect").val(""+settingsFeedback);
     $("#reportingSelect").val(""+settingsReporting);
+    email = settingsEmail ? settingsEmail : "";  // we don't want to populate "null" in text box
+    $("#reportingEmail").val(settingsEmail);
     $("#serverSelect").val(""+remoteHost);
 }
 

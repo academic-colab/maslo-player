@@ -38,8 +38,9 @@ var globalAudio = null;     // the current audio content
 var globalWantFeedback = false; /* user wants individual feedback after 
                                  every question */
 
-var settingsFeedback = null; // want feedback as indicated by settings
+var settingsFeedback  = null; // want feedback as indicated by settings
 var settingsReporting = true; // want reporting as indicated by settings
+var settingsEmail     = null; // users email for use with TinCan reporting
 
 var globalPackLinks = null;
 

@@ -409,6 +409,15 @@ function showAltMenu(){
     return false;
 }
 
+/* A really basic email address validator.  It is not meant to check for RFC22 compliant emails,
+   just to check for the most basic of errors.  It's a bad idea to be overly aggressive validating
+   emails because we might accidently exclude valid ones.
+*/
+function validateEmailAddress(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+}
+
 function makeSane(arg){
 	var result = arg.replace(/"/g, '\"');
 	result = result.replace(/'/g, "\'");
