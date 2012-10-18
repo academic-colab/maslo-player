@@ -148,8 +148,8 @@ function traverseIterative(pTitle, jsonObj, argPath, relevant){
  * Evaluate settings screen accordingly
  */ 
 function evalSettings(){
-    // Store quiz feedback value
     var value = $("#feedbackSelect").val();
+    
     if (value == "true"){
         settingsFeedback = true;
     } else  if (value == "false") {
@@ -157,23 +157,8 @@ function evalSettings(){
     } else {
         settingsFeedback = null;
     }
-
-    // Store TinCan reporting value
-    var value = $("#reportingSelect").val();
-    if (value == "true"){
-        settingsReporting = true;
-    }
-    else if (value == "false") {
-        settingsReporting = false;
-    }
-    else {
-        settingsReporting = null;
-    }
-
-    // Store server URL value
     value = $("#serverSelect").val();
     remoteHost = value;
-
     myAlert("Settings saved.");
 }
 
@@ -187,8 +172,6 @@ function settingsScreen(){
     var titleDiv = $("<div id='headTitle'></div>");
     $("#title").append(titleDiv);
     moveTitle("#headTitle", "Settings", 0, 500, 20);
-
-    // Add option for feedback
     var content = "<b>Default setting for quiz feedback:</b><p/>";
     content += "<form>";
     content += "<select id='feedbackSelect'>";
@@ -196,18 +179,6 @@ function settingsScreen(){
     content += "<option value='false'>feedback off</option>";
     content += "<option value='null'>check for every quiz</option>";
     content += "</select>";
-
-    // Add option for TinCan reporting
-    content += "<hr/><p/>";
-    content += "<b>Default setting for TinCan reporting:</b><p/>";
-    content += "<form>";
-    content += "<select id='reportingSelect'>";
-    content += "<option value='true'>reporting on</option>";
-    content += "<option value='false'>reporting off</option>";
-    content += "<option value='null'>check for every quiz</option>";
-    content += "</select>";
-
-    // Get server data
     var url = remoteStartUrl + "servers.php";
     var serverData = readJSON(url);
     var options = [{"name": remoteStartName, "url": remoteStartUrl}];
@@ -218,8 +189,6 @@ function settingsScreen(){
             options.push(item);
         }
     }
-
-    // Add option for download server
     content += "<hr/><p/>";
     content += "<b>Download server selection:</b><p/>";
     content += "<select id='serverSelect'>";
@@ -227,16 +196,13 @@ function settingsScreen(){
         content += "<option value='"+options[item].url+"'>"+options[item].name+"</option>";
     }    
     content += "</select>";
-
-    // Add save button
     content += "<p/>";
     content += "<button class='otherButton' onClick='evalSettings();return false;'>Save</button>";
     content += "</form>";
-
     $("#content").append(content);
     $("#feedbackSelect").val(""+settingsFeedback);
-    $("#reportingSelect").val(""+settingsReporting);
     $("#serverSelect").val(""+remoteHost);
+    
 }
 
 /***
