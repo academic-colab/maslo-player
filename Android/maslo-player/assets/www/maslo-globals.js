@@ -39,7 +39,7 @@ var globalWantFeedback = false; /* user wants individual feedback after
                                  every question */
 
 var settingsFeedback = null; // want feedback as indicated by settings
-var settingsReporting = null; // want reporting as indicated by settings
+var settingsReporting = true; // want reporting as indicated by settings
 
 var globalPackLinks = null;
 

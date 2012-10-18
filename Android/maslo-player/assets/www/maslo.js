@@ -163,11 +163,8 @@ function evalSettings(){
     if (value == "true"){
         settingsReporting = true;
     }
-    else if (value == "false") {
-        settingsReporting = false;
-    }
     else {
-        settingsReporting = null;
+        settingsReporting = false;
     }
 
     // Store server URL value
@@ -204,7 +201,6 @@ function settingsScreen(){
     content += "<select id='reportingSelect'>";
     content += "<option value='true'>reporting on</option>";
     content += "<option value='false'>reporting off</option>";
-    content += "<option value='null'>check for every quiz</option>";
     content += "</select>";
 
     // Get server data
