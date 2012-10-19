@@ -28,7 +28,9 @@ var videoPlayer = null;
 
 
 // Global variables for maintaining state
-var globalPack = "";        // the current content pack
+var globalPack = "";        // the current content pack path
+var globalPackTitle = "";   // The current content pack title
+var globalContentTitle = ""; // The current content item title
 var globalDescLen = 0;      // length of current content description
 var globalQuizId = 0;       // the current quiz question id
 var globalQuizCount = 0;    // total number of current quiz questions

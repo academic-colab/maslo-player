@@ -34,7 +34,8 @@
  * argPath : the path to the currently active content pack
  * return: void
  */
-function traverse(pTitle ,jsonObj, argPath, appendWhere, limitList) {
+function traverse(pTitle, jsonObj, argPath, appendWhere, limitList) {
+    globalPackTitle = pTitle;
     globalPack = argPath;
     argPath = makeURLSane(argPath);
     if( typeof jsonObj == "object" ) {
@@ -51,22 +52,23 @@ function traverse(pTitle ,jsonObj, argPath, appendWhere, limitList) {
             if (jsonObj.type == "quiz") {
                 aLink.click(
                             function(e) {
+                                globalContentTitle = jsonObj.title;
                                 if (settingsFeedback != null){
                                     globalWantFeedback = settingsFeedback;
                                     createQuiz(dataPath,  jsonObj.title);
                                     return false;
-                                    
-                                } else { 
+                                }
+                                else { 
                                     queryQuizFeedbackPrefs(dataPath, jsonObj.title)
                                     return false;
                                 }
                             }
-
                 );
-                
-            } else {
+            }
+            else {
                 aLink.click(
                             function(e) {
+                                globalContentTitle = jsonObj.title;
                                 displayContent(dataPath, jsonObj.type, 
                                                jsonObj.title, argPath, jsonObj.id);
                                 return false;
@@ -116,26 +118,30 @@ function traverseIterative(pTitle, jsonObj, argPath, relevant){
                       'html': cur.title
                       });
         if (cur.type == "quiz") {
-            aLink.click(function(path, title, currId) {
-                        return function(e) {
-                        if (settingsFeedback != null){
-                            globalWantFeedback = settingsFeedback;
-                            createQuiz(path, title);
-                        } else {
-                            queryQuizFeedbackPrefs(path, title, currId);
-                        }
-                        return false;
-                        }
+            aLink.click(
+                        function(path, title, currId) {
+                            return function(e) {
+                                globalContentTitle = title;
+                                if (settingsFeedback != null){
+                                    globalWantFeedback = settingsFeedback;
+                                    createQuiz(path, title);
+                                }
+                                else {
+                                    queryQuizFeedbackPrefs(path, title, currId);
+                                }
+                                return false;
+                            }
                         }(dataPath, cur.title, i));
-
-        } else {
-            aLink.click(function(path, type, title, aPath, id){
-                    return function(e){
-                        displayContent(path, type, title, aPath, id);
-                        return false;
-                    }
-                }(dataPath, cur.type, cur.title, argPath, cur.id));
-   
+        }
+        else {
+            aLink.click(
+                        function(path, type, title, aPath, id){
+                            return function(e){
+                                globalContentTitle = title;
+                                displayContent(path, type, title, aPath, id);
+                                return false;
+                            }
+                        }(dataPath, cur.type, cur.title, argPath, cur.id));
         }
         if (relevant == null || itemInList(cur.title, relevant)) {
             itemList.push(aLink);
@@ -1084,7 +1090,7 @@ function computeQuizResults(jsonObj){
     summary += "</ul>";
 
     total = correct + wrong;
-    var percent = 0;
+    var percent = 100;
     if(total > 0) {
         percent = Math.round(100 * correct / total);
     }
@@ -1103,13 +1109,26 @@ function computeQuizResults(jsonObj){
     $("#content").append(results);
     $("#content").append(summary);
     window.setTimeout('resetValues();',700);
-    
+
+    if(settingsReporting == true) {
+        var resultsJSON = { 
+            "completion": true,
+            "success": (wrong == 0),
+            "score": percent
+        }
+
+        createQuizEvent(resultsJSON);
+        $("#content").append("Results will be sent.");
+    }
 }
 
+function createQuizEvent(results) {
+    actor = settingsEmail ? settingsEmail : "";  // TODO - use API to get device ID here
+    verb  = "Completed";  // Do we need a URL on this verb?
+    object = globalPackTitle + "::" + globalContentTitle;
+    
+    event = makeTinCanEvent(actor, verb, object);
+    event["results"] = results;
 
-
-//==============================================================================
-//
-//==============================================================================
-
-
+    // TODO - call API to add event to the queue
+}
