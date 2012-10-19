@@ -483,5 +483,38 @@
     return data;
 }
 
+// TinCan-related functions
+-(void) addTinCanEvent:(NSMutableArray*)paramArray {
+    NSString *callback = [paramArray pop];
+    NSString *evt = [paramArray objectAtIndex:0];
+    NSString *userName = [paramArray objectAtIndex:1];
+    NSString *password = [paramArray objectAtIndex:2];
+    NSString *tinCanURL = [paramArray objectAtIndex:3];
+    NSLog(@"Add TinCan Event. UserName: %@, Password: %@, TinCan URL: %@ Event: %@ ", userName, password, tinCanURL, evt);
+    // do something useful
+    [self sendCallbackData:callback withData:@""  isSuccess:true];
+}
+-(void) pushTinCanEvents:(NSMutableArray*)paramArray {
+    NSString *callback = [paramArray pop];
+    NSLog(@"Push TinCan events.", nil);
+    // do something useful
+    [self sendCallbackData:callback withData:@""  isSuccess:true];
+}
+-(void) dropTinCanEvents:(NSMutableArray*)paramArray {
+    NSString *callback = [paramArray pop];
+    // do something useful
+    NSLog(@"Drop TinCan events.", nil);
+    [self sendCallbackData:callback withData:@""  isSuccess:true];
+}
+-(void) getUniqueId:(NSMutableArray*)paramArray {
+    NSString *callback = [paramArray pop];
+    // do something useful
+    NSLog(@"Get unique ID.", nil);
+    NSMutableDictionary *resultList = [NSMutableDictionary dictionaryWithCapacity:1];
+    [resultList setObject:@"_ID:12345" forKey:@"uniqueId"];
+    NSString *jsonStr = [resultList JSONString];
+    [self sendCallbackData:callback withData:jsonStr  isSuccess:true];
+}
+
 
 @end

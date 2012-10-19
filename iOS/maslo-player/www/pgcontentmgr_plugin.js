@@ -85,9 +85,47 @@ PGContentManagement.prototype.searchLocally =
     }
 
 PGContentManagement.prototype.PGContentManagementComplete = function(data) {
-    alert(data);
+    myAlert(data);
 }
 
+
+// TinCan functions
+ // jsonEvent is the json event string, userName and password the
+ // REST credentials, makes most sense to maintain those in the jquery layer,
+ // they will be persistently stored until successfully pushed 
+PGContentManagement.prototype.addTinCanEvent =
+function(success, failure, jsonEvent, userName, password, tinCanURL) {
+    cordova.exec(success, failure, "PGContentManagement", "addTinCanEvent",
+                 [jsonEvent, userName, password, tinCanURL]);
+    
+}
+
+  // in case the upper layer wants to push out events *now*
+PGContentManagement.prototype.pushTinCanEvents =
+function(success, failure) {
+    cordova.exec(success, failure, "PGContentManagement", "pushTinCanEvents",
+                 []);
+    
+}
+
+// this will delete all TinCan events from the local store
+PGContentManagement.prototype.dropTinCanEvents =
+function(success, failure) {
+    cordova.exec(success, failure, "PGContentManagement", "dropTinCanEvents",
+                 []);
+    
+}
+
+// get unique ID
+PGContentManagement.prototype.getUniqueId =
+function(success, failure) {
+    cordova.exec(success, failure, "PGContentManagement", "getUniqueId",
+                 []);
+    
+}
+
+
+////
 
 cordova.addConstructor(function() {
                         window.contentMgr = new PGContentManagement();

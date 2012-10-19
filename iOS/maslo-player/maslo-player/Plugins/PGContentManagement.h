@@ -61,4 +61,10 @@
 -(void) importSearchIndex: (NSString*)databasePath withOrigin:(NSString*)path;
 -(NSMutableArray*) readFromDatabase: (NSString*)databasePath withQuery:(NSString*)query withArguments:(NSArray*)args;
 
+// TinCan-related functions
+-(void) addTinCanEvent:(NSMutableArray*)paramArray;
+-(void) pushTinCanEvents:(NSMutableArray*)paramArray;
+-(void) dropTinCanEvents:(NSMutableArray*)paramArray;
+-(void) getUniqueId:(NSMutableArray*)paramArray;
+
 @end

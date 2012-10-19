@@ -133,7 +133,20 @@ public class PGContentManagement extends Plugin {
 				Log.d("PGContentManagement.searchLocally","JSON exception: "+e.getMessage());
 			}
 			
-		} else {
+		} else if (action.equals("getUniqueId")){
+			// @TODO: Do something more useful here
+			String res = "{\"uniqueId\": \"_ID:12345\"}";
+			result = new PluginResult(Status.OK, res);
+		} else if (action.equals("addTinCanEvent")){
+			// @TODO: Do something more useful here
+			result = new PluginResult(Status.OK, "");
+		} else if (action.equals("pushTinCanEvents")){
+			// @TODO: Do something more useful here
+			result = new PluginResult(Status.OK, "");
+		} else if (action.equals("pushTinCanEvents")){
+			// @TODO: Do something more useful here
+			result = new PluginResult(Status.OK, "");
+		 } else {
 			result = new PluginResult(Status.INVALID_ACTION);
 			Log.d("PGContentManagement", "Invalid action : "+action+" passed"); 
 
