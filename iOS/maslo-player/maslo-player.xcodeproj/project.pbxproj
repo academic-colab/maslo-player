@@ -34,6 +34,11 @@
 		9E84273C1614DE0000903985 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E84273B1614DE0000903985 /* AssetsLibrary.framework */; };
 		9E84273E1614E7DD00903985 /* Default@2x4in.png in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E84273D1614E7DD00903985 /* Default@2x4in.png */; };
 		9E8427401614E7F000903985 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E84273F1614E7F000903985 /* Default-568h@2x.png */; };
+		9E8683C21631F56C000E52A0 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8683B91631F51E000E52A0 /* libRestKit.a */; };
+		9E8683C51631F943000E52A0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8683C41631F943000E52A0 /* CoreData.framework */; };
+		9E8683C71631F969000E52A0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8683C61631F969000E52A0 /* Security.framework */; };
+		9E8683C91631F982000E52A0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8683C81631F982000E52A0 /* libxml2.dylib */; };
+		9E8683CC16371E51000E52A0 /* TCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8683CB16371E51000E52A0 /* TCRequest.m */; };
 		9EBDB0F815F6994D00789399 /* PGContentManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBDB0F715F6994D00789399 /* PGContentManagement.m */; };
 		9EBDB0FE15F6997400789399 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		9EBDB11415F699D300789399 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EBDB10815F699D300789399 /* crypt.h */; };
@@ -87,6 +92,20 @@
 			remoteGlobalIDString = 303A4068152124BB00182201;
 			remoteInfo = CordovaLibApp;
 		};
+		9E8683B81631F51E000E52A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E8683AD1631F51E000E52A0 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D1614564E810060A5C5;
+			remoteInfo = RestKit;
+		};
+		9E8683BA1631F51E000E52A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E8683AD1631F51E000E52A0 /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 25160D2614564E820060A5C5;
+			remoteInfo = RestKitTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -122,6 +141,12 @@
 		9E84273B1614DE0000903985 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		9E84273D1614E7DD00903985 /* Default@2x4in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x4in.png"; path = "../../../../../../../Users/weiss/Desktop/Default@2x4in.png"; sourceTree = "<group>"; };
 		9E84273F1614E7F000903985 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9E8683AD1631F51E000E52A0 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
+		9E8683C41631F943000E52A0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9E8683C61631F969000E52A0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9E8683C81631F982000E52A0 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		9E8683CA16371E51000E52A0 /* TCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCRequest.h; sourceTree = "<group>"; };
+		9E8683CB16371E51000E52A0 /* TCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCRequest.m; sourceTree = "<group>"; };
 		9EBDB0F615F6994D00789399 /* PGContentManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGContentManagement.h; sourceTree = "<group>"; };
 		9EBDB0F715F6994D00789399 /* PGContentManagement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGContentManagement.m; sourceTree = "<group>"; };
 		9EBDB0FD15F6997400789399 /* libZipArchive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZipArchive.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +178,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8683C91631F982000E52A0 /* libxml2.dylib in Frameworks */,
+				9E8683C71631F969000E52A0 /* Security.framework in Frameworks */,
+				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
+				9E8683C51631F943000E52A0 /* CoreData.framework in Frameworks */,
+				301BF5BD109A6A2B0062928A /* CFNetwork.framework in Frameworks */,
+				9E8683C21631F56C000E52A0 /* libRestKit.a in Frameworks */,
 				9E84273C1614DE0000903985 /* AssetsLibrary.framework in Frameworks */,
 				301BF5BB109A6A2B0062928A /* AVFoundation.framework in Frameworks */,
 				9E84273A1614DDED00903985 /* CoreVideo.framework in Frameworks */,
@@ -168,12 +199,10 @@
 				301BF5B7109A6A2B0062928A /* AddressBookUI.framework in Frameworks */,
 				9E84273E1614E7DD00903985 /* Default@2x4in.png in Frameworks */,
 				301BF5B9109A6A2B0062928A /* AudioToolbox.framework in Frameworks */,
-				301BF5BD109A6A2B0062928A /* CFNetwork.framework in Frameworks */,
 				301BF5BF109A6A2B0062928A /* CoreLocation.framework in Frameworks */,
 				301BF5C1109A6A2B0062928A /* MediaPlayer.framework in Frameworks */,
 				301BF5C3109A6A2B0062928A /* QuartzCore.framework in Frameworks */,
 				301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */,
-				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -214,6 +243,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				9E8683C81631F982000E52A0 /* libxml2.dylib */,
+				9E8683C61631F969000E52A0 /* Security.framework */,
+				9E8683C41631F943000E52A0 /* CoreData.framework */,
+				9E8683AD1631F51E000E52A0 /* RestKit.xcodeproj */,
 				9E84273F1614E7F000903985 /* Default-568h@2x.png */,
 				9E84273D1614E7DD00903985 /* Default@2x4in.png */,
 				9E84273B1614DE0000903985 /* AssetsLibrary.framework */,
@@ -299,6 +332,8 @@
 			children = (
 				9EBDB0F615F6994D00789399 /* PGContentManagement.h */,
 				9EBDB0F715F6994D00789399 /* PGContentManagement.m */,
+				9E8683CA16371E51000E52A0 /* TCRequest.h */,
+				9E8683CB16371E51000E52A0 /* TCRequest.m */,
 			);
 			name = Plugins;
 			path = "maslo-player/Plugins";
@@ -316,6 +351,15 @@
 			children = (
 			);
 			path = splash;
+			sourceTree = "<group>";
+		};
+		9E8683AE1631F51E000E52A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E8683B91631F51E000E52A0 /* libRestKit.a */,
+				9E8683BB1631F51E000E52A0 /* RestKitTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		9EBDB0FF15F6997400789399 /* ZipArchive */ = {
@@ -431,6 +475,10 @@
 					ProductGroup = 301BF52E109A57CC0062928A /* Products */;
 					ProjectRef = 301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */;
 				},
+				{
+					ProductGroup = 9E8683AE1631F51E000E52A0 /* Products */;
+					ProjectRef = 9E8683AD1631F51E000E52A0 /* RestKit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -460,6 +508,20 @@
 			fileType = wrapper.application;
 			path = CordovaLibApp.app;
 			remoteRef = 3088BBB4154F38EF009F9C59 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9E8683B91631F51E000E52A0 /* libRestKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRestKit.a;
+			remoteRef = 9E8683B81631F51E000E52A0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9E8683BB1631F51E000E52A0 /* RestKitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitTests.octest;
+			remoteRef = 9E8683BA1631F51E000E52A0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -510,6 +572,7 @@
 				9EBDB0F815F6994D00789399 /* PGContentManagement.m in Sources */,
 				9EBDB13215F69CAE00789399 /* AppDelegate.m in Sources */,
 				9EBDB13315F69CAE00789399 /* MainViewController.m in Sources */,
+				9E8683CC16371E51000E52A0 /* TCRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +694,7 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(BUILT_PRODUCTS_DIR)/../../Headers\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
@@ -667,6 +731,7 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(BUILT_PRODUCTS_DIR)/../../Headers\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
