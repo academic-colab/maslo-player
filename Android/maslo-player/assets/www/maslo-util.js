@@ -418,6 +418,21 @@ function validateEmailAddress(email) {
     return re.test(email);
 }
 
+// Create a JSON object in Tin Can format
+function makeTinCanEvent(actor, verb, object) {
+    timestamp = Math.round(+new Date()/1000);
+    var event = {
+        "actor":  {
+            "objectType": "Agent",
+            "name": actor
+        },
+        "verb":   verb,
+        "object": object,
+        "timestamp": timestamp
+    };
+    return event;
+}
+
 function makeSane(arg){
 	var result = arg.replace(/"/g, '\"');
 	result = result.replace(/'/g, "\'");
