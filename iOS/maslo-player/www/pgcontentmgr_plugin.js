@@ -101,6 +101,8 @@ function(success, failure, jsonEvent, userName, password, tinCanURL) {
 }
 
   // in case the upper layer wants to push out events *now*
+  // the ADD function will call push automatically, so there should be
+  // no need to ever call this function! 
 PGContentManagement.prototype.pushTinCanEvents =
 function(success, failure) {
     cordova.exec(success, failure, "PGContentManagement", "pushTinCanEvents",
@@ -117,13 +119,19 @@ function(success, failure) {
 }
 
 // get unique ID
+// to obtain, the success function should look like
+// function(data){
+//    var json = jQuery.parseJSON(data);
+//    var uniqueId = data.uniqueId;
+//    ... do something with uniqueId
+// }
+//
 PGContentManagement.prototype.getUniqueId =
 function(success, failure) {
     cordova.exec(success, failure, "PGContentManagement", "getUniqueId",
                  []);
     
 }
-
 
 ////
 

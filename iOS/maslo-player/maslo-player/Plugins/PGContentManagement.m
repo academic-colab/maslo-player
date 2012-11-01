@@ -25,6 +25,7 @@
 #import "sqlite3.h"
 #import "PGContentManagement.h"
 #import "ZipArchive.h"
+#import "TCRequest.h"
 
 
 @implementation PGContentManagement
@@ -32,10 +33,13 @@
 @synthesize callbackId;
 @synthesize downloadLocked;
 
+
+
 -(CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
     self = (PGContentManagement*)[super initWithWebView:theWebView];
     self.downloadLocked = false;
+    skippedEvtId = NULL;
     return self;
     
 }
@@ -43,6 +47,8 @@
 
 // initialize database
 -(void)initializeDatabase:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
+    isPushing = false;
+    skippedEvtId = NULL;
     [self initDB];
 }
 
@@ -379,7 +385,16 @@
         query = @"CREATE VIRTUAL TABLE content_search using FTS3(pack,section,content,tokenize=porter)";
         result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
 	}
-     
+    NSString *query = @"SELECT * FROM sqlite_master WHERE type='table' AND name='uniqueId'";
+    NSMutableArray *resArray = [self readFromDatabase:dbPath withQuery:query withArguments:nil];
+    if ([resArray count] == 0){
+        query = @"CREATE TABLE uniqueId (uniqueId text)";
+        result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+        query = @"CREATE TABLE TinCanEvents (event text, user text, password text, tincanurl text, eventId integer primary key autoincrement)";
+        result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+    }
+    
+    [resArray dealloc];
     return result;
 }
 
@@ -484,37 +499,172 @@
 }
 
 // TinCan-related functions
--(void) addTinCanEvent:(NSMutableArray*)paramArray {
+
+-(void) addTinCanEvent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
     NSString *callback = [paramArray pop];
     NSString *evt = [paramArray objectAtIndex:0];
     NSString *userName = [paramArray objectAtIndex:1];
     NSString *password = [paramArray objectAtIndex:2];
     NSString *tinCanURL = [paramArray objectAtIndex:3];
-    NSLog(@"Add TinCan Event. UserName: %@, Password: %@, TinCan URL: %@ Event: %@ ", userName, password, tinCanURL, evt);
-    // do something useful
-    [self sendCallbackData:callback withData:@""  isSuccess:true];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    
+    NSString *query = [@"" stringByAppendingFormat:@"INSERT INTO TinCanEvents (event, user, password, tincanurl) VALUES (?, ?, ?, ?)"];
+    NSArray *args = [NSArray arrayWithObjects:evt, userName, password, tinCanURL, nil];
+    BOOL result = [self executeDBStatement:dbPath withQuery:query withArgs:args];
+    if (result){
+        self.callbackId = callback;
+        if (!isPushing) {
+            [self pushTinCanEvents:NULL withDict:NULL];
+        } else {
+            allEventsPushed = false;
+        }
+        
+        [self sendCallbackData:callback withData:@"" isSuccess:true];
+    } else
+        [self sendCallbackData:callback withData:@"TinCan event could not be persistently stored."  isSuccess:false];
 }
--(void) pushTinCanEvents:(NSMutableArray*)paramArray {
-    NSString *callback = [paramArray pop];
+
+
+
+-(void) pushTinCanEvents:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
+    if (paramArray != NULL)
+        self.callbackId = [paramArray pop];
+    allEventsPushed = false;
     NSLog(@"Push TinCan events.", nil);
     // do something useful
-    [self sendCallbackData:callback withData:@""  isSuccess:true];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    NSString *query = @"SELECT * FROM TinCanEvents ORDER BY eventId, tincanurl";
+    if (skippedEvtId != NULL)
+        query = [@"" stringByAppendingFormat:@"SELECT * FROM TinCanEvents WHERE eventId > %@ ORDER BY eventId, tincanurl", skippedEvtId];
+    NSMutableArray *resArray = [self readFromDatabase:dbPath withQuery:query withArguments:nil];
+    NSString *urlString = NULL;
+    NSString *events = @"[";
+    NSString *evt, *userName, *password, *uString;
+    for (NSMutableArray *arr in resArray) {
+        if ([arr count] == 5) {
+            evt = [arr objectAtIndex:0];
+            userName = [arr objectAtIndex:1];
+            password = [arr objectAtIndex:2];
+            uString = [arr objectAtIndex:3];
+            
+            if (urlString != NULL  &&  [uString caseInsensitiveCompare:urlString] != NSOrderedSame){
+                events = [events stringByAppendingString:@"]"];
+                isPushing = true;
+                tcr = [[TCRequest alloc] initWithEndPoint:urlString withUsername:userName withPassword:password];
+                [tcr putStatement:events withDelegate:self];
+                [resArray dealloc];
+                return;
+            } else if (urlString == NULL) {
+                events = [events stringByAppendingString:evt];
+            } else {
+                events = [events stringByAppendingFormat:@",%@",evt];
+            }
+            urlString = uString;
+            evtId = [[NSString alloc] initWithString:[arr objectAtIndex:4]];
+        }
+    }
+    allEventsPushed = true;
+    events = [events stringByAppendingString:@"]"];
+    if (urlString != NULL) {
+        isPushing = true;
+        tcr = [[TCRequest alloc] initWithEndPoint:urlString withUsername:userName withPassword:password];
+        [tcr putStatement:events withDelegate:self];
+    }
+    [resArray dealloc];
 }
--(void) dropTinCanEvents:(NSMutableArray*)paramArray {
+
+-(void) dropTinCanEvents:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
     NSString *callback = [paramArray pop];
-    // do something useful
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    
     NSLog(@"Drop TinCan events.", nil);
-    [self sendCallbackData:callback withData:@""  isSuccess:true];
+    NSString *query = [@"" stringByAppendingFormat:@"DELETE FROM TinCanEvents"];
+    BOOL result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+    if (result)
+        [self sendCallbackData:callback withData:@""  isSuccess:true];
+    else
+        [self sendCallbackData:callback withData:@"Stored TinCan Events could not be deleted."  isSuccess:false];
 }
--(void) getUniqueId:(NSMutableArray*)paramArray {
+-(void) getUniqueId:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
     NSString *callback = [paramArray pop];
     // do something useful
     NSLog(@"Get unique ID.", nil);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    NSString *query = @"SELECT * FROM uniqueId";
+    NSMutableArray *resArray = [self readFromDatabase:dbPath withQuery:query withArguments:nil];
+    NSString *result = @"";
+    if ([resArray count] == 0) {
+        CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+        NSString *uuidString = (NSString *)CFUUIDCreateString(NULL,uuidRef);
+        query = [@"" stringByAppendingFormat:@"INSERT INTO uniqueId VALUES ('%@')", uuidString];
+        [self executeDBStatement:dbPath withQuery:query withArgs:NULL];
+        result = [result stringByAppendingString:uuidString];
+        CFRelease(uuidRef);
+    } else {
+        result = [[resArray objectAtIndex:0] objectAtIndex:0];
+    }
     NSMutableDictionary *resultList = [NSMutableDictionary dictionaryWithCapacity:1];
-    [resultList setObject:@"_ID:12345" forKey:@"uniqueId"];
+    [resultList setObject:result forKey:@"uniqueId"];
     NSString *jsonStr = [resultList JSONString];
+    [resArray dealloc];
     [self sendCallbackData:callback withData:jsonStr  isSuccess:true];
 }
 
+- (void) requestCompleted: (RKResponse*)response {
+    if (tcr != NULL){
+        [tcr dealloc];
+        tcr = NULL;
+    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    NSString *query = [@"" stringByAppendingFormat:@"DELETE FROM TinCanEvents WHERE eventId <= %@", evtId];
+    if (skippedEvtId != NULL)
+        query = [query stringByAppendingFormat:@" AND eventId > %@", skippedEvtId];
+    
+    if ([response statusCode] != 200){
+        [self sendCallbackData:self.callbackId withData:@"Unable to transfer Tin Can data."  isSuccess:false];
+    } else {
+        BOOL result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+        if (result){
+            if (allEventsPushed) {
+                if (skippedEvtId != NULL) {
+                    [skippedEvtId dealloc];
+                    skippedEvtId = NULL;
+                }
+                allEventsPushed = false;
+                [self sendCallbackData:self.callbackId withData:@""  isSuccess:true];
+            } else {
+                [evtId dealloc];
+                [self pushTinCanEvents:NULL withDict:NULL];
+                return;
+            }
+        } else
+            [self sendCallbackData:self.callbackId withData:@"Tin Can Data transferred, but unable to delete."  isSuccess:false];
+    }
+    [evtId dealloc];    
+    isPushing = false;
+    return;
+}
 
+-(void) didTimeout: (RKRequest*) request {
+    if (tcr != NULL){
+        [tcr dealloc];
+        tcr = NULL;
+    }
+    if (skippedEvtId != NULL) {
+        [skippedEvtId dealloc];
+        skippedEvtId = NULL;
+    }
+    skippedEvtId = [[NSString alloc] initWithString:evtId];
+    [self pushTinCanEvents:NULL withDict:NULL];
+}
 @end

@@ -30,11 +30,23 @@
 #import <Cordova/CDVCommandDelegate.h>
 #import <Cordova/CDVFile.h>
 
+#import <RestKit/RestKit.h>
+#import <RestKit/RKRequestSerialization.h>
+#import "RestKit/RKObjectMapping.h"
+#import "RestKit/RKObjectLoader.h"
+#import "RestKit/RKObjectManager.h"
+#import "RestKit/RKClient.h"
+#import "TCRequest.h"
 
-@interface PGContentManagement : CDVPlugin {
+@interface PGContentManagement : CDVPlugin{
 	NSMutableArray* params;
     NSString *callbackId;
     BOOL downloadLocked;
+    TCRequest *tcr;
+    NSString *evtId;
+    NSString *skippedEvtId;
+    BOOL allEventsPushed;
+    BOOL isPushing;
 }
 
 @property (nonatomic, copy) NSString* callbackId;
@@ -62,9 +74,9 @@
 -(NSMutableArray*) readFromDatabase: (NSString*)databasePath withQuery:(NSString*)query withArguments:(NSArray*)args;
 
 // TinCan-related functions
--(void) addTinCanEvent:(NSMutableArray*)paramArray;
--(void) pushTinCanEvents:(NSMutableArray*)paramArray;
--(void) dropTinCanEvents:(NSMutableArray*)paramArray;
--(void) getUniqueId:(NSMutableArray*)paramArray;
+-(void) addTinCanEvent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
+-(void) pushTinCanEvents:(NSMutableArray*)paramArray  withDict:(NSMutableDictionary*)options ;
+-(void) dropTinCanEvents:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
+-(void) getUniqueId:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
 
 @end
