@@ -28,13 +28,14 @@ import android.database.Cursor;
 import android.database.sqlite.*;
 import java.io.*;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
 import java.util.zip.*;
- 
+import android.util.Base64;
 import android.util.Log;
 
 
@@ -62,6 +63,9 @@ public boolean isInitialized = false;
 
 String currentTitle;
 String currentPath;
+
+public String evtId;
+public String skippedEvtId;
 
 /**
 * Default constructor.
@@ -117,7 +121,9 @@ public SQLiteDatabase openDB(String dbPath){
 /**
 * Initialize database - if exists just open, if not, open and create tables.
 */
-public void initDB(){ 
+public void initDB(){
+	this.evtId = "-1";
+	this.skippedEvtId = null;
 	if (this.path == null) {	
 		this.path = cMgr.cordova.getActivity().getFilesDir().getAbsolutePath();//ctx.getApplicationContext().getDir("Content", Context.MODE_PRIVATE).getPath();
 	}
@@ -132,6 +138,15 @@ public void initDB(){
 		query = "CREATE TABLE content (title text, path text, created text, partOfProgram text, version text)";
 		executeSql(query, null, "");
 	}
+	
+	String query = "SELECT * FROM sqlite_master WHERE type='table' AND name='uniqueId'";
+    List< List <String> > res = selectSQL(query, null, this.myDb);
+    if (res.size() == 0){
+        query = "CREATE TABLE uniqueId (uniqueId text)";
+        executeSql(query, null, "");
+        query = "CREATE TABLE TinCanEvents (event text, user text, password text, tincanurl text, eventId integer primary key autoincrement)";
+        executeSql(query, null, "");
+    }
 	isInitialized = true;
 }
 
@@ -466,6 +481,161 @@ public String processResults(Cursor cur, String tx_id) {
 	return result;	
 }
 
+///// TinCan
+public String getUniqueId(){
+	String result = "";
+	String query = "SELECT * from uniqueId";
+	List< List<String> > res = selectSQL(query, null, this.myDb);
+	if (res.size() == 0) {
+		result = UUID.randomUUID().toString();
+		query = "INSERT INTO uniqueId VALUES ('"+result+"')";
+		executeSql(query, null, "0");
+	} else {
+		result = res.get(0).get(0);
+	}
+	return result;
+}
 
+public void addTinCanEvent(String event, String userName, String password, String tcurl){
+	String query = "INSERT INTO TinCanEvents (event, user, password, tincanurl) VALUES (?,?,?,?)";
+	String []params = {event, userName, password, tcurl};
+	executeSql(query, params, "0");	
+	skippedEvtId = null;
+	
+	
+}
+
+public static boolean bufferedCopyStream(InputStream inStream, OutputStream outStream) throws Exception {
+    BufferedInputStream bis = new BufferedInputStream( inStream );
+    BufferedOutputStream bos = new BufferedOutputStream ( outStream );
+    while(true){
+        int data = bis.read();
+        if (data == -1){
+            break;
+        }
+        bos.write(data);
+    }
+    bos.flush();
+    return true;
+}
+
+
+public String makeRequest(String userName, String password, String urlStr, String postData) throws Exception{
+	URL url = new URL(urlStr);
+    
+    ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+	InputStream responseStream = null;
+	URLConnection connection = null;
+	
+	try {
+    	
+        connection = url.openConnection();
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(30000);
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setUseCaches(false);
+        
+        String encoded = Base64.encodeToString((userName+":"+password).getBytes("UTF-8"), Base64.DEFAULT);        
+        String basicAuthHeader = "Basic " + encoded;
+        ((HttpURLConnection)connection).setRequestProperty("Authorization", basicAuthHeader);
+
+    	if (postData != null) {
+			((HttpURLConnection) connection).setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/json");
+			connection.setRequestProperty("Content-Length", "" + Integer.toString(postData.getBytes().length));
+			DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
+			try {
+				wr.writeBytes (postData);
+				wr.flush ();
+				}
+			finally {
+				wr.close ();
+			}
+    	}
+		responseStream = connection.getInputStream();
+        
+        bufferedCopyStream(responseStream, responseBytes);
+        responseBytes.flush();
+        responseBytes.close();
+        return new String(responseBytes.toByteArray(), "UTF-8");
+    } 
+	catch (IOException ioe) {
+		return null;
+	}
+    finally {
+    	if(responseStream != null){
+    		responseStream.close();
+    	}
+    }
+}
+
+public void pushTinCanEvents(){
+	String query = "SELECT * FROM TinCanEvents ORDER BY eventId, tincanurl";
+	if (skippedEvtId != null)
+		query = "SELECT * FROM TinCanEvents WHERE eventId > "+skippedEvtId+" ORDER BY eventId, tincanurl";
+	List<List<String> > resList = selectSQL(query, null, this.myDb);
+	String urlString = null;
+	String userName= null, password= null, eventString= null, uString = null;
+	String events = "[";
+	for (Iterator<List<String>> it = resList.iterator(); it.hasNext(); ) {
+		List<String> row = it.next();
+		if (row.size() == 5) {
+			uString = row.get(3);
+			eventString = row.get(0);
+			if (urlString != null && !urlString.equals(uString)){
+				events += "]";
+				String delQuery = "DELETE FROM TinCanEvents WHERE eventId <= "+evtId;
+				
+				try {
+					String reqRes = makeRequest(userName, password, urlString + "/statements", events);
+					if (reqRes == null){
+						skippedEvtId = evtId;						
+					}
+				} catch (Exception e){
+					skippedEvtId = evtId;					
+				}
+				events = "[" + eventString;
+				if (skippedEvtId != null){
+					delQuery = "DELETE FROM TinCanEvents WHERE eventId <= "+evtId+ " AND eventId > "+skippedEvtId;
+				}
+				executeSql(delQuery, null, "1");
+			} else if (urlString == null){
+				events += eventString;
+			} else {
+				events += "," + eventString;
+			}
+			urlString = uString;			
+			userName = row.get(1);
+			password = row.get(2);
+			evtId = row.get(4);
+			
+		}
+	}
+	if (urlString != null){
+		events += "]";
+		String delQuery = "DELETE FROM TinCanEvents WHERE eventId <= "+evtId;
+		
+		try {
+			String reqRes = makeRequest(userName, password, urlString+ "/statements", events);
+			if (reqRes == null){
+				skippedEvtId = evtId;
+			} 		
+		} catch (Exception e){
+			skippedEvtId = evtId;					
+		}
+		events = "[" + eventString;
+		if (skippedEvtId != null){
+			delQuery = "DELETE FROM TinCanEvents WHERE eventId <= "+evtId+ " AND eventId > "+skippedEvtId;
+		}
+		executeSql(delQuery, null, "1");
+	}
+	
+}
+
+public void dropTinCanEvents(){
+	String query = "DELETE FROM TinCanEvents";
+	executeSql(query, null, "0");
+}
 
 }

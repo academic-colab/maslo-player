@@ -135,16 +135,27 @@ public class PGContentManagement extends Plugin {
 			
 		} else if (action.equals("getUniqueId")){
 			// @TODO: Do something more useful here
-			String res = "{\"uniqueId\": \"_ID:12345\"}";
+			String uid = myStorage.getUniqueId();
+			String res = "{\"uniqueId\": \""+uid+"\"}";
 			result = new PluginResult(Status.OK, res);
 		} else if (action.equals("addTinCanEvent")){
 			// @TODO: Do something more useful here
-			result = new PluginResult(Status.OK, "");
+			try {
+				String event = data.getString(0);
+				String uName = data.getString(1);
+				String password = data.getString(2);
+				String tincanurl = data.getString(3);
+				myStorage.addTinCanEvent(event, uName, password, tincanurl);
+				//myStorage.pushTinCanEvents();
+				result = new PluginResult(Status.OK, "");
+			} catch(JSONException e){
+				Log.d("PGContentManagement.addTinCanEvent","JSON exception: "+e.getMessage());
+			}
 		} else if (action.equals("pushTinCanEvents")){
-			// @TODO: Do something more useful here
+			myStorage.pushTinCanEvents();
 			result = new PluginResult(Status.OK, "");
-		} else if (action.equals("pushTinCanEvents")){
-			// @TODO: Do something more useful here
+		} else if (action.equals("dropTinCanEvents")){
+			myStorage.dropTinCanEvents();
 			result = new PluginResult(Status.OK, "");
 		 } else {
 			result = new PluginResult(Status.INVALID_ACTION);

@@ -121,6 +121,13 @@ function(success, failure) {
 }
 
 // get unique ID
+// to obtain, the success function should look like
+// function(data){
+//    var json = jQuery.parseJSON(data);
+//    var uniqueId = data.uniqueId;
+//    ... do something with uniqueId
+// }
+//
 PGContentManagement.prototype.getUniqueId =
 function(success, failure) {
     cordova.exec(success, failure, "PGContentManagement", "getUniqueId",
