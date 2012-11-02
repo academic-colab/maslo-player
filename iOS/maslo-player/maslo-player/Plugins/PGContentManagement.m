@@ -546,9 +546,7 @@
     NSString *evt, *userName, *password, *uString;
     for (NSMutableArray *arr in resArray) {
         if ([arr count] == 5) {
-            evt = [arr objectAtIndex:0];
-            userName = [arr objectAtIndex:1];
-            password = [arr objectAtIndex:2];
+            evt = [arr objectAtIndex:0];            
             uString = [arr objectAtIndex:3];
             
             if (urlString != NULL  &&  [uString caseInsensitiveCompare:urlString] != NSOrderedSame){
@@ -563,6 +561,8 @@
             } else {
                 events = [events stringByAppendingFormat:@",%@",evt];
             }
+            userName = [arr objectAtIndex:1];
+            password = [arr objectAtIndex:2];
             urlString = uString;
             evtId = [[NSString alloc] initWithString:[arr objectAtIndex:4]];
         }
