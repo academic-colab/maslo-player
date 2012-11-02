@@ -146,7 +146,7 @@ public class PGContentManagement extends Plugin {
 				String password = data.getString(2);
 				String tincanurl = data.getString(3);
 				myStorage.addTinCanEvent(event, uName, password, tincanurl);
-				//myStorage.pushTinCanEvents();
+				myStorage.pushTinCanEvents();
 				result = new PluginResult(Status.OK, "");
 			} catch(JSONException e){
 				Log.d("PGContentManagement.addTinCanEvent","JSON exception: "+e.getMessage());

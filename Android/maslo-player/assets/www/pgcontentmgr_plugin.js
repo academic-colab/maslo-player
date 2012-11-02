@@ -105,6 +105,8 @@ function(success, failure, jsonEvent, userName, password, tinCanURL) {
 }
 
   // in case the upper layer wants to push out events *now*
+  // the ADD function will call push automatically, so there should be
+  // no need to ever call this function! 
 PGContentManagement.prototype.pushTinCanEvents =
 function(success, failure) {
     cordova.exec(success, failure, "PGContentManagement", "pushTinCanEvents",
