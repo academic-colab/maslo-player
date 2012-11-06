@@ -78,5 +78,6 @@
 -(void) pushTinCanEvents:(NSMutableArray*)paramArray  withDict:(NSMutableDictionary*)options ;
 -(void) dropTinCanEvents:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
 -(void) getUniqueId:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
+-(void) setUniqueId:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options ;
 
 @end

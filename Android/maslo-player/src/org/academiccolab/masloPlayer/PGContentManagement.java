@@ -138,6 +138,19 @@ public class PGContentManagement extends Plugin {
 			String uid = myStorage.getUniqueId();
 			String res = "{\"uniqueId\": \""+uid+"\"}";
 			result = new PluginResult(Status.OK, res);
+		} else if (action.equals("setUniqueId")){
+			result = new PluginResult(Status.OK, "");
+			try {
+			// @TODO: Do something more useful here
+				String uid = data.getString(0);
+				boolean ur = myStorage.setUniqueId(uid);
+				if (!ur)
+					result = new PluginResult(Status.ERROR, myStorage.getErrorMessage());
+			} catch (JSONException e){
+				Log.d("PGContentManagement.setUniqueId","JSON exception: "+e.getMessage());
+				result = new PluginResult(Status.ERROR, myStorage.getErrorMessage());
+			}
+			
 		} else if (action.equals("addTinCanEvent")){
 			// @TODO: Do something more useful here
 			try {

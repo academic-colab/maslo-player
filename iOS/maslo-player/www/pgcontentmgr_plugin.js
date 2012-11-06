@@ -133,6 +133,15 @@ function(success, failure) {
     
 }
 
+
+// Set unique ID, for example eMail address
+PGContentManagement.prototype.setUniqueId =
+function(success, failure, uid) {
+    cordova.exec(success, failure, "PGContentManagement", "setUniqueId",
+                 [uid]);
+    
+}
+
 ////
 
 cordova.addConstructor(function() {

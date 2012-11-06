@@ -618,6 +618,27 @@
     [self sendCallbackData:callback withData:jsonStr  isSuccess:true];
 }
 
+-(void) setUniqueId:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
+    NSLog(@"Set unique ID.", nil);
+    NSString *callback = [paramArray pop];
+    NSString *uniqueId = [paramArray objectAtIndex:0];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
+    NSString *query = @"SELECT * FROM uniqueId";
+    NSMutableArray *resArray = [self readFromDatabase:dbPath withQuery:query withArguments:nil];
+    query = [@"" stringByAppendingFormat:@"UPDATE uniqueId SET uniqueId = '%@'",uniqueId ];
+    if ([resArray count] == 0) {
+        query = [@"" stringByAppendingFormat:@"INSERT INTO uniqueId VALUES ('%@')",uniqueId ];
+    }
+    BOOL result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+    [resArray dealloc];
+    if (result)
+        [self sendCallbackData:callback withData:@""  isSuccess:true];
+    else
+        [self sendCallbackData:callback withData:@"Cannot update unique ID."  isSuccess:false];
+}
+
 - (void) requestCompleted: (RKResponse*)response {
     if (tcr != NULL){
         [tcr dealloc];

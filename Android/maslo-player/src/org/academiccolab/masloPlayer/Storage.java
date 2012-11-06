@@ -496,6 +496,22 @@ public String getUniqueId(){
 	return result;
 }
 
+public boolean setUniqueId(String uid){	
+	String query = "SELECT * from uniqueId";
+	List< List<String> > res = selectSQL(query, null, this.myDb);
+	if (res.size() == 0) {		
+		query = "INSERT INTO uniqueId VALUES ('"+uid+"')";
+		
+	} else {
+		query = "UPDATE uniqueId SET uniqueId = '"+uid+"'";
+	}
+	String r = executeSql(query, null, "0");
+	if (r.equals(""))
+		return false;
+	return true;
+}
+
+
 public void addTinCanEvent(String event, String userName, String password, String tcurl){
 	String query = "INSERT INTO TinCanEvents (event, user, password, tincanurl) VALUES (?,?,?,?)";
 	String []params = {event, userName, password, tcurl};
