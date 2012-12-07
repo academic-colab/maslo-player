@@ -1122,13 +1122,32 @@ function computeQuizResults(jsonObj){
     }
 }
 
-function createQuizEvent(results) {
-    actor = settingsEmail ? settingsEmail : "";  // TODO - use API to get device ID here
-    verb  = "Completed";  // Do we need a URL on this verb?
-    object = globalPackTitle + "::" + globalContentTitle;
-    
-    event = makeTinCanEvent(actor, verb, object);
-    event["results"] = results;
+// TinCan related functions
+//==========================
 
-    // TODO - call API to add event to the queue
+function createQuizEvent(results, actor) {
+    if (settingsUserName == "your_MASLO_LRS_USERNAME_here"){
+        myAlert("You need to configure 'settingsUserName', 'settingsPassword', and 'tinCanLRSHost' in your maslo-globals.js file.");
+        return false;
+    }
+    if (actor == null) {
+        fileDownloadMgr.getUniqueId(
+                                    function(data){
+                                    var json = jQuery.parseJSON(data);
+                                    var uniqueId = json.uniqueId;
+                                    createQuizEvent(results, uniqueId);
+                                    return false;
+                                    }, function(e){myAlert("error: "+e); return false;}
+                                );
+    } else {
+        var verb  = "completed";  // Do we need a URL on this verb?
+        var baseURL = remoteStartUrl.replace("http://", "");
+        var object = {"objectType": "Activity", "id": baseURL + globalPackTitle + "::" + globalContentTitle, "definition": {"name": globalContentTitle + " of "+ globalPackTitle  }};
+    
+        var event = makeTinCanEvent(actor, verb, object);
+        event["result"] = results;
+        var evt = JSON.stringify(event);
+        fileDownloadMgr.addTinCanEvent(function(e){return false;}, function(e){myAlert("TinCan Event could not be added");return false;}, evt, settingsUserName, settingsPassword, tinCanLRSHost);
+    }
+    return false;
 }

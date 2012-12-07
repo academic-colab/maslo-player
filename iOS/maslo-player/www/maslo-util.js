@@ -379,30 +379,6 @@ function showAltMenu(){
     return false;
 }
 
-/* A really basic email address validator.  It is not meant to check for RFC22 compliant emails,
-   just to check for the most basic of errors.  It's a bad idea to be overly aggressive validating
-   emails because we might accidently exclude valid ones.
-*/
-function validateEmailAddress(email) {
-    var re = /\S+@\S+\.\S+/;
-    return re.test(email);
-}
-
-// Create a JSON object in Tin Can format
-function makeTinCanEvent(actor, verb, object) {
-    timestamp = Math.round(+new Date()/1000);
-    var event = {
-        "actor":  {
-            "objectType": "Agent",
-            "name": actor
-        },
-        "verb":   verb,
-        "object": object,
-        "timestamp": timestamp
-    };
-    return event;
-}
-
 function makeSane(arg){
     var result = arg.replace(/"/g, '\"');
     result = result.replace(/'/g, "\'");
@@ -415,6 +391,34 @@ function makeURLSane(arg){
     result = result.replace(/'/g, '%27');
     return result;
 }
-                            
+
+
+/* A really basic email address validator.  It is not meant to check for RFC22 compliant emails,
+   just to check for the most basic of errors.  It's a bad idea to be overly aggressive validating
+   emails because we might accidently exclude valid ones.
+*/
+function validateEmailAddress(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+}
+
+////////////////////////////////
+// TinCan related functions
+////////////////////////////////
+// Create a JSON object in Tin Can format
+function makeTinCanEvent(actor, verb, object) {
+    timestamp = Math.round(+new Date()/1000);
+    var event = {
+        "actor":  {
+            "objectType": "Agent",
+            "name": "Agent at instance "+actor,
+            "mbox": actor
+        },
+        "verb":   verb,
+        "object": object,
+        "timestamp": timestamp
+    };
+    return event;
+}
 
                             

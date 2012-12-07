@@ -43,6 +43,8 @@ var globalWantFeedback = false; /* user wants individual feedback after
 var settingsFeedback  = null; // want feedback as indicated by settings
 var settingsReporting = true; // want reporting as indicated by settings
 var settingsEmail     = null; // users email for use with TinCan reporting
+var settingsUserName = "your_MASLO_LRS_USERNAME_here";
+var settingsPassword = "your_MASLO_LRS_PASSWORD_here";
 
 var globalPackLinks = null;
 
@@ -72,3 +74,4 @@ var remoteStartUrl = "your_MASLO_store_URL_here";
 var remoteStartName = "Default";
 var remoteHost = remoteStartUrl;
 
+var tinCanLRSHost = "your_MASLO_LRS_URL_here";
