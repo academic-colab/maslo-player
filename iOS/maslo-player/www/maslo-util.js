@@ -208,6 +208,8 @@ function clearAll(){
 
     $(".dirButton").hide();
     $(".backButton").hide();
+    
+    $("#navbar").hide();
 }
 
 /**
@@ -390,6 +392,17 @@ function makeURLSane(arg){
     result = result.replace(/"/g, '%22');
     result = result.replace(/'/g, '%27');
     return result;
+}
+                            
+
+function getURLParameter(name) {
+    return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(document.location.search)||[,null])[1]);
+}
+                            
+
+function setServer(s){
+    remoteHost = s;
+    return false;
 }
                             
 

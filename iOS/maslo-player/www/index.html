@@ -6,17 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=1" />
 	<meta charset="utf-8"/>
 
-    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />  
+    <link rel="stylesheet" type="text/css" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 
-	<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery-latest.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery-swipe.js"></script>
-    <script type="text/javascript" charset="utf-8" src="pgcontentmgr_plugin.js"></script>  
+    <script type="text/javascript" charset="utf-8"  src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.js"></script>
+    <script type="text/javascript" charset="utf-8" src="pgcontentmgr_plugin.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-globals.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-util.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-menu.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-remote.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo.js"></script>
+    
     <script type="text/javascript">
 	
                
@@ -40,7 +43,27 @@
                                  return false;
                                  });
             init();
+        
+        
+        var page = getURLParameter("page");
+        if (page=="store"){
+            var url = getURLParameter("url");
+            if (url != null && url != "null"){
+                url = "http://"+url.replace(":","/") + "/";
+                remoteHost = url;
+            }
+            setSearch();
+            showAvailableContent();
+        } else if (page=="help"){
+            showHelp();
+        } else if (page=="settings"){
+            settingsScreen();
+        } else {
             showLibrary();
+        }
+        
+        
+        $("#navbar").hide();
         
             window.onorientationchange = function() {
                 var width = $(window).width();
@@ -78,29 +101,23 @@
   </head>
     <body onLoad="onBodyLoad()">  
     <div id="allDiv">
-    <div id="head" class="headDiv">
-    <table>
-        <tr class="dark">
-            <td class="header">
-            <div style="float:left;">
-                <button class="editButton" id="sortButton">Sort</button>
-                <button class="backButton" id="goBack" onClick="">Back</button>
-                &nbsp;
-            </div>             
-              <div style="float:right;padding-right:10px;">
-                  &nbsp;
-                  <button class="editButton" id="editButton" onClick="showDeleteButtons(this);">Edit</button>
-                   <button class="dirButton" id="goLeft" onClick="">&lt;</button>
-                  <button class="dirButton" id="goRight" onClick="">&gt;</button>
-              </div>  
-                <div style="margin:0 auto;" id="title"><center>Home</center></div>  
-            </td>
-        </tr>       
-    </table>
+       
+   <div id="head" class="headDiv" data-role="header" data-theme="a">
+       <button id="searchOpen" onClick="" data-icon="search" class="ui-btn-right" onClick="scrollTo(0,0);makeVisible('#spacerDiv');makeVisible('#search');adjustViewport(true);return false;">&nbsp;</button>
+       <button id="goGrid" data-icon="grid" class="ui-btn-left" onClick="document.location.href='grid.html'">&nbsp;</button>
+       <div class="ui-title" id="title">Home</div>
+       <div data-role="navbar" id="navbar">
+           <ul>
+               <li><a href="#" id="goBack" data-icon="arrow-u" data-iconpos="notext"></a></li>
+               <li><a href="#" id="goLeft"  data-icon="arrow-l" data-iconpos="notext"></a></li>
+               <li><a href="#" id="goRight"  data-icon="arrow-r" data-iconpos="notext"></a></li>
+           </ul>
+       </div>
+
         <span id="search">
             <form id="searchForm" name="searchForm" onSubmit="javascript:$('#searchButton').click(); return false;">
                 <input type="search" width="80%" id="searchField"></input>&nbsp;
-                <button id="searchButton">search</button>&nbsp;
+                <button id="searchButton"  data-role="none">search</button>&nbsp;
                 
             </form>
         </span>    
@@ -108,8 +125,9 @@
     <div id="spacerDiv"></div>    
    
       <div id="bodyDiv">
-    <table id="contentList">
-    </table>
+
+          <ul id="contentList" data-role="listview" data-inset="true">
+          </ul>
     <div id="actualContent">
         <p/>
     <div id="content"></div>
@@ -118,30 +136,8 @@
   </div>
         <div id="imageContainer">
         </div>   
-  <span id="footer">
-      <table id="footerTable"  style="background:url(img/menuFillerTiny.png) repeat;">
-        <tr >
-            <td style="text-align:center;width:25%;font-weight:bold;" onClick="javascript:showLibrary();imageMenuClick('#homeImg');return false;">
-                <img id="homeImg" src="img/menu/home.png" height="40px"/></td>
-            <td style="text-align:center;width:25%;font-weight:bold;" onClick="javascript:imageMenuClick('#storeImg');setSearch();showAvailableContent();return false;"><img id="storeImg" src="img/menu/store.png" height="40px"/></td>
-            <td style="text-align:center;width:25%;font-weight:bold;" onClick="javascript:scrollTo(0,0);makeVisible('#spacerDiv');makeVisible('#search');imageMenuClick('#searchImg');adjustViewport(true);return false;"><img id="searchImg" src="img/menu/search.png" height="40px"/></td>
-            <td style="text-align:center;width:25%;font-weight:bold;"
-                onClick="javascript:imageMenuClick('#moreImg');showAltMenu(); return false;"><img id="moreImg" src="img/menu/more.png" height="40px"/></td>
-        </tr>
-    </table>
-  </span>
-        <span id="footerAlt">
-            <table  id="footerTableAlt" style="background:url(img/menuFillerTiny.png) repeat;">
-                <tr >
-                    <td style="text-align:center;width:33%;font-weight:bold;" onClick="javascript:showMainMenu();imageMenuClick('#backImg');return false;">
-                        <img id="backImg" src="img/menu/back.png" height="40px"/></td>
-                    <td style="text-align:center;width:33%;font-weight:bold;" onClick="javascript:imageMenuClick('#settingsImg');settingsScreen();return false;"><img id="settingsImg" src="img/menu/settings.png" height="40px"/></td>
-                    <td style="text-align:center;width:34%;font-weight:bold;"
-                        onClick="javascript:imageMenuClick('#helpImg');showHelp(); return false;"><img id="helpImg" src="img/menu/help.png" height="40px"/></td>                   
-                </tr>
-            </table>
-        </span>
-        <div id="popupCorrect">
+  
+        <div id="popupCorrect"> 
             <table height="100%">
                 <tr>
                     <td width="30%"> <img src="img/check.png" alt="correct answer" height="30px"/> </td>

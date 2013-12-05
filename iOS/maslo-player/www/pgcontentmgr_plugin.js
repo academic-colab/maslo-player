@@ -27,10 +27,9 @@ function PGContentManagement() {
 }
 
 PGContentManagement.prototype.init = function(success, failure){
-    cordova.exec("PGContentManagement.initializeDatabase");
+    cordova.exec(null, null, "PGContentManagement" , "initializeDatabase", []);
     cordova.exec(success, failure,
                   "PGContentManagement", "getContentPath",[]);
-    
     return false;
 }
 
@@ -39,7 +38,7 @@ function(success, failure, url,destFileName,title, version) {
     var data = "None yet";
     var processedURL = url.replace(/\\ /g, "%20");
     var downloadSuccess = function(data){
-         cordova.exec("PGContentManagement.removeContent", title);
+         cordova.exec(null, null, "PGContentManagement","removeContent", [title]);
          cordova.exec(success, failure,
                      "PGContentManagement", "unzipContent", 
                      [data,title, version]);
@@ -66,7 +65,7 @@ PGContentManagement.prototype.downloadContent =
 }
 
 PGContentManagement.prototype.deleteContent = function(path) {
-    cordova.exec("PGContentManagement.removeContent", path);
+    cordova.exec(null, null, "PGContentManagement", "removeContent", [path]);
 }
 
 PGContentManagement.prototype.getContentList = function(success, fail) {

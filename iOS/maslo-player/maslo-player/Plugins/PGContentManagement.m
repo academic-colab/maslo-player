@@ -25,6 +25,7 @@
 #import "sqlite3.h"
 #import "PGContentManagement.h"
 #import "ZipArchive.h"
+#import <Cordova/CDV.h>
 
 
 @implementation PGContentManagement
@@ -42,40 +43,42 @@
 
 
 // initialize database
--(void)initializeDatabase:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
+-(void)initializeDatabase:(CDVInvokedUrlCommand*)command {
     [self initDB];
 }
 
 // get path to content pack directory
--(void)getContentPath:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
-   NSString *callback = [paramArray pop];
+-(void)getContentPath:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
 	NSString *contentPath = [documentsDirectory stringByAppendingPathComponent:@"Content"];
-    [self sendCallbackData:callback withData:contentPath isSuccess:true];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:contentPath];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
 
 // download content pack and install it
--(void) downloadContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
-    self.callbackId = [paramArray pop];
+-(void) downloadContent:(CDVInvokedUrlCommand*)command {
+    self.callbackId = [command callbackId];
+    
     if ([self downloadLocked]){
         [self performSelectorOnMainThread:@selector(downloadCompleteWithError:) withObject:@"Download locked" waitUntilDone:true];
         return;
     }
-	[self performSelectorInBackground: @selector( downloadFile: ) withObject: paramArray ];
+	[self performSelectorInBackground: @selector( downloadFile: ) withObject: command ];
 }
 
 // unzip downloaded content
--(void) unzipContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options {
-    self.callbackId = [paramArray pop];
-	[self performSelectorInBackground: @selector( unzipDownload: ) withObject: paramArray ];
+-(void) unzipContent:(CDVInvokedUrlCommand*)command {
+    self.callbackId = [command callbackId];
+	[self performSelectorInBackground: @selector( unzipDownload: ) withObject: command.arguments ];
 }
 
 // remove content pack 
--(void) removeContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
-    NSString *title = [paramArray objectAtIndex:0];
+-(void) removeContent:(CDVInvokedUrlCommand*)command  {
+    NSString *title = [command.arguments objectAtIndex:0];
     NSString *query = @"SELECT * FROM content WHERE title = ?";
     NSArray *arguments = [NSArray arrayWithObject:title];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -95,8 +98,9 @@
 }
 
 // Perform local search
--(void)searchLocally:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
-    NSString *callback = [paramArray pop];    
+-(void)searchLocally:(CDVInvokedUrlCommand*)command   {
+    NSString *callback = [command callbackId];
+    NSArray *paramArray = [command arguments];
     NSString *searchTerms = [paramArray objectAtIndex:0];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -164,16 +168,18 @@
 // send callback data
 //
 -(void) sendCallbackData:(NSString*) callback withData:(NSString*)data isSuccess:(BOOL)success {
-    CDVPluginResult *pR = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:data];
+    CDVPluginResult *pR = nil;
     if (success)
-        [self writeJavascript:[pR toSuccessCallbackString:callback]];
-    else 
-        [self writeJavascript:[pR toErrorCallbackString:callback]];
+        pR = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:data];
+    else
+        pR = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:data];
+    
+    [self.commandDelegate sendPluginResult:pR callbackId:callback];
 }
 
 // Retrieve all currently installed content packs
--(void) getCurrentContentList:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options  {
-    NSString *callback = [paramArray pop];
+-(void) getCurrentContentList:(CDVInvokedUrlCommand*)command  {
+    NSString *callback = [command callbackId];
     NSString *query = [@"" stringByAppendingFormat:@"SELECT * FROM content "];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
@@ -191,19 +197,19 @@
 
 
 // call to execute the download in a background thread
--(void) downloadFile:(NSMutableArray*)paramArray
+-(void) downloadFile:(CDVInvokedUrlCommand*)command
 {
-	[self performSelectorInBackground: @selector( downloadInBackground: ) withObject: paramArray ];
+	[self performSelectorInBackground: @selector( downloadInBackground: ) withObject: command ];
 }
 
 // call to unzip downloaded content in a background thread
--(void) unzipDownload:(NSMutableArray*)paramArray
+-(void) unzipDownload:(NSArray*)paramArray
 {
 	[self performSelectorInBackground: @selector( unzipInBackground: ) withObject: paramArray ];
 }
 
 // perform actual unzip and return callback to main thread
--(void) unzipInBackground:(NSMutableArray*)paramArray
+-(void) unzipInBackground:(NSArray*)paramArray
 {
     NSString * fileName = [paramArray objectAtIndex:0];
     NSString * title = [paramArray objectAtIndex:1];
@@ -225,8 +231,9 @@
 
 // downloads  in the background and saves it to the local documents
 // directory 
--(void) downloadInBackground:(NSMutableArray*)paramArray
+-(void) downloadInBackground:(CDVInvokedUrlCommand*)command
 {
+    NSArray *paramArray = [command arguments];
 	NSString * sourceUrl = [paramArray objectAtIndex:0];
 	NSString * fileName = [paramArray objectAtIndex:1];
     NSString * title = [paramArray objectAtIndex:2];
@@ -283,12 +290,15 @@
 // calls the predefined callback in the ui to indicate download completion
 -(void) downloadComplete:(id)object {
     NSString *jsCallBack = (NSString*)object;
-    [self sendCallbackData:[self callbackId] withData:jsCallBack isSuccess:true];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsCallBack];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+
 }
 
 // calls the predefined callback in the ui to indicate download error
 -(void) downloadCompleteWithError:(NSString *)errorStr  {
-    [self sendCallbackData:[self callbackId] withData:errorStr isSuccess:false];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorStr];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 // release pool
@@ -385,8 +395,7 @@
 
 // execute database statement
 -(BOOL) executeDBStatement: (NSString*)databasePath withQuery: (NSString*)query withArgs:(NSArray*)args {
-    sqlite3 *database;
-    char *errMsg;
+    sqlite3 *database;    
     BOOL result = false;
     
     if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK) {
@@ -407,6 +416,7 @@
         sqlite3_close(database);
     }
     if (!result){
+        const char *errMsg = "error";//sqlite3_errmsg(database);
         NSString *bar = [NSString stringWithCString:errMsg encoding:NSUTF8StringEncoding];
         NSLog(@"Errors when executing DB statement: %@ ", bar);
     }

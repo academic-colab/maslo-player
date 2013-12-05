@@ -34,7 +34,7 @@
  *         1 : Mobile network
  */
 function checkNetwork(){
-	var networkState = navigator.network.connection.type;
+	var networkState = navigator.connection.type;
 	if (networkState == Connection.NONE)
 		return -1;
 	if (networkState == Connection.ETHERNET || networkState == Connection.WIFI)
@@ -187,11 +187,14 @@ function processAjax(data, existingContent, header) {
          var sections = null;
          if ("sections" in content[i])
              sections = content[i].sections;
-         var row = $("<tr>",{ 
+         /*var row = $("<tr>",{
          'class': trClass
          });
-         var td1 = $("<td>", {'class': "left"}); 
-         var aTag = $("<a>", {'href': "#", 'html': title});
+         var td1 = $("<td>", {'class': "left"}); */
+         var row = $("<li>",{'data-icon':"false"});
+         var aTag = $("<a>", {'href': "#"});
+         var aText = $("<div>", {'class':"listViewText", 'html':title});
+            aTag.append(aText);
          if (!(title in existingContent)) {
          aTag.click( ( function(t, s,p) { 
          return function(e) {
@@ -223,10 +226,11 @@ function processAjax(data, existingContent, header) {
          })(localPath, title, sections)
          );
          }
-         aTag.appendTo(td1);
-         td1.appendTo(row);
+         //aTag.appendTo(td1);
+         //td1.appendTo(row);
+         aTag.appendTo(row);
          var td2 = $("<td>", {'class': "delete"});
-         var installDiv = $("<div>",{'class':"installRight"});
+         var installDiv = $("<div>",{'class':"listViewCell"});
          var installButton = ""; 
          if (!(title in existingContent)) {
          installButton = $("<button>",{
@@ -241,7 +245,7 @@ function processAjax(data, existingContent, header) {
          })(title, path, installButton, aTag, version)
          );
          } else if (existingContent[title][1] != version){
-             installButton = $("<button>",{
+             installButton = $("<input>",{
                                'class':"updateButton", 
                                'html':"Update"
                                });
@@ -259,11 +263,13 @@ function processAjax(data, existingContent, header) {
          'html':"Installed"
          });  
          }
-         
-         installButton.appendTo(installDiv);
-         installDiv.appendTo(td2);
-         td2.appendTo(row);
-         
+         var fSet = $("<fieldset>", {"data-role":"fieldcontain"});
+         installButton.appendTo(fSet);
+            fSet.appendTo(installDiv);
+         //installDiv.appendTo(td2);
+         //td2.appendTo(row);
+         installDiv.appendTo(row);
+            
          $('#contentList').append(row);
          if (trClass == "light")
          trClass = "dark";
@@ -273,7 +279,7 @@ function processAjax(data, existingContent, header) {
             myAlert(err);
         }
         }
-        
+        $("#contentList").listview('refresh');
     }
     return false;
 }

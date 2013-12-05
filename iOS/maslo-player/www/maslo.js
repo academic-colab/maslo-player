@@ -74,14 +74,12 @@ function traverse(pTitle ,jsonObj, argPath, appendWhere, limitList) {
                 );
             }
 
-            var row = $("<tr/>", {
-                        'class': trClass
-                        });
-            var column = $("<td/>", {
+            var row = $("<li/>");
+  /*          var column = $("<td/>", {
                            'class': "left"
-                           });
-            aLink.appendTo(column);
-            column.appendTo(row);
+                           });*/
+            aLink.appendTo(row);
+           // column.appendTo(row);
 
             if (trClass == "dark")
                 trClass = "light";
@@ -160,6 +158,11 @@ function evalSettings(){
     value = $("#serverSelect").val();
     remoteHost = value;
     myAlert("Settings saved.");
+}
+
+function showGrid(){
+    return false;
+    
 }
 
 /***
@@ -288,9 +291,8 @@ function showLibrary(jsObj, headline) {
                         limitList = null;
                 }
             }
-
-            var row = $("<tr class='"+trClass+"'/>");
-            var col = $("<td class='delete' onClick='showContent(this);return false;'/>");
+            var row = $("<li/>");
+           /* var col = $("<td class='delete' onClick='showContent(this);return false;'/>");
             var div = $("<div class='delLeft'/>");
             div.append($("<img src='img/delete.png' height='25px'/>"));
             col.append(div);
@@ -299,7 +301,7 @@ function showLibrary(jsObj, headline) {
             col.append(div);
             row.append(col);
             
-            var actionCol = $('<td class="left"/>');
+            var actionCol = $('<td class="left"/>');*/
             var lList = "[";
             for (var j in limitList){
                     lList += "'"+limitList[j]+"',";
@@ -314,15 +316,16 @@ function showLibrary(jsObj, headline) {
 
             var ptitle = makeSane(title);
             var clickLink = '<a href="#" onclick="javascript:createContentSelection(\''+escape(path)+'\',\''+escape(title)+'\', '+lList+');return false;">'+ptitle+'</a>';
-            actionCol.append(clickLink);
-            row.append(actionCol);            
+            //actionCol.append(clickLink);
+            //row.append(actionCol);
+            row.append(clickLink);
             
-            content = '<td class="delete">\
+           /* content = '<td class="delete">\
             <div class="delRight">\
             <button class="deleteButton" \
             onClick="deleteItem(\''+escape(title)+'\', this);return false;">Delete</button>\
             </div></td>';
-            row.append(content);
+            row.append(content);*/
             $('#contentList').append(row);
           if (trClass == "light")
               trClass = "dark";
@@ -330,6 +333,7 @@ function showLibrary(jsObj, headline) {
               trClass = "light";
         }
     }
+    $('#contentList').listview('refresh');
     showEdit = true;
 }
 
@@ -368,6 +372,7 @@ function createContentSelection(argPath, title, limitList){
         globalPackLinks = traverseIterative(title, jsObj, fPath);
         $("#goBack").unbind("click");
         $("#goBack").click(function(){ createContentSelection(argPath,title,limitList); return false;});
+        $("#contentList").listview('refresh');
 
 }
 
@@ -575,6 +580,7 @@ function displayContentCore(argPath, type, jsObj){
 
 function displayContent(argPath, type, title, pack, id) {
     clearAll();
+    $("#navbar").show();
     var currIndex = 0;
     var jsObject = readJSON(makeURLSane(pack)+'/manifest');
     var jsObj = null;
@@ -717,6 +723,7 @@ function pauseStream() {
  */
 function queryQuizFeedbackPrefs(argPath, argTitle, currId){
     clearAll();
+    $("#navbar").show();
     globalQuizId = 0;
     globalQuizAnswers = {};
     globalQuizCount = 0;
@@ -773,6 +780,7 @@ function checkFeedbackValues(){
  */
 function createQuiz(argPath, argTitle){
     clearAll();
+    $("#navbar").show();
     if (argTitle != null) {
         var tDiv = "titleDiv"+globalCurrId;
         $("#title").empty();

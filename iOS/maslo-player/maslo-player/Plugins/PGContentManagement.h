@@ -26,9 +26,11 @@
 #import <Foundation/Foundation.h>
 
 #import <Cordova/CDVPlugin.h>
-#import <Cordova/JSONKit.h>
+//#import <Cordova/JSONKit.h>
 #import <Cordova/CDVCommandDelegate.h>
 #import <Cordova/CDVFile.h>
+#import <Cordova/CDV.h>
+
 
 
 @interface PGContentManagement : CDVPlugin {
@@ -40,19 +42,19 @@
 @property (nonatomic, copy) NSString* callbackId;
 @property (nonatomic ) BOOL downloadLocked;
 
--(void) getContentPath:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
--(void) initializeDatabase:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
--(void) downloadContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
--(void) unzipContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
--(void) removeContent:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
+-(void) getContentPath:(CDVInvokedUrlCommand*)command;
+-(void) initializeDatabase:(CDVInvokedUrlCommand*)command;
+-(void) downloadContent:(CDVInvokedUrlCommand*)command;
+-(void) unzipContent:(CDVInvokedUrlCommand*)command;
+-(void) removeContent:(CDVInvokedUrlCommand*)command;
 -(void) sendCallbackData:(NSString*)callbackId withData:(NSString*)data isSuccess:(BOOL)success;
--(void) getCurrentContentList:(NSMutableArray*)paramArray withDict:(NSMutableDictionary*)options;
+-(void) getCurrentContentList:(CDVInvokedUrlCommand*)command;
 -(void) downloadComplete:(id)object;
 -(void) downloadCompleteWithError:(NSString*)errorString; 
--(void) unzipInBackground:(NSMutableArray*)paramArray;
--(void) downloadInBackground:(NSMutableArray*)paramArray;
--(void) downloadFile:(NSMutableArray*)paramArray;
--(void) unzipDownload:(NSMutableArray*)paramArray;
+-(void) unzipInBackground:(NSArray*)paramArray;
+-(void) downloadInBackground:(CDVInvokedUrlCommand*)command;
+-(void) downloadFile:(CDVInvokedUrlCommand*)command;
+-(void) unzipDownload:(NSArray*)paramArray;
 -(NSString*) unzipFile:(NSString*)fileName withTitle:(NSString*)title withVersion:(NSString*)version;
 -(BOOL) deleteFile:(NSString*)fileName;
 -(BOOL) deleteDirectory:(NSString*)path;
