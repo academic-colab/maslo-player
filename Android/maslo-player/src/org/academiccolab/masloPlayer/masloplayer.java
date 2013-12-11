@@ -28,12 +28,10 @@ import org.apache.cordova.*;
 /**
  * @author Cathrin Weiss (cathrin.weiss@uwex.edu)
  */
-
-public class MasloActivity extends DroidGap {
-    /** Called when the activity is first created. */
+public class masloplayer extends DroidGap {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {   
         super.onCreate(savedInstanceState);        
-        super.loadUrl("file:///android_asset/www/index.html"); 
+        super.loadUrl(Config.getStartUrl());
     }
 }

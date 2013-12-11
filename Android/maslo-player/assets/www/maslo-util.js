@@ -19,6 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 //===========================================================================
 //  Utility functions
@@ -64,40 +67,16 @@ function readText(argPath) {
            'async': false,
            'global': false,
            'url': fPath,
-           'dataType': "text",      
-           'timeout':2000,     
+           'dataType': "text",           
            'success': function (data) {
            json = data;
            },
-           error: function (data) {           
+           error: function (data) {
            json = null;
            }
            });
-    return json; 
+    return json;
     
-}
- 
-/**
-* Check version
-*/
-function checkVersion(){
-	if (device.platform == "Android") {
-		var conn = checkNetwork();
-    	if (conn >= 0) {
-			var data = readText("../version"); 
-			var dataServer = readText(remoteHost+"/androidVersion");
-			if (dataServer)
-			dataServer = dataServer.replace(/\n/g,"").replace(/ /g,"");
-			if (dataServer && data != dataServer){
-				var f = function(){
-					document.location.href = "http://www.academiccolab.org/maslo/downloads/ADLMasloSetupGuide.apk";
-					return false;
-				}
-				myConfirm("New version the ADL MASLO Setup Guide available (version "+dataServer+"). Do you want to download it now?", f);
-			}
-		}
-	}
-	return false;
 }
 
 /** Show help content
@@ -217,8 +196,7 @@ function clearAll(){
     $("#search").hide();
     $("#sortButton").html("Sort");
     $("#allDiv").unbind('click');
-    if ((device.platform == "Android" && device.version < "4.0") || (device.platform != "Android" && device.version < "5.0"))    
-    	adjustHeaderAndFooter(0);
+    adjustHeaderAndFooter(0);
     $("#searchField").unbind('click');
     $("#editBar").hide();
     $("#editButton").html("Edit");
@@ -230,6 +208,8 @@ function clearAll(){
 
     $(".dirButton").hide();
     $(".backButton").hide();
+    
+    $("#navbar").hide();
 }
 
 /**
@@ -248,16 +228,9 @@ function resetValues(){
  */
 function init() {
     clearAll();
-    var devVersion = device.version;
-    var platform = device.platform;
-    
     if (typeof(Cordova) != 'undefined') {
         $('body > *').css({minHeight: '460px !important'});
     }
-    // this assumes that iOS is the other device. If we ever extend, this rule needs to change!
-    if ((platform == "Android" && devVersion < "4.0") || (platform != "Android" && devVersion < "5.0")) {    	   
-    	document.addEventListener('touchend', function(e) {adjustHeaderAndFooter(); }, false);
-    } 
     $("#sortButton").click(function(e) {sort(true, this, "A-Z"); return false;});
     $("#searchButton").click(function(e) {
                              var value = $("#searchField").val();
@@ -275,13 +248,12 @@ function init() {
                                     });
                                     return false;
                                 }, function(err) {
-                                    myAlert("err:"+err);
+                                    alert("err:"+err);
                                     return false;
                                 }, value);
                                 return false;
                              });
     
-	checkVersion();
 }
 
 /***
@@ -289,8 +261,8 @@ function init() {
  * err: the error
  */
 function error(err) {
-    myAlert("An unspecified error occurred: "+err);
-    return false;
+    alert("An unspecified error occurred: "+err);
+    alert(err.error());
 }
 
 /***
@@ -410,15 +382,28 @@ function showAltMenu(){
 }
 
 function makeSane(arg){
-	var result = arg.replace(/"/g, '\"');
-	result = result.replace(/'/g, "\'");
-	return result;
+    var result = arg.replace(/"/g, '\"');
+    result = result.replace(/'/g, "\'");
+    return result;
 }
 
 function makeURLSane(arg){
-	var result = arg.replace(/\?/g, "%3F");
-	result = result.replace(/"/g, '%22');
-	result = result.replace(/'/g, '%27');
-	return result;
+    var result = arg.replace(/\?/g, "%3F");
+    result = result.replace(/"/g, '%22');
+    result = result.replace(/'/g, '%27');
+    return result;
 }
-   
+                            
+
+function getURLParameter(name) {
+    return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(document.location.search)||[,null])[1]);
+}
+                            
+
+function setServer(s){
+    remoteHost = s;
+    return false;
+}
+                            
+
+                            

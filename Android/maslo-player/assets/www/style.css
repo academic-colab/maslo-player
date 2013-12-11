@@ -1,11 +1,16 @@
+html {
+    height: 100%;
+}
 
 body {
     background-color: #FFFFFF;/* &light_row */;
     color:#000000;/* &light_row_font */;
     font-family: helvetica;
-    margin: 0px; 
+    margin: 0px;
     padding: 0px;
+    height:100%;
 }
+
 
 table {
 	border-width: 0px;
@@ -23,11 +28,10 @@ div#head {
 
 div#bodyDiv {
     width: 100%;
-    position: relative;
-    top: 40px;
+    position:relative;
+    top: 70px;
     z-index:0;
-    min-height:100%;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 
 div#allDiv {
@@ -38,6 +42,16 @@ div#allDiv {
 div#actualContent {
     padding-left:10px;
     padding-right:10px;
+}
+
+.listViewCell {
+    float:right;
+    font-size:12;
+}
+
+.listViewText {
+    float:left;
+    height:30px;
 }
 
 
@@ -119,7 +133,7 @@ tr.editMenu {
     width:50px;
 }
 
-.otherButton {
+.otherrButton {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -212,6 +226,10 @@ tr.editMenu {
     background: #007A29;
     height:25px;
     width:50px;
+    
+    position:absolute;
+    right:5px;
+    top:15px;
 }
 
 .updateButton {
@@ -228,6 +246,10 @@ tr.editMenu {
     background: #CC7A29;
     height:25px;
     width:50px;
+    
+    position:absolute;
+    right:5px;
+    top:15px;
 }
 
 .installedButton {
@@ -244,6 +266,10 @@ tr.editMenu {
     background: #000000 /*dark*/;
     height:25px;
     width:50px;
+    
+    position:absolute;
+    right:5px;
+    top:15px;
 }
 
 tr.dark td.delete {
@@ -259,7 +285,7 @@ tr.dark td.delete {
 
 tr.dark td.left {
     font-weight:bold;
-	background: #A3A3A3;/* &dark_row */;
+    background: #A3A3A3;/* &dark_row */;
     padding-right: 5px;
     padding-left: 10px;
     padding-top: 5px;
@@ -332,13 +358,13 @@ div.italic {
 }
 
 a:link {text-decoration: none;font-weight:bold;
-		color: #000000;/* &light_row_font */; 
-		}
+	color: #000000;/* &light_row_font */;
+	}
 a:visited {text-decoration: none;font-weight:bold;
 	color: #000000;/* &light_row_font */;
 	}
 a:active {text-decoration: none;font-weight:bold;
-	color: #000000;/* &light_row_font */;
+    color: #000000;/* &light_row_font */;
 	}
 
 
@@ -495,5 +521,41 @@ div#popupBackground{
     background: #A3A3A3;/* &dark_row */;
 }
 
+/* icons */
 
+.gridnavi .ui-btn .ui-icon {
+    width: 25px!important;
+    height: 25px!important;
+    margin-left: -14px !important;
+    margin-top: -14px !important;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    -webkit-border-radius: none !important;
+    border-radius: none !important;
+}
 
+.ui-icon-glyph-home {
+	background-image: url("img/icons/53-house-white.png");
+    background-position:center;
+}
+
+.ui-icon-glyph-store {
+	background-image: url("img/icons/80-shopping-cart-white.png");    
+    background-position:center;
+}
+
+.ui-icon-glyph-download {
+	background-image: url("img/icons/57-download-white.png");
+    background-position:center;
+}
+
+.ui-icon-glyph-settings {
+	background-image: url("img/icons/20-gear2-white.png");
+    background-position:center;
+}
+
+.ui-icon-glyph-help {
+	background-image: url("img/icons/158-wrench-2-white.png");
+    background-position:center;
+}
