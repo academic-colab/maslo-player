@@ -19,15 +19,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 function PGContentManagement() {
 }
 
 PGContentManagement.prototype.init = function(success, failure){
-    cordova.exec(success, failure, "PGContentManagement", "initializeDatabase", []);
-    //cordova.exec(success, failure,
-      //            "PGContentManagement", "getContentPath",[]);
-    
+    cordova.exec(null, null, "PGContentManagement" , "initializeDatabase", []);
+    cordova.exec(success, failure,
+                  "PGContentManagement", "getContentPath",[]);
     return false;
 }
 
@@ -35,14 +37,11 @@ PGContentManagement.prototype.updateContent =
 function(success, failure, url,destFileName,title, version) {
     var data = "None yet";
     var processedURL = url.replace(/\\ /g, "%20");
-    var downloadSuccess = function(data){    	 
-    	 var cont = function(){
-    	 	cordova.exec(success, failure,
+    var downloadSuccess = function(data){
+         cordova.exec(null, null, "PGContentManagement","removeContent", [title]);
+         cordova.exec(success, failure,
                      "PGContentManagement", "unzipContent", 
                      [data,title, version]);
-    	 }
-         cordova.exec(cont, failure, "PGContentManagement" ,"removeContent", [title]);
-         
     }
     cordova.exec(downloadSuccess, failure,
                  "PGContentManagement", "downloadContent", 
@@ -51,24 +50,22 @@ function(success, failure, url,destFileName,title, version) {
 }
 
 PGContentManagement.prototype.downloadContent = 
-  function(success, failure, url,destFileName,title,version,wantUnzip) {
+  function(success, failure, url,destFileName,title, version, wantUnzip) {
     var wantUZip = "false";
     if (wantUnzip != null) {
         if (wantUnzip)
             wantUZip = "true";
     }
     var data = "None yet";
-    var processedURL = url.replace(/\\ /g, "%20");    
+    var processedURL = url.replace(/\\ /g, "%20");
     cordova.exec(success, failure,
                               "PGContentManagement", "downloadContent", 
-                              [processedURL,destFileName,title,version,wantUZip]);
+                              [processedURL,destFileName,title, version, wantUZip]);
     return data;
 }
 
 PGContentManagement.prototype.deleteContent = function(path) {
-	var success = function(){return false;}
-	var failure = function(){myAlert("error");return false;}
-    cordova.exec(success,failure, "PGContentManagement", "removeContent", [path]);
+    cordova.exec(null, null, "PGContentManagement", "removeContent", [path]);
 }
 
 PGContentManagement.prototype.getContentList = function(success, fail) {
@@ -77,19 +74,17 @@ PGContentManagement.prototype.getContentList = function(success, fail) {
 }
 
 PGContentManagement.prototype.searchLocally = 
-    function(success, failure, query, title) {
-    	var lst = [query];
-    	if (title != null)
-    		lst.push(title);
-    	else 
-    		lst.push("");
+    function(success, failure, query, packTitle) {
+        lst = [query];
+        if (packTitle != null)
+            lst.push(packTitle);
         cordova.exec(success, failure, "PGContentManagement", "searchLocally",
                       lst);
     
     }
 
 PGContentManagement.prototype.PGContentManagementComplete = function(data) {
-    myAlert(data);
+    alert(data);
 }
 
 
@@ -148,10 +143,7 @@ function(success, failure, uid) {
 ////
 
 
-if(!window.plugins) {
-    window.plugins = {};
-}
-if (!window.plugins.fileDownloadMgr) {
-    window.plugins.fileDownloadMgr = new PGContentManagement();
-}
+window.plugins = window.plugins || {};
+window.fileDownloadMgr = new PGContentManagement();
+window.plugins.fileDownloadMgr = window.fileDownloadMgr;
 

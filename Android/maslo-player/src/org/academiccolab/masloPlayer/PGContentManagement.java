@@ -22,9 +22,9 @@
 package org.academiccolab.masloPlayer;
 
 
-import org.apache.cordova.api.Plugin;
-import org.apache.cordova.api.PluginResult;
-import org.apache.cordova.api.PluginResult.Status;
+import org.apache.cordova.api.CallbackContext;
+import org.apache.cordova.api.CordovaPlugin;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,9 +35,9 @@ import android.util.Log;
  * @author Cathrin Weiss (cathrin.weiss@uwex.edu)
  */
 
-public class PGContentManagement extends Plugin { 
+public class PGContentManagement extends CordovaPlugin { 
 	public static final String ACTION = "list";
-	private String myCallbackId = null;
+	//private String myCallbackId = null;
 	private Storage myStorage;// = new Storage();
 	
 	public PGContentManagement(){
@@ -48,18 +48,16 @@ public class PGContentManagement extends Plugin {
 	 * @see org.apache.cordova.api.Plugin#execute(java.lang.String, org.json.JSONArray, java.lang.String)
 	 */
 	@Override
-	public PluginResult execute(String action, JSONArray data, String callbackId) {
+	public boolean execute(String action, JSONArray data, CallbackContext callback) {
 		Log.d("PGContentManagement", "Plugin Called");
-		myCallbackId = callbackId;
-		PluginResult result = null;
 		if (action.equals("initializeDatabase")){
 			myStorage.initDB();
 			Log.d("PGContentManagement", "InitializeDatabase called");
-			result = new PluginResult(Status.OK, new JSONObject());			
+			callback.success();			
 		} else if (action.equals("getContentPath")){
 			JSONObject obj = getContentPath();
 			Log.d("PGContentManagement", "getContentPath called");
-			result = new PluginResult(Status.OK, obj);
+			callback.success(obj);
 		} else if (action.equals("getCurrentContentList")){
 			String res = "{\"rows\": []}";
 			if (myStorage.isInitialized){
@@ -72,8 +70,8 @@ public class PGContentManagement extends Plugin {
 				res = "{\"rows\": []}";
 			}
 			Log.d("getContentPath", res);
-			result = new PluginResult(Status.OK, res);
-			
+			//result = new PluginResult(Status.OK, res);
+			callback.success(res);			
 		} else if (action.equals("downloadContent")){
 			try {
 			String url = data.getString(0);
@@ -87,9 +85,9 @@ public class PGContentManagement extends Plugin {
 			//result.setKeepCallback(true);
 			if (resultStr == null){
 				String errMsg = myStorage.getErrorMessage();
-				result = new PluginResult(Status.ERROR, errMsg);
+				callback.error(errMsg);
 			} else {
-				result = new PluginResult(Status.OK, resultStr);
+				callback.success(resultStr);
 			}
 			} catch (JSONException e){
 				Log.d("PGContentManagement.downloadContent","JSON exception: "+e.getMessage());
@@ -99,7 +97,7 @@ public class PGContentManagement extends Plugin {
 			try {
 				String packName = data.getString(0);
 				myStorage.deleteContent(packName);
-				result = new PluginResult(Status.OK, "");
+				callback.success();
 			} catch(JSONException e){
 				Log.d("PGContentManagement.removeContent","JSON exception: "+e.getMessage());
 			}
@@ -113,9 +111,9 @@ public class PGContentManagement extends Plugin {
 				String r = myStorage.doUnzip(path, title, version);
 				if (r == null){
 					String errMsg = myStorage.getErrorMessage();
-					result = new PluginResult(Status.ERROR, errMsg);
+					callback.error(errMsg);
 				} else {
-					result = new PluginResult(Status.OK, r);
+					callback.success(r);
 				}
 			} catch (JSONException e) {
 				Log.d("PGContentManagement.unzipContent","JSON exception: "+e.getMessage());
@@ -128,27 +126,27 @@ public class PGContentManagement extends Plugin {
 				if (title.equals(""))
 					title = null;
 				String searchResult = myStorage.performSearchLocally(searchString, title);
-				result = new PluginResult(Status.OK, searchResult);
+				callback.success(searchResult);
 			} catch (JSONException e) {
 				Log.d("PGContentManagement.searchLocally","JSON exception: "+e.getMessage());
+				callback.error(e.getMessage());
 			}
 			
 		} else if (action.equals("getUniqueId")){
 			// @TODO: Do something more useful here
 			String uid = myStorage.getUniqueId();
 			String res = "{\"uniqueId\": \""+uid+"\"}";
-			result = new PluginResult(Status.OK, res);
+			callback.success(res);
 		} else if (action.equals("setUniqueId")){
-			result = new PluginResult(Status.OK, "");
 			try {
 			// @TODO: Do something more useful here
 				String uid = data.getString(0);
 				boolean ur = myStorage.setUniqueId(uid);
 				if (!ur)
-					result = new PluginResult(Status.ERROR, myStorage.getErrorMessage());
+					callback.error(myStorage.getErrorMessage());
 			} catch (JSONException e){
 				Log.d("PGContentManagement.setUniqueId","JSON exception: "+e.getMessage());
-				result = new PluginResult(Status.ERROR, myStorage.getErrorMessage());
+				callback.error(e.getMessage());
 			}
 			
 		} else if (action.equals("addTinCanEvent")){
@@ -160,22 +158,22 @@ public class PGContentManagement extends Plugin {
 				String tincanurl = data.getString(3);
 				myStorage.addTinCanEvent(event, uName, password, tincanurl);
 				myStorage.pushTinCanEvents();
-				result = new PluginResult(Status.OK, "");
+				callback.success();
 			} catch(JSONException e){
 				Log.d("PGContentManagement.addTinCanEvent","JSON exception: "+e.getMessage());
+				callback.error(e.getMessage());
 			}
 		} else if (action.equals("pushTinCanEvents")){
 			myStorage.pushTinCanEvents();
-			result = new PluginResult(Status.OK, "");
+			callback.success();
 		} else if (action.equals("dropTinCanEvents")){
 			myStorage.dropTinCanEvents();
-			result = new PluginResult(Status.OK, "");
-		 } else {
-			result = new PluginResult(Status.INVALID_ACTION);
+			callback.success();
+		} else {
 			Log.d("PGContentManagement", "Invalid action : "+action+" passed"); 
-
+			return false;
 		}
-		return result;
+		return true;
 	}
 	
 	public JSONObject getContentPath(){
@@ -183,14 +181,7 @@ public class PGContentManagement extends Plugin {
 		return js;
 	}
 	
-	public PluginResult replyCallback(){
-		PluginResult result = new PluginResult(Status.OK, "");
-		result.setKeepCallback(false);
-		this.success(result, myCallbackId);
-		return result;
-	}
 	
-
 	@Override
 	public void onDestroy(){
 		myStorage.onDestroy();

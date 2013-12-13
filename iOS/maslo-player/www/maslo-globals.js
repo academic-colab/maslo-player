@@ -45,6 +45,7 @@ var settingsReporting = true; // want reporting as indicated by settings
 var settingsEmail     = null; // users email for use with TinCan reporting
 var settingsUserName = "your_MASLO_LRS_USERNAME_here";
 var settingsPassword = "your_MASLO_LRS_PASSWORD_here";
+var settingsFeedback = null; // want feedback as indicated by settings
 
 var globalPackLinks = null;
 

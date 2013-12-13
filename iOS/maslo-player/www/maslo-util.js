@@ -208,6 +208,8 @@ function clearAll(){
 
     $(".dirButton").hide();
     $(".backButton").hide();
+    
+    $("#navbar").hide();
 }
 
 /**
@@ -420,5 +422,16 @@ function makeTinCanEvent(actor, verb, object) {
     };
     return event;
 }
+
+function getURLParameter(name) {
+    return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(document.location.search)||[,null])[1]);
+}
+                            
+
+function setServer(s){
+    remoteHost = s;
+    return false;
+}
+                            
 
                             

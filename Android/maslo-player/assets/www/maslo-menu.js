@@ -19,7 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  *****************************************************************************/
-
+/*
+ *  @author Cathrin Weiss (cathrin.weiss@uwex.edu)
+ */
 
 //===========================================================================
 //  Navigation menu
@@ -187,15 +189,7 @@ function sort(up, label, content) {
     
     for (var i = 0 ; i < rows.length; i++){
         var title = $("a", $(rows[i])).html();
-        /*var clicker = $("a", $(rows[i])).attr("click");
-        var clickEvt = $("a", $(rows[i])).data("events").click[0];
-        for (var item in clickEvt){
-            alert(item);
-        }
-        alert(clickEvt.guid);
-        alert(clickEvt.selector);*/
         titles.push(title.toLowerCase());
-        //clickEvents[title.toLowerCase()] = clickEvt;
         collection[title.toLowerCase()] = $(rows[i]).html();
     }
     for (var i = 0 ; i < titles.length-1; i++) {
@@ -216,8 +210,6 @@ function sort(up, label, content) {
     
     for (var i = 0 ; i < rows.length; i++){ 
         $(rows[i]).html(collection[titles[i]]);
-        //$("a", $(rows[i])).unbind('click');
-        //$("a", $(rows[i])).click(function(e) {clickEvents[titles[i]]});
     }
     if (up)
         which.html(content+" &uarr;");
@@ -234,11 +226,11 @@ function sort(up, label, content) {
  * Show library of installed content packs 
  * return: void
  */
-function showLibrary(jsObj) {
+/*function showLibrary(jsObj) {
     
     trClass = "dark";
     if (jsObj == null && !inBrowser){
-        return false;// fileDownloadMgr.getContentList(retrieveContentJSON, error);
+        return false;
     } else {
         clearAll();
         globalPack = "";
@@ -279,7 +271,7 @@ function showLibrary(jsObj) {
         }
     }
     showEdit = true;
-}
+}*/
 
 /***
  * Toggle delete button appearance 
@@ -329,7 +321,7 @@ function swapTRClass(which){
  * which: the table row object containing the deleted pack
  */
 function deleteItem(title, which, reply){
-	title = unescape(title);
+    title = unescape(title);
     if (reply == null){
         
         var msg = 'Are you sure you want to delete '+title+'?';
@@ -356,7 +348,7 @@ function deleteItem(title, which, reply){
  * link: link associated with this table row entry
  */
 function installSucceeded(result, which, title, link, isUpdate) {
-	inDownload = false;
+	inDownload = false;	
     which.html("Installed");
     which.removeClass("installButton").addClass("installedButton");
     if (isUpdate != null && isUpdate)
@@ -393,34 +385,18 @@ function showDeleteButtons(which){
  * setZero: if set, reset to original position
  */
 function adjustHeaderAndFooter(setZero){
-    if (setZero != null){    	
-        var headYOffset = 0;
-        var offset = $("#head").offset();
-        var footerPos = $(window).height() - 35;
-        
-        $("#head").offset({ 'left': offset.left, 'top': headYOffset});
-        $("#footer").offset({ 'top': footerPos});
-        $("#footerAlt").offset({ 'top': footerPos});
-    	return false;
-    }  
-    //$("#head").hide();
-    var showAgain = $("#footer");
-    if ($("#footerAlt").is(":visible"))
-    	showAgain = $("#footerAlt");
-    //$("#footer").hide();
-   // $("#footerAlt").hide();
-    var trigger = function(){    
+    var devVersion = device.version; 
+    if (devVersion < "5.0") {  
         var offset = $("#head").offset();
         var headYOffset = window.pageYOffset;
-        var footerPos =  $(window).height() + window.pageYOffset - 35;
+        var footerPos =  $(window).height() + window.pageYOffset - 25;
+        if (setZero != null) {
+            headYOffset = 0;
+            footerPos = $(window).height() - 25;
+        }
         $("#head").offset({ 'left': offset.left, 'top': headYOffset});
         $("#footer").offset({ 'top': footerPos});
-        $("#footerAlt").offset({ 'top': footerPos});
-       // $("#head").show();
-        //showAgain.show();
-      } 
-      
-      setTimeout(trigger, 500);  
+    }
     return false;
 }
 
