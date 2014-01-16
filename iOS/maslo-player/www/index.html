@@ -94,6 +94,23 @@
                 }
             }
         }
+
+		$("#searchField").blur(function(e){
+			$("#search").hide();
+		    $("#spacerDiv").hide();
+		});
+		
+		function toggleEditIcon(){
+			if (!$('.hiddenLink').is(':visible')) {
+				$("#editBut").text("Done");
+				$("#editBut").button('refresh');
+				$('.hiddenLink').show();
+			} else {
+				$("#editBut").text("Edit");
+				$("#editBut").button('refresh');
+				$('.hiddenLink').hide();
+			}
+		}
   
         
      </script>
@@ -103,7 +120,7 @@
     <div id="allDiv">
        
    <div id="head" class="headDiv" data-role="header" data-theme="a">
-       <button id="searchOpen" onClick="" data-icon="search" class="ui-btn-right" onClick="scrollTo(0,0);makeVisible('#spacerDiv');makeVisible('#search');adjustViewport(true);return false;">&nbsp;</button>
+       <button id="searchOpen" data-icon="search" class="ui-btn-right" onClick="scrollTo(0,0);makeVisible('#spacerDiv');makeVisible('#search');adjustViewport(true);return false;">&nbsp;</button>
        <button id="goGrid" data-icon="grid" class="ui-btn-left" onClick="document.location.href='grid.html'">&nbsp;</button>
        <div class="ui-title" id="title">Home</div>
        <div data-role="navbar" id="navbar">
@@ -113,20 +130,26 @@
                <li><a href="#" id="goRight"  data-icon="arrow-r" data-iconpos="notext"></a></li>
            </ul>
        </div>
-
+	  	<div data-role="navbar" id="editBar">
+			<ul>
+		   		<li>
+					<button id="editBut" onClick="toggleEditIcon();return false;">Edit</button>
+				</li>
+			</ul>
+		</div>
         <span id="search">
-            <form id="searchForm" name="searchForm" onSubmit="javascript:$('#searchButton').click(); return false;">
-                <input type="search" width="80%" id="searchField"></input>&nbsp;
-                <button id="searchButton"  data-role="none">search</button>&nbsp;
+            <form id="searchForm" name="searchForm"> <!-- onSubmit="javascript:$('#searchButton').click(); return false;">-->
+                <input type="search" width="80%" id="searchField"></input>
+                <!--<button id="searchButton"  data-role="none">search</button>&nbsp;-->
                 
             </form>
         </span>    
     </div>
     <div id="spacerDiv"></div>    
    
-      <div id="bodyDiv">
-
-          <ul id="contentList" data-role="listview" data-inset="true">
+      <div id="bodyDiv">          
+		<div id="contentListCat" data-role="content"></div> 
+		<ul id="contentList" data-role="listview" data-split-icon="delete" data-split-theme="d" data-inset="true">	
           </ul>
     <div id="actualContent">
         <p/>

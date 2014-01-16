@@ -251,15 +251,24 @@ function showLibrary(jsObj, headline) {
     clearAll();
     $("#editButton").show();
     $("#sortButton").show();
+	$("#editBar").show();
     trClass = "dark";
     if (jsObj == null && !inBrowser){
             fileDownloadMgr.getContentList(retrieveContentJSON, error);
     } else {        
-        $("#searchButton").unbind('click');
-        $("#searchButton").click(function(e) {searchLocally(); 
+	
+		$("#searchForm").unbind('submit');
+        $("#searchForm").submit(function(e) {								 
+								 searchLocally(); 
                                  adjustViewport(false); 
                                  return false;});
-                                 
+		
+        /*$("#searchButton").unbind('click');
+        $("#searchButton").click(function(e) {								 
+								 searchLocally(); 
+                                 adjustViewport(false); 
+                                 return false;});
+         */                        
         globalPack = "";
         
         if (inBrowser) {
@@ -319,7 +328,8 @@ function showLibrary(jsObj, headline) {
             //actionCol.append(clickLink);
             //row.append(actionCol);
             row.append(clickLink);
-            
+            var cLink = '<a href="#" class="hiddenLink" onClick="deleteItem(\''+escape(title)+'\', this);return false;">Delete</a>';
+			row.append(cLink);
            /* content = '<td class="delete">\
             <div class="delRight">\
             <button class="deleteButton" \
@@ -333,6 +343,7 @@ function showLibrary(jsObj, headline) {
               trClass = "light";
         }
     }
+	$("#bodyDiv").css({'top':'85px'});
     $('#contentList').listview('refresh');
     showEdit = true;
 }
@@ -357,10 +368,16 @@ function createContentSelection(argPath, title, limitList){
         var jsObj= readJSON(fPath+'/manifest');
     
         var result = traverse(title, jsObj, fPath, "#contentList", limitList);
-        $("#searchButton").unbind('click');
-        $("#searchButton").click(function(e) {searchLocally(title); 
+
+		$("#searchForm").unbind('submit');
+        $("#searchForm").submit(function(e) {searchLocally(title); 
                              adjustViewport(false); 
                              return false;});
+
+        /*$("#searchButton").unbind('click');
+        $("#searchButton").click(function(e) {searchLocally(title); 
+                             adjustViewport(false); 
+                             return false;});*/
         $("#title").empty();
         var titleDiv = $("<div id='headTitle'></div>");
         $("#title").append(titleDiv);
@@ -598,14 +615,22 @@ function displayContent(argPath, type, title, pack, id) {
     }
     setWipe(currIndex);
     displayContentCore(argPath, type, jsObj);
-    $("#searchButton").unbind('click');
-    $("#searchButton").click(function(e) {
+	$("#searchForm").unbind('submit');
+	$("#searchForm").submit(function(e) {
+							
+                             var result = searchForText("#content");
+                             adjustViewport(false);
+                             return false;
+                             });
+    //$("#searchButton").unbind('click');
+    /*$("#searchButton").click(function(e) {
+							
                              var result = searchForText("#content");
                              adjustViewport(false);
                              return false;
                              });
     
-    
+    */
     var tDiv = "titleDiv"+currIndex;
     $("#title").empty();
     var titleDiv = $("<div id='"+tDiv+"'></div>");
@@ -808,12 +833,18 @@ function createQuiz(argPath, argTitle){
 function retrieveQuestions(jsonObj, argPath) {
     document.getElementById("answers").innerHTML ='';
     document.getElementById("content").innerHTML ='';
-    $("#searchButton").unbind('click');
-    $("#searchButton").click(function(e) {
+	$("#searchForm").unbind('submit');
+    $("#searchForm").submit(function(e) {
                              var result = searchForText("#content");
                              adjustViewport(false);
                              return false;
                              });
+    /*$("#searchButton").unbind('click');
+    $("#searchButton").click(function(e) {
+                             var result = searchForText("#content");
+                             adjustViewport(false);
+                             return false;
+                             });*/
     var currentId = globalQuizId;
     $(".backButton").show();
     $(".dirButton").show();

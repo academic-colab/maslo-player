@@ -185,6 +185,8 @@ function showLargeImage(imgPath){
  */
 function clearAll(){
     showEdit = false;
+	$("#contentListCat").empty();
+	$("#contentListCat").hide();
     $("#contentList").empty();
     $("#content").empty();
     $("#answers").empty();
@@ -210,6 +212,8 @@ function clearAll(){
     $(".backButton").hide();
     
     $("#navbar").hide();
+	$("#bodyDiv").css({'top':'45px'});
+	$("#editBar").hide();
 }
 
 /**
@@ -403,7 +407,6 @@ function getURLParameter(name) {
 function setServer(s){
     remoteHost = s;
     return false;
-}
-                            
+}                            
 
                             
