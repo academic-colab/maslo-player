@@ -328,7 +328,7 @@ function showLibrary(jsObj, headline) {
             //actionCol.append(clickLink);
             //row.append(actionCol);
             row.append(clickLink);
-            var cLink = '<a href="#" class="hiddenLink" onClick="deleteItem(\''+escape(title)+'\', this);return false;">Delete</a>';
+            var cLink = '<a href="#confirmDialog" data-rel="popup" data-position-to="window" data-inline="true" data-transition="pop" class="hiddenLink" onClick="deleteItem(\''+escape(title)+'\', this);">Delete</a>';
 			row.append(cLink);
            /* content = '<td class="delete">\
             <div class="delRight">\

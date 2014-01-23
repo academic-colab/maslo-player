@@ -51,6 +51,9 @@ div#content {
 .hiddenLink {
 	display:none;
 }
+.hiddenA {
+	display:none;
+}
 
 .listViewCell {
     float:right;
@@ -427,7 +430,7 @@ div#popupFalse {
     border-radius: 15px;
 }
 
-div#popupMessage {
+div#popupMessagee {
     vertical-align: middle;
     width: 70%;
     height: 40%;
@@ -445,7 +448,7 @@ div#popupMessage {
     border-radius: 15px;
 }
 
-div#confirmDialog {
+div#confirmDialoge {
     vertical-align: middle;
     width: 70%;
     height: 40%;

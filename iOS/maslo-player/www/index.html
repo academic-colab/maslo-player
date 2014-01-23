@@ -188,7 +188,7 @@
                         </tr>
             </table>
         </div>
-        <div id="popupMessage">
+        <!--<div id="popupMessage">
             <table height="100%">
                 <tr>
                     <th>Message</th>
@@ -200,22 +200,31 @@
                     <td> <center><button id="messageOk" class="otherButton">ok</button></center> <td>
                 </tr>
             </table>
-        </div>
-        <div id="confirmDialog">
-            <table height="100%">
-                <tr>
-                    <th>Confirm</th>
-                </tr>
-                <tr>
-                    <td><p/><p/><div id="confMessage"></div><p/><td>
-                        </tr>
-                <tr>
-                    <td><center><button id="confirmOk" class="otherButton">ok</button> &nbsp; <button id="confirmCancel" class="otherButton">cancel</button></center><td>
-                    <td><td>
-                        </tr>
-            </table>
-        </div>
-  <div id="popupBackground"></div>
+        </div>-->
+		<a href="#popupMessage" data-rel="popup" id="triggerAlert" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
+		<div data-role="popup" id="popupMessage" data-overlay-theme="a" data-theme="d" style="max-width:400px;" class="ui-corner-all">
+		    <div data-role="header" data-theme="a" class="ui-corner-top">
+		        <h1>Message</h1>
+		    </div>
+		    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+		        <p id="messageContent"></p>
+		        <center><a href="#" id="messageOk" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a">Ok</a></center>
+		    </div>
+		</div>
+
+	<div id="popupBackground"></div>
+	<a href="#confirmDialog" data-rel="popup" id="triggerConfirm" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
+	<div data-role="popup" id="confirmDialog" data-overlay-theme="a" data-theme="d" data-dismissible="false" style="max-width:400px;" class="ui-corner-all">
+	    <div data-role="header" data-theme="a" class="ui-corner-top">
+	        <h1>Confirm</h1>
+	    </div>
+	    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+	        <p id="confMessage"></p>
+	        <a href="#" id="confirmCancel" data-role="button" data-inline="true" data-rel="back" data-theme="a">Cancel</a>
+	        <a href="#" id="confirmOk" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a">Ok</a>
+	    </div>
+	</div>
+
 
   </div>
   </body>

@@ -283,18 +283,9 @@ function retrieveContentJSON(input) {
  * Display a message in popup window
  * msg: the message to display
  */
-function myAlert(msg){
-    
+function myAlert(msg){    
     $("#messageContent").html(msg);
-    $("#messageOk").unbind('click');
-    $("#messageOk").click(function(e) {
-                          hidePopup("popupMessage"); 
-                          return false;
-                          });
-    
-    var scrollPos = window.pageYOffset;
-    $("#popupMessage").css({"top":scrollPos});
-    showPopup("popupMessage");
+	$("#triggerAlert").click();
     return false;
 }
 
@@ -306,19 +297,11 @@ function myAlert(msg){
 function myConfirm(msg, funOk){
     $("#confMessage").html(msg);
     $("#confirmOk").unbind('click');
-    $("#confirmCancel").unbind('click');
-    $("#confirmCancel").click(function(e){
-                              hidePopup("confirmDialog");
-                              return false;
-                              });
     $("#confirmOk").click(function(e) {
-                          hidePopup("confirmDialog"); 
                           funOk();
                           return false;
                           });
-    var scrollPos = window.pageYOffset;
-    $("#confirmDialog").css({"top":scrollPos});
-    showPopup("confirmDialog");
+	$("#triggerConfirm").click();
     return false;
 }
 
