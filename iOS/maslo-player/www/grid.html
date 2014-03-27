@@ -5,14 +5,15 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=1" />
         <meta charset="utf-8"/>
-        
-        <link rel="stylesheet" type="text/css" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.css" />
+        		
+        <link rel="stylesheet" type="text/css" href="jquery.mobile-1.3.2/jquery.mobile-1.3.2.css" />
+		<link rel="stylesheet" type="text/css" href="theme/maslolp.css" />
         <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
         
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script type="text/javascript" charset="utf-8" src="jquery-latest.js"></script>
         <script type="text/javascript" charset="utf-8" src="jquery-swipe.js"></script>
-        <script type="text/javascript" charset="utf-8"  src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.js"></script>
+        <script type="text/javascript" charset="utf-8"  src="jquery.mobile-1.3.2/jquery.mobile-1.3.2.js"></script>
         <script type="text/javascript" charset="utf-8" src="pgcontentmgr_plugin.js"></script>
         <script type="text/javascript" charset="utf-8"  src="maslo-globals.js"></script>
         <script type="text/javascript" charset="utf-8"  src="maslo-util.js"></script>
@@ -52,17 +53,17 @@
         
     </head>
     <body onLoad="onBodyLoad()">
-        <div style="padding-top:10px;background-color:#282828;height:100vh;width:100%">
+        <div id="allDiv">
             <div id="head" data-role="header">
                 <div class="ui-title" id="title" style="">MASLO Player</div>
             </div>
             
-            <fieldset class="ui-grid-a gridnavi" style="padding-top:40px;">
+            <fieldset class="ui-grid-a gridnavi" style="padding-top:40px;padding-bottom:60px;">
                 
                 <div class="ui-block-a"  style="height:80px;"><button style="height:80px;" data-theme="a" data-icon="glyph-home" data-iconpos="bottom" onClick="document.location.href='index.html'">My Content </button></div>
-                <div class="ui-block-b"  style="height:80px;"><button style="height:80px;" data-theme="a" data-icon="glyph-store" data-iconpos="bottom" onClick="document.location.href='index.html?page=store'">Store</button></div>
+                <div class="ui-block-b"  style="height:80px;"><button style="height:80px;" data-theme="a" data-icon="glyph-store" data-iconpos="bottom" onClick="document.location.href='index.html?page=store'">All Content</button></div>
                 
-
+				<p/>
                 <div class="ui-block-a"  style="height:80px;"><button style="height:80px;" data-theme="a" data-icon="glyph-settings" data-iconpos="bottom" onClick="document.location.href='index.html?page=settings'">Settings </button></div>
                 <div class="ui-block-b"  style="height:80px;"><button style="height:80px;" data-theme="a" data-icon="glyph-help" data-iconpos="bottom" onClick="document.location.href='index.html?page=help'">Help </button></div>
             </fieldset>

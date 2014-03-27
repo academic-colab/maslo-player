@@ -53,7 +53,7 @@ var footerTimeout = null;
 
 var showEdit = true;
 
-var documentsDirPrefix = "../../Documents/Content/";
+var documentsDirPrefix = "../../Library/Caches/Content/";
 
 var inDownload = false;  // currently downloading?
 

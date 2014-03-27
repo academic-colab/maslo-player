@@ -274,7 +274,7 @@ function showLibrary(jsObj, headline) {
         if (inBrowser) {
             jsObj= readJSON('index.json');
         }
-        $("#title").html("Home");
+        $("#title").html("My Content");
         if (headline != null)
             $("#title").html(headline);
         if (jsObj.length == 0){
@@ -283,7 +283,7 @@ function showLibrary(jsObj, headline) {
                 myAlert("No local search results found for your query.");                
                 return false;
             }
-            setTimeout(function(e){myAlert("No content packs installed at this time. Please check the 'Shop' for available content.");return false;},  1500);
+            setTimeout(function(e){myAlert("No content packs installed at this time. Please check 'All Content' for available content.");return false;},  1500);
             return false;
         }
         for (var i = 0 ; i < jsObj.length; i++) {
@@ -555,9 +555,9 @@ function displayContentCore(argPath, type, jsObj){
             $('#content').append('<p/>')
             $('#content').append($('<center></center>').append(aTag));
         }
-    } else if (type == "video" ){ 
+    } else if (type == "video" ){
 		var newContent = '<video controls="controls">\
-        <source src="'+documentsDirPrefix+argPath+'" type="video/mp4" /> \
+        <source src="'+argPath+'" type="video/mp4" /> \
         </video><p/>';
 		if (device.platform == "Android") {   
         	newContent = '<center><video  id="videoPlay"  width="60%" onClick="videoPlayer.play(\''+argPath+'\');">\
@@ -791,7 +791,7 @@ function queryQuizFeedbackPrefs(argPath, argTitle, currId){
  * return: boolean 
  */
 function checkFeedbackValues(){
-    var value = $("input[@name=wantFeedback]:checked").val();
+    var value = $("input[name=wantFeedback]:checked").val();
     if (value == "yes")
         globalWantFeedback = true;
     else
@@ -958,23 +958,21 @@ function updateQuizResults(argPath) {
             $("#nextCorrect").attr('onclick', '').click(function(){
                 if (!triggered) {
                     triggered = true;
-                    hidePopup("popupCorrect");
                     globalQuizId++;
                     createQuiz(argPath);
                 }
             });
-            showPopup("popupCorrect");
+			$("#triggerPUCorrect").click();
         } else {
             writeFeedback("#feedbackFalse");
             $("#nextFalse").attr('onclick', '').click(function(){
                 if (!triggered) {
                     triggered = true;
-                    hidePopup("popupFalse");
                     globalQuizId++;
                     createQuiz(argPath);
                 }
             });
-            showPopup("popupFalse");
+            $("#triggerPUFalse").click();
         }
     } else {
         globalQuizId++;

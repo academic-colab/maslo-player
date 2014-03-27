@@ -90,7 +90,7 @@ function showHelp(){
                              return false;
                              });
     var data = readText("help.html");
-    $("#title").html("MASLO Help");
+    $("#title").html("Help");
     $("#content").html(data);
     return false;
 }
@@ -214,6 +214,7 @@ function clearAll(){
     $("#navbar").hide();
 	$("#bodyDiv").css({'top':'45px'});
 	$("#editBar").hide();
+    $('html, body').animate({ scrollTop: 0}, 0);
 }
 
 /**
@@ -296,8 +297,10 @@ function myAlert(msg){
  */
 function myConfirm(msg, funOk){
     $("#confMessage").html(msg);
+    $("#confirmDialog").show();
     $("#confirmOk").unbind('click');
     $("#confirmOk").click(function(e) {
+                          $("#confirmDialog").hide();
                           funOk();
                           return false;
                           });

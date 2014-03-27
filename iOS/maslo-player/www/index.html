@@ -5,14 +5,14 @@
   
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=1" />
 	<meta charset="utf-8"/>
-
-    <link rel="stylesheet" type="text/css" href="jquery.mobile-1.3.1/jquery.mobile-1.3.1.css" />
+    <link rel="stylesheet" type="text/css" href="jquery.mobile-1.3.2/jquery.mobile-1.3.2.css" />
+	<link rel="stylesheet" type="text/css" href="theme/maslolp.css" />
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery-latest.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery-swipe.js"></script>
-    <script type="text/javascript" charset="utf-8"  src="jquery.mobile-1.3.1/jquery.mobile-1.3.1.js"></script>
+    <script type="text/javascript" charset="utf-8"  src="jquery.mobile-1.3.2/jquery.mobile-1.3.2.js"></script>
     <script type="text/javascript" charset="utf-8" src="pgcontentmgr_plugin.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-globals.js"></script>
     <script type="text/javascript" charset="utf-8"  src="maslo-util.js"></script>
@@ -159,50 +159,55 @@
   </div>
         <div id="imageContainer">
         </div>   
-  
-        <div id="popupCorrect"> 
-            <table height="100%">
-                <tr>
-                    <td width="30%"> <img src="img/check.png" alt="correct answer" height="30px"/> </td>
-                    <td><b>Correct!</b> </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><p/><div id="feedbackCorrect"></div><p/><td>
-                        </tr>
-                <tr>
-                    <td colspan="2"> <center><button id="nextCorrect" class="otherButton">ok</button></center> <td>
-                        </tr>
-            </table>
-        </div>
-        <div id="popupFalse">
-            <table height="100%">
-                <tr>
-                    <td width="30%"> <img src="img/nosync.png" alt="wrong answer" height="30px"/> </td>
-                    <td><b>Incorrect!</b> </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><p/><div id="feedbackFalse"></div><p/><td>
-                        </tr>
-                <tr>
-                    <td colspan="2"> <center><button id="nextFalse" class="otherButton">ok</button></center> <td>
-                        </tr>
-            </table>
-        </div>
-        <!--<div id="popupMessage">
-            <table height="100%">
-                <tr>
-                    <th>Message</th>
-                </tr>
-                <tr>
-                    <td><p/><p/><div id="messageContent"></div><p/><td>
-                </tr>
-                <tr>
-                    <td> <center><button id="messageOk" class="otherButton">ok</button></center> <td>
-                </tr>
-            </table>
-        </div>-->
+
+		<a href="#popupCorrect" data-rel="popup" id="triggerPUCorrect" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
+		<div data-role="popup" id="popupCorrect" data-overlay-theme="a" data-theme="d" style="min-width:200px;max-width:400px;" class="ui-corner-all"  data-dismissible="false">
+		    <div data-role="header" data-theme="a" class="ui-corner-top">
+		        <h1>Correct!</h1>
+		    </div>
+		    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+		        <p>
+		        	<table>
+		                <tr>
+		                    <td width="30%"> <img src="img/check.png" alt="correct answer" height="30px"/> </td>
+		                    <td><b>Correct!</b> </td>
+		                </tr>
+		                <tr>
+		                    <td colspan="2"><p/><div id="feedbackCorrect"></div><p/><td>
+		                        </tr>
+		               
+		            </table>	
+		
+		        </p>
+		        <center><a href="#" id="nextCorrect" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a">Ok</a></center>
+		    </div>
+		</div>
+		
+		<a href="#popupFalse" data-rel="popup" id="triggerPUFalse" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
+		<div data-role="popup" id="popupFalse" data-overlay-theme="a" data-theme="d" style="min-width:200px;max-width:400px;" class="ui-corner-all"  data-dismissible="false">
+		    <div data-role="header" data-theme="a" class="ui-corner-top">
+		        <h1>Incorrect!</h1>
+		    </div>
+		    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+		        <p>
+		        	<table>
+		                <tr>
+		                    <td width="30%"> <img src="img/nosync.png" alt="wrong answer" height="30px"/> </td>
+		                    <td><b>Incorrect!</b> </td>
+		                </tr>
+		                <tr>
+		                    <td colspan="2"><p/><div id="feedbackFalse"></div><p/><td>
+		                 </tr>
+		               
+		            </table>	
+		
+		        </p>
+		        <center><a href="#" id="nextFalse" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a">Ok</a></center>
+		    </div>
+		</div>
+
 		<a href="#popupMessage" data-rel="popup" id="triggerAlert" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
-		<div data-role="popup" id="popupMessage" data-overlay-theme="a" data-theme="d" style="max-width:400px;" class="ui-corner-all">
+		<div data-role="popup" id="popupMessage" data-overlay-theme="a" data-theme="d" style="min-width:200px;max-width:400px;" class="ui-corner-all">
 		    <div data-role="header" data-theme="a" class="ui-corner-top">
 		        <h1>Message</h1>
 		    </div>
@@ -212,7 +217,6 @@
 		    </div>
 		</div>
 
-	<div id="popupBackground"></div>
 	<a href="#confirmDialog" data-rel="popup" id="triggerConfirm" class="hiddenA" data-position-to="window" data-inline="true" data-transition="pop">go</a>
 	<div data-role="popup" id="confirmDialog" data-overlay-theme="a" data-theme="d" data-dismissible="false" style="max-width:400px;" class="ui-corner-all">
 	    <div data-role="header" data-theme="a" class="ui-corner-top">
@@ -224,7 +228,7 @@
 	        <a href="#" id="confirmOk" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="a">Ok</a>
 	    </div>
 	</div>
-
+	<div id="popupBackground"></div>
 
   </div>
   </body>

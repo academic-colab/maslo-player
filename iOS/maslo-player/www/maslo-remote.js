@@ -62,6 +62,15 @@ function updateItem(title, origin, which, link, version, reply){
             ". Do you want to proceed?";                        
         }
         var funOk = function(){
+            $("#popupBackground").css({
+                                      "opacity": "0.7"
+                                      });
+            $("#popupBackground").show();
+            $( ".ui-loader" ).loader( "option", "textVisible", "true" );
+            $.mobile.loading( "show", {
+                             text: "Downloading and updating content pack ...",
+                             textVisible: true
+                             });
             updateItem(title, origin, which, link, version, true); 
             return false;
         }
@@ -75,10 +84,14 @@ function updateItem(title, origin, which, link, version, reply){
 		}
 		inDownload = true;
         fileDownloadMgr.updateContent(function(data) {
+                                        $("#popupBackground").hide();
+                                        $.mobile.loading( "hide");
                                         installSucceeded(data, which, title, link, true);
                                         },
                                         function(error) { 
 										inDownload = false;
+                                        $("#popupBackground").hide();
+                                        $.mobile.loading( "hide");
                                         myAlert("Update failed: <br/>"+error);
                                         },
                                         origin,"download.zip", title, version);
@@ -106,6 +119,15 @@ function installItem(title, origin, which, link, version, reply) {
             ". Do you want to proceed?";                        
         }
         var funOk = function(){
+            $("#popupBackground").css({
+                                      "opacity": "0.7"
+                                      });
+            $("#popupBackground").show();
+            $( ".ui-loader" ).loader( "option", "textVisible", "true" );
+            $.mobile.loading( "show", {
+                             text: "Downloading and installing content pack ...",
+                             textVisible: true
+                             });
             installItem(title, origin, which, link, version, true); 
             return false;
         }
@@ -119,9 +141,13 @@ function installItem(title, origin, which, link, version, reply) {
 		}
 		inDownload = true;
         fileDownloadMgr.downloadContent(function(data) {
+                                         $("#popupBackground").hide();
+                                        $.mobile.loading( "hide");
                                         installSucceeded(data, which, title, link);
                                         },
-                                        function(error) { 
+                                        function(error) {
+                                        $("#popupBackground").hide();
+                                        $.mobile.loading( "hide");
 										inDownload = false;
                                         myAlert("Download failed: <br/>"+error);
                                         },
@@ -168,7 +194,7 @@ function processAjax(data, existingContent, header) {
         if (header != null)
                 $("#title").html(header);
         else
-            $("#title").html("Store");
+            $("#title").html("All Content");
         
 		var instances = null;
 		if (content.length > 0) {
