@@ -29,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 
 /**
  * @author Cathrin Weiss (cathrin.weiss@uwex.edu)
@@ -49,14 +48,14 @@ public class PGContentManagement extends CordovaPlugin {
 	 */
 	@Override
 	public boolean execute(String action, JSONArray data, CallbackContext callback) {
-		Log.d("PGContentManagement", "Plugin Called");
+		//Log.d("PGContentManagement", "Plugin Called");
 		if (action.equals("initializeDatabase")){
 			myStorage.initDB();
-			Log.d("PGContentManagement", "InitializeDatabase called");
+			//Log.d("PGContentManagement", "InitializeDatabase called");
 			callback.success();			
 		} else if (action.equals("getContentPath")){
 			JSONObject obj = getContentPath();
-			Log.d("PGContentManagement", "getContentPath called");
+			//Log.d("PGContentManagement", "getContentPath called");
 			callback.success(obj);
 		} else if (action.equals("getCurrentContentList")){
 			String res = "{\"rows\": []}";
@@ -69,7 +68,7 @@ public class PGContentManagement extends CordovaPlugin {
 			else 
 				res = "{\"rows\": []}";
 			}
-			Log.d("getContentPath", res);
+			//Log.d("getContentPath", res);
 			//result = new PluginResult(Status.OK, res);
 			callback.success(res);			
 		} else if (action.equals("downloadContent")){
@@ -90,7 +89,7 @@ public class PGContentManagement extends CordovaPlugin {
 				callback.success(resultStr);
 			}
 			} catch (JSONException e){
-				Log.d("PGContentManagement.downloadContent","JSON exception: "+e.getMessage());
+				//Log.d("PGContentManagement.downloadContent","JSON exception: "+e.getMessage());
 			}
 			
 		} else if (action.equals("removeContent")){
@@ -99,7 +98,7 @@ public class PGContentManagement extends CordovaPlugin {
 				myStorage.deleteContent(packName);
 				callback.success();
 			} catch(JSONException e){
-				Log.d("PGContentManagement.removeContent","JSON exception: "+e.getMessage());
+				//Log.d("PGContentManagement.removeContent","JSON exception: "+e.getMessage());
 			}
 			
 			
@@ -116,7 +115,7 @@ public class PGContentManagement extends CordovaPlugin {
 					callback.success(r);
 				}
 			} catch (JSONException e) {
-				Log.d("PGContentManagement.unzipContent","JSON exception: "+e.getMessage());
+				//Log.d("PGContentManagement.unzipContent","JSON exception: "+e.getMessage());
 			}
 			
 		} else if (action.equals("searchLocally")){
@@ -128,12 +127,12 @@ public class PGContentManagement extends CordovaPlugin {
 				String searchResult = myStorage.performSearchLocally(searchString, title);
 				callback.success(searchResult);
 			} catch (JSONException e) {
-				Log.d("PGContentManagement.searchLocally","JSON exception: "+e.getMessage());
+				//Log.d("PGContentManagement.searchLocally","JSON exception: "+e.getMessage());
 				callback.error(e.getMessage());
 			}
 			
 		} else {
-			Log.e("PGContentManagement", "Invalid action : "+action+" passed"); 
+			//Log.e("PGContentManagement", "Invalid action : "+action+" passed"); 
 			return false;
 		}
 		return true;

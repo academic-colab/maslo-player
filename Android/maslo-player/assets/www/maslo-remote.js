@@ -62,6 +62,15 @@ function updateItem(title, origin, which, link, version, reply){
             ". Do you want to proceed?";                        
         }
         var funOk = function(){
+			$("#popupBackground").css({
+				"opacity": "0.7"
+			});
+			$("#popupBackground").show();
+			$( ".ui-loader" ).loader( "option", "textVisible", "true" );
+			$.mobile.loading( "show", {
+				text: "Downloading and updating content pack ...",
+				textVisible: true
+			});
             updateItem(title, origin, which, link, version, true); 
             return false;
         }
@@ -75,6 +84,8 @@ function updateItem(title, origin, which, link, version, reply){
 		}
 		inDownload = true;
         fileDownloadMgr.updateContent(function(data) {
+										$("#popupBackground").hide();
+										$.mobile.loading( "hide");
                                         installSucceeded(data, which, title, link, true);
                                         },
                                         function(error) { 
@@ -106,6 +117,15 @@ function installItem(title, origin, which, link, version, reply) {
             ". Do you want to proceed?";                        
         }
         var funOk = function(){
+			$("#popupBackground").css({
+				"opacity": "0.7"
+			});
+			$("#popupBackground").show();
+			$( ".ui-loader" ).loader( "option", "textVisible", "true" );
+			$.mobile.loading( "show", {
+				text: "Downloading and installing content pack ...",
+				textVisible: true
+			});
             installItem(title, origin, which, link, version, true); 
             return false;
         }
@@ -119,6 +139,8 @@ function installItem(title, origin, which, link, version, reply) {
 		}
 		inDownload = true;
         fileDownloadMgr.downloadContent(function(data) {
+										$("#popupBackground").hide();
+										$.mobile.loading( "hide");
                                         installSucceeded(data, which, title, link);
                                         },
                                         function(error) { 
@@ -161,126 +183,139 @@ function processAjax(data, existingContent, header) {
             } else {
                 myAlert("No content packs available for download.");
             }
-        }
+        } 
         clearAll();
         globalPackLinks = null;
         globalPack = "";
         if (header != null)
                 $("#title").html(header);
         else
-            $("#title").html("Store");
+            $("#title").html("All Content");
         
-        for (var i = 0 ; i < content.length; i++) {
-            content[i].filename = content[i].filename.replace("\\/","/")
-            .replace("/./","/").replace(/ /g, "\\ ");
-        }
-        imageMenuClick('#storeImg');
-        $("#sortButton").hide();
-        for (var i = 0 ; i < content.length; i++) {
-        try { 
-         var title = content[i].title;
-         var path = content[i].filename;
-         var version = content[i].version
-         var previewMsg = null;
-         if ("preview" in content[i]) 
-             previewMsg = content[i].preview;
-         var sections = null;
-         if ("sections" in content[i])
-             sections = content[i].sections;
-         /*var row = $("<tr>",{
-         'class': trClass
-         });
-         var td1 = $("<td>", {'class': "left"}); */
-         var row = $("<li>",{'data-icon':"false"});
-         var aTag = $("<a>", {'href': "#"});
-         var aText = $("<div>", {'class':"listViewText", 'html':title});
-            aTag.append(aText);
-         if (!(title in existingContent)) {
-         aTag.click( ( function(t, s,p) { 
-         return function(e) {
-         if (s != null) {
-            var allSections = "";
-            for (var j = 0 ; j < s.length; j++){
-              allSections += "<b>"+s[j]+"</b><br/>";
-            }
-            myAlert("Sections relevant to search query:<br/><p/>"+allSections);
-        } else {
-         if (p == null)
-            myAlert("Clicking the 'Install' button will install content pack <p/><b>"+t+"</b>");
-         else 
-            myAlert(p);          
-        }
-         return false; 
-         }  
-         })(title, sections, previewMsg)
-         );
-         } else {
-         var localPath = existingContent[title][0];
-         aTag.click(  (function(l, t, s) {
-         return function(e) {
-         $("#goBack").unbind("click");
-         $("#goBack").click(function(){ createContentSelection(l,t,s); return false;});
-         createContentSelection(l,t,s); 
-         return false;
-         }
-         })(localPath, title, sections)
-         );
-         }
-         //aTag.appendTo(td1);
-         //td1.appendTo(row);
-         aTag.appendTo(row);
-         var td2 = $("<td>", {'class': "delete"});
-         var installDiv = $("<div>",{'class':"listViewCell"});
-         var installButton = ""; 
-         if (!(title in existingContent)) {
-         installButton = $("<button>",{
-         'class':"installButton", 
-         'html':"Install"
-         });
-         installButton.click( (function(t,p,what, link, v) {
-         return function(e) {
-         installItem(t, p, $(what), $(link), v); 
-         return false;
-         }
-         })(title, path, installButton, aTag, version)
-         );
-         } else if (existingContent[title][1] != version){
-             installButton = $("<input>",{
-                               'class':"updateButton", 
-                               'html':"Update"
-                               });
-             installButton.click( (function(t,p,what, link, v) {
-                                   return function(e) {
-                                   updateItem(t, p, $(what), $(link), v); 
-                                   return false;
-                                   }
-                                   })(title, path, installButton, aTag, version)
-                                 );
+		var instances = null;
+		if (content.length > 0) {
+			if ("content" in content[0]){
+				instances = content;
+			} else {
+				instances = [{"name": "Store", "content":content}];
+			}
+		}
+		
+		for (var inum = 0 ; inum < instances.length; inum++) {
+			var nDiv = $("<div/>");
+			$("#contentListCat").append(nDiv);
+			content = instances[inum].content;
+			var heading = "<h4>"+instances[inum].name+"</h4>";		
+			var ul = $("<ul>", {'data-role':"listview"});
+			var uldiv = $("<div>", {'data-role':'collapsible','data-collapsed':'false', 'data-theme':'a', 'data-content-theme':'c','data-inset':'false' });
+			uldiv.append(heading);	
+			uldiv.append(ul);
+			nDiv.append(uldiv);
+			nDiv.trigger('create');	
+	        for (var i = 0 ; i < content.length; i++) {
+	            content[i].filename = content[i].filename.replace("\\/","/")
+	            .replace("/./","/").replace(/ /g, "\\ ");
+	        }
+	        for (var i = 0 ; i < content.length; i++) {
+	        try { 
+	         var title = content[i].title;
+	         var path = content[i].filename;
+	         var version = content[i].version
+	         var previewMsg = null;
+	         if ("preview" in content[i]) 
+	             previewMsg = content[i].preview;
+	         var sections = null;
+	         if ("sections" in content[i])
+	             sections = content[i].sections;
+	         var row = $("<li>",{'data-icon':"false"});
+	         var aTag = $("<a>", {'href': "#"});
+	         var aText = $("<div>", {'class':"listViewText", 'html':title});
+	            aTag.append(aText);
+	         if (!(title in existingContent)) {
+	         aTag.click( ( function(t, s,p) { 
+	         return function(e) {
+	         if (s != null) {
+	            var allSections = "";
+	            for (var j = 0 ; j < s.length; j++){
+	              allSections += "<b>"+s[j]+"</b><br/>";
+	            }
+	            myAlert("Sections relevant to search query:<br/><p/>"+allSections);
+	        } else {
+	         if (p == null)
+	            myAlert("Clicking the 'Install' button will install content pack <p/><b>"+t+"</b>");
+	         else 
+	            myAlert(p);          
+	        }
+	         return false; 
+	         }  
+	         })(title, sections, previewMsg)
+	         );
+	         } else {
+	         var localPath = existingContent[title][0];
+	         aTag.click(  (function(l, t, s) {
+	         return function(e) {
+	         $("#goBack").unbind("click");
+	         $("#goBack").click(function(){ createContentSelection(l,t,s); return false;});
+	         createContentSelection(l,t,s); 
+	         return false;
+	         }
+	         })(localPath, title, sections)
+	         );
+	         }
+	         aTag.appendTo(row);
+	         var td2 = $("<td>", {'class': "delete"});
+	         var installDiv = $("<div>",{'class':"listViewCell"});
+	         var installButton = ""; 
+	         if (!(title in existingContent)) {
+	         installButton = $("<button>",{
+	         'class':"installButton", 
+	         'html':"Install"
+	         });
+	         installButton.click( (function(t,p,what, link, v) {
+	         return function(e) {
+	         installItem(t, p, $(what), $(link), v); 
+	         return false;
+	         }
+	         })(title, path, installButton, aTag, version)
+	         );
+	         } else if (version && existingContent[title][1] != version){
+	             installButton = $("<button>",{
+	                               'class':"updateButton", 
+	                               'html':"Update"
+	                               });
+	             installButton.click( (function(t,p,what, link, v) {
+	                                   return function(e) {
+	                                   updateItem(t, p, $(what), $(link), v); 
+	                                   return false;
+	                                   }
+	                                   })(title, path, installButton, aTag, version)
+	                                 );
 
-         } else {
-         installButton = $("<button>",{
-         'class':"installedButton", 
-         'html':"Installed"
-         });  
-         }
-         var fSet = $("<fieldset>", {"data-role":"fieldcontain"});
-         installButton.appendTo(fSet);
-            fSet.appendTo(installDiv);
-         //installDiv.appendTo(td2);
-         //td2.appendTo(row);
-         installDiv.appendTo(row);
-            
-         $('#contentList').append(row);
-         if (trClass == "light")
-         trClass = "dark";
-         else 
-         trClass = "light";
-        } catch(err) {
-            myAlert(err);
-        }
-        }
-        $("#contentList").listview('refresh');
-    }
+	         } else {
+	         installButton = $("<button>",{
+	         'class':"installedButton", 
+	         'html':"Installed"
+	         });  
+	         }
+	         var fSet = $("<fieldset>", {"data-role":"fieldcontain"});
+	         installButton.appendTo(fSet);
+	         fSet.appendTo(installDiv);
+	         installDiv.appendTo(row);
+			 ul.append(row);		
+
+	         if (trClass == "light")
+	         trClass = "dark";
+	         else 
+	         trClass = "light";
+	        } catch(err) {
+	            myAlert(err);
+	        }
+	        }
+			ul.listview('refresh');
+			}
+     }
+	$("#bodyDiv").css({'top':'25px'});
+	$("#contentListCat").show();
     return false;
 }
 

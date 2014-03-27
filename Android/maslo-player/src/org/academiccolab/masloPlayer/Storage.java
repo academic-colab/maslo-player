@@ -35,7 +35,6 @@ import java.util.*;
 
 import java.util.zip.*;
  
-import android.util.Log;
 
 
 /**
@@ -94,13 +93,13 @@ public void onDestroy() {
 *
 */
 public void openDatabase(String db) {
-	Log.d("Storage", "open database called");
+	//Log.d("Storage", "open database called");
 	// If database is open, then close it
 	if (this.myDb != null) {
 		this.myDb.close();
 	}
 	this.dbName = this.path + File.separator + db + ".db";
-	Log.d("Storage", "opening: "+this.dbName);
+	//Log.d("Storage", "opening: "+this.dbName);
 	this.myDb = SQLiteDatabase.openOrCreateDatabase(this.dbName, null);
 }
 
@@ -149,7 +148,7 @@ public String unzip(String zipFileName) throws IOException {
 	Enumeration entries;
 	ZipFile zipFile;
 	String headDir = "";
-	Log.d("Storage.unzip","Unzipping: "+zipFileName);
+	//Log.d("Storage.unzip","Unzipping: "+zipFileName);
 		zipFile = new ZipFile(zipFileName);
 		entries = zipFile.entries();
 		while(entries.hasMoreElements()) {
@@ -159,13 +158,13 @@ public String unzip(String zipFileName) throws IOException {
 				if (headDir.equals(""))
 					headDir = entryPath;
 				// Assume directories are stored parents first then children.
-				Log.d("Storage.Unzip","Extracting directory: " + entryPath);				
+				//Log.d("Storage.Unzip","Extracting directory: " + entryPath);				
 				File newDir = new File(entryPath);
 				newDir.mkdir();
 				newDir.setExecutable(true, false);
 				
 			} else {
-				Log.d("Storage.Unzip","Extracting file: " + entry.getName());			
+				//Log.d("Storage.Unzip","Extracting file: " + entry.getName());			
 				FileOutputStream oStream;		
 				oStream =  new FileOutputStream(entryPath);
 				copyInputStream(zipFile.getInputStream(entry),
@@ -202,8 +201,8 @@ public void deletePath(File f){
 	    for (File c : f.listFiles())
 	      deletePath(c);
 	  }
-	  if (!f.delete())
-	   Log.d("Storage.deletePath","Failed to delete file: " + f);
+	  //if (!f.delete())
+		//  Log.d("Storage.deletePath","Failed to delete file: " + f);
 
 }
 
@@ -215,16 +214,16 @@ public void deleteContent(String packName){
 	String path = results.get(0).get(0);
 	File f = new File(path);
 	if (f.exists()){
-		Log.d("Storage.deleteContent", "We will delete "+path);
+		//Log.d("Storage.deleteContent", "We will delete "+path);
 	} else {
-		Log.d("Storage.deleteContent", "Path did not exist in the first place: "+path);
+		//Log.d("Storage.deleteContent", "Path did not exist in the first place: "+path);
 	}
 	deletePath(f);
 	this.executeSql(delete1, new String[]{packName}, "1");
 	this.executeSql(delete2, new String[]{packName}, "2");
 	f = new File(path);
 	if (f.exists()){
-		Log.d("Storage.deleteContent", "Deletion was NOT successful.");
+		//Log.d("Storage.deleteContent", "Deletion was NOT successful.");
 	} 
 	
 }
@@ -241,15 +240,16 @@ public String doUnzip(String path, String title, String version) {
 		File f = new File(path);
 		headDir = unzip(path); 
 		//headDir = path + File.separator + headDir + File.separator;
-		Log.d("Storage.unzip", "Success!");
+		//Log.d("Storage.unzip", "Success!");
 		String searchDbPath = headDir + "search.db";
 		f.delete();
-		Log.d("Storage.unzip", "Search db path:"+searchDbPath);
+		//Log.d("Storage.unzip", "Search db path:"+searchDbPath);
 		String query = "INSERT INTO content VALUES (?, ?, '', '', ?)";				
 		this.executeSql(query, new String[]{title, headDir, version}, "1");
 		importSearchDb(searchDbPath);		
-		String data = this.executeSql("SELECT * from content", null,"0");
-		Log.d("Storage.downloadFile", "Now in database: "+data);
+		//String data = this.executeSql("SELECT * from content", null,"0");
+		this.executeSql("SELECT * from content", null,"0");
+		//Log.d("Storage.downloadFile", "Now in database: "+data);
 	} catch (IOException e) {		
 		errorMessage = "Installation of content pack failed ("+e.getMessage()+")";
 	}
@@ -274,7 +274,7 @@ public String downloadFile(String url, String title, String fname, String versio
 		FileOutputStream out = new FileOutputStream(f);
 		copyInputStream(in, out);
 		out.close();
-		Log.d("Storage.downloadFile", "Success!");
+		//Log.d("Storage.downloadFile", "Success!");
 		if (!wantUnzip){
 			return path;
 		}		
@@ -286,7 +286,7 @@ public String downloadFile(String url, String title, String fname, String versio
 	} catch (IOException e) {
 		errorMessage = "Installation of content pack failed ("+e.getMessage()+")";
 	} 
-	Log.d("Storage.downloadFile", "Something went wrong ... ");
+	//Log.d("Storage.downloadFile", "Something went wrong ... ");
    return null;
 }
 

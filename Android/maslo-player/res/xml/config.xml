@@ -18,31 +18,23 @@
  under the License.
 -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
-        id        = "io.cordova.helloCordova"
-        version   = "2.0.0">
-    <name>Hello Cordova</name>
+        id        = "org.academiccolab.masloPlayer"
+        version   = "1.0.0">
+    <name>UWEX LP</name>
 
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        The MASLo Player
     </description>
 
-    <author href="http://cordova.io" email="dev@cordova.apache.org">
-        Apache Cordova Team
+    <author href="http://www.academiccolab.org" email="cathrin.weiss@uwex.edu">
+        Academic ADL Co-Lab, Madison, WI
     </author>
 
     <access origin="*"/>
 
-    <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src="grid.html" />
 
-    <preference name="loglevel" value="DEBUG" />
-    <!--
-      <preference name="splashscreen" value="resourceName" />
-      <preference name="backgroundColor" value="0xFFF" />
-      <preference name="loadUrlTimeoutValue" value="20000" />
-      <preference name="InAppBrowserStorageEnabled" value="true" />
-      <preference name="disallowOverscroll" value="true" />
-    -->
+    <preference name="loglevel" value="ERROR" />
 
     <feature name="App">
       <param name="android-package" value="org.apache.cordova.App"/>

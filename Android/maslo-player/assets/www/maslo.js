@@ -251,21 +251,30 @@ function showLibrary(jsObj, headline) {
     clearAll();
     $("#editButton").show();
     $("#sortButton").show();
+	$("#editBar").show();
     trClass = "dark";
     if (jsObj == null && !inBrowser){
             fileDownloadMgr.getContentList(retrieveContentJSON, error);
     } else {        
-        $("#searchButton").unbind('click');
-        $("#searchButton").click(function(e) {searchLocally(); 
+	
+		$("#searchForm").unbind('submit');
+        $("#searchForm").submit(function(e) {								 
+								 searchLocally(); 
                                  adjustViewport(false); 
                                  return false;});
-                                 
+		
+        /*$("#searchButton").unbind('click');
+        $("#searchButton").click(function(e) {								 
+								 searchLocally(); 
+                                 adjustViewport(false); 
+                                 return false;});
+         */                        
         globalPack = "";
         
         if (inBrowser) {
             jsObj= readJSON('index.json');
         }
-        $("#title").html("Home");
+        $("#title").html("My Content");
         if (headline != null)
             $("#title").html(headline);
         if (jsObj.length == 0){
@@ -274,7 +283,7 @@ function showLibrary(jsObj, headline) {
                 myAlert("No local search results found for your query.");                
                 return false;
             }
-            setTimeout(function(e){myAlert("No content packs installed at this time. Please check the 'Shop' for available content.");return false;},  1500);
+            setTimeout(function(e){myAlert("No content packs installed at this time. Please check 'All Content' for available content.");return false;},  1500);
             return false;
         }
         for (var i = 0 ; i < jsObj.length; i++) {
@@ -319,7 +328,8 @@ function showLibrary(jsObj, headline) {
             //actionCol.append(clickLink);
             //row.append(actionCol);
             row.append(clickLink);
-            
+            var cLink = '<a href="#confirmDialog" data-rel="popup" data-position-to="window" data-inline="true" data-transition="pop" class="hiddenLink" onClick="deleteItem(\''+escape(title)+'\', this);">Delete</a>';
+			row.append(cLink);
            /* content = '<td class="delete">\
             <div class="delRight">\
             <button class="deleteButton" \
@@ -333,6 +343,7 @@ function showLibrary(jsObj, headline) {
               trClass = "light";
         }
     }
+	$("#bodyDiv").css({'top':'85px'});
     $('#contentList').listview('refresh');
     showEdit = true;
 }
@@ -357,10 +368,16 @@ function createContentSelection(argPath, title, limitList){
         var jsObj= readJSON(fPath+'/manifest');
     
         var result = traverse(title, jsObj, fPath, "#contentList", limitList);
-        $("#searchButton").unbind('click');
-        $("#searchButton").click(function(e) {searchLocally(title); 
+
+		$("#searchForm").unbind('submit');
+        $("#searchForm").submit(function(e) {searchLocally(title); 
                              adjustViewport(false); 
                              return false;});
+
+        /*$("#searchButton").unbind('click');
+        $("#searchButton").click(function(e) {searchLocally(title); 
+                             adjustViewport(false); 
+                             return false;});*/
         $("#title").empty();
         var titleDiv = $("<div id='headTitle'></div>");
         $("#title").append(titleDiv);
@@ -598,14 +615,22 @@ function displayContent(argPath, type, title, pack, id) {
     }
     setWipe(currIndex);
     displayContentCore(argPath, type, jsObj);
-    $("#searchButton").unbind('click');
-    $("#searchButton").click(function(e) {
+	$("#searchForm").unbind('submit');
+	$("#searchForm").submit(function(e) {
+							
+                             var result = searchForText("#content");
+                             adjustViewport(false);
+                             return false;
+                             });
+    //$("#searchButton").unbind('click');
+    /*$("#searchButton").click(function(e) {
+							
                              var result = searchForText("#content");
                              adjustViewport(false);
                              return false;
                              });
     
-    
+    */
     var tDiv = "titleDiv"+currIndex;
     $("#title").empty();
     var titleDiv = $("<div id='"+tDiv+"'></div>");
@@ -766,7 +791,7 @@ function queryQuizFeedbackPrefs(argPath, argTitle, currId){
  * return: boolean 
  */
 function checkFeedbackValues(){
-    var value = $("input[@name=wantFeedback]:checked").val();
+    var value = $("input[name=wantFeedback]:checked").val();
     if (value == "yes")
         globalWantFeedback = true;
     else
@@ -808,12 +833,18 @@ function createQuiz(argPath, argTitle){
 function retrieveQuestions(jsonObj, argPath) {
     document.getElementById("answers").innerHTML ='';
     document.getElementById("content").innerHTML ='';
-    $("#searchButton").unbind('click');
-    $("#searchButton").click(function(e) {
+	$("#searchForm").unbind('submit');
+    $("#searchForm").submit(function(e) {
                              var result = searchForText("#content");
                              adjustViewport(false);
                              return false;
                              });
+    /*$("#searchButton").unbind('click');
+    $("#searchButton").click(function(e) {
+                             var result = searchForText("#content");
+                             adjustViewport(false);
+                             return false;
+                             });*/
     var currentId = globalQuizId;
     $(".backButton").show();
     $(".dirButton").show();
@@ -927,23 +958,21 @@ function updateQuizResults(argPath) {
             $("#nextCorrect").attr('onclick', '').click(function(){
                 if (!triggered) {
                     triggered = true;
-                    hidePopup("popupCorrect");
                     globalQuizId++;
                     createQuiz(argPath);
                 }
             });
-            showPopup("popupCorrect");
+			$("#triggerPUCorrect").click();
         } else {
             writeFeedback("#feedbackFalse");
             $("#nextFalse").attr('onclick', '').click(function(){
                 if (!triggered) {
                     triggered = true;
-                    hidePopup("popupFalse");
                     globalQuizId++;
                     createQuiz(argPath);
                 }
             });
-            showPopup("popupFalse");
+            $("#triggerPUFalse").click();
         }
     } else {
         globalQuizId++;

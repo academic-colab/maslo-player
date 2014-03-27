@@ -332,10 +332,12 @@ function deleteItem(title, which, reply){
     //var reply = confirm('Are you sure you want to delete '+title+'?');
     if (reply) {
         var result = fileDownloadMgr.deleteContent(title);       
-        var index = $(which).closest('tr')[0].sectionRowIndex;
+		$(which).parent().remove();
+		//$(which).closest('li').remove();
+       /* var index = $(which).closest('tr')[0].sectionRowIndex;
         var numRows = $(which).closest('tr').parent().children().length;
         swapTRClass(which);
-        $(which).closest('td').parent().remove();
+        $(which).closest('td').parent().remove();*/
         myAlert("content deleted");
     }
     return false;
