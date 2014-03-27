@@ -70,7 +70,7 @@ var inBrowser = false;
 var androidDirPrefix = "/data/data/org.academiccolab.masloPlayer/files/";
 
 // Remark: This value needs to be replaced by your actual MASLO store URL
-var remoteStartUrl = "your_MASLO_store_URL_here";
+var remoteStartUrl = "YOUR_SERVER_URL_HERE";
 var remoteStartName = "Default";
 var remoteHost = remoteStartUrl;
 

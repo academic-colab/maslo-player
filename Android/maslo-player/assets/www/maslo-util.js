@@ -90,7 +90,7 @@ function showHelp(){
                              return false;
                              });
     var data = readText("help.html");
-    $("#title").html("MASLO Help");
+    $("#title").html("Help");
     $("#content").html(data);
     return false;
 }
@@ -185,6 +185,8 @@ function showLargeImage(imgPath){
  */
 function clearAll(){
     showEdit = false;
+	$("#contentListCat").empty();
+	$("#contentListCat").hide();
     $("#contentList").empty();
     $("#content").empty();
     $("#answers").empty();
@@ -210,6 +212,9 @@ function clearAll(){
     $(".backButton").hide();
     
     $("#navbar").hide();
+	$("#bodyDiv").css({'top':'45px'});
+	$("#editBar").hide();
+	$('html, body').animate({ scrollTop: 0}, 0);
 }
 
 /**
@@ -279,18 +284,9 @@ function retrieveContentJSON(input) {
  * Display a message in popup window
  * msg: the message to display
  */
-function myAlert(msg){
-    
+function myAlert(msg){    
     $("#messageContent").html(msg);
-    $("#messageOk").unbind('click');
-    $("#messageOk").click(function(e) {
-                          hidePopup("popupMessage"); 
-                          return false;
-                          });
-    
-    var scrollPos = window.pageYOffset;
-    $("#popupMessage").css({"top":scrollPos});
-    showPopup("popupMessage");
+	$("#triggerAlert").click();
     return false;
 }
 
@@ -301,20 +297,14 @@ function myAlert(msg){
  */
 function myConfirm(msg, funOk){
     $("#confMessage").html(msg);
+	$("#confirmDialog").show();
     $("#confirmOk").unbind('click');
-    $("#confirmCancel").unbind('click');
-    $("#confirmCancel").click(function(e){
-                              hidePopup("confirmDialog");
-                              return false;
-                              });
     $("#confirmOk").click(function(e) {
-                          hidePopup("confirmDialog"); 
+						  $("#confirmDialog").hide();
                           funOk();
                           return false;
                           });
-    var scrollPos = window.pageYOffset;
-    $("#confirmDialog").css({"top":scrollPos});
-    showPopup("confirmDialog");
+	$("#triggerConfirm").click();
     return false;
 }
 
@@ -430,7 +420,6 @@ function getURLParameter(name) {
 function setServer(s){
     remoteHost = s;
     return false;
-}
-                            
+}                            
 
                             

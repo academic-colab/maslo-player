@@ -16,6 +16,7 @@
     <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
     <plugin name="Capture" value="org.apache.cordova.Capture"/>
     <plugin name="Battery" value="org.apache.cordova.BatteryListener"/>
+    <plugin name="SplashScreen" value="org.apache.cordova.SplashScreen"/>    
     <plugin name="PGContentManagement" value="org.academiccolab.masloPlayer.PGContentManagement"/>
     <plugin name="VideoPlayer" value="org.academiccolab.masloPlayer.VideoPlayer"/>
 </plugins>

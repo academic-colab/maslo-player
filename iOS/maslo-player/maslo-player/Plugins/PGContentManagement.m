@@ -56,7 +56,7 @@
 // get path to content pack directory
 -(void)getContentPath:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = nil;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
 	NSString *contentPath = [documentsDirectory stringByAppendingPathComponent:@"Content"];
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:contentPath];
@@ -87,7 +87,7 @@
     NSString *title = [command.arguments objectAtIndex:0];
     NSString *query = @"SELECT * FROM content WHERE title = ?";
     NSArray *arguments = [NSArray arrayWithObject:title];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
 	
 	NSString *newFilePath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
@@ -109,7 +109,7 @@
     NSArray *paramArray = [command arguments];
     NSString *searchTerms = [paramArray objectAtIndex:0];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
     NSError *error;
     searchTerms = [searchTerms stringByReplacingOccurrencesOfString:@" AND " withString:@" "];
@@ -187,7 +187,7 @@
 -(void) getCurrentContentList:(CDVInvokedUrlCommand*)command  {
     NSString *callback = [command callbackId];
     NSString *query = [@"" stringByAppendingFormat:@"SELECT * FROM content "];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
 	
 	NSString *newFilePath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
@@ -255,7 +255,7 @@
 
     } else {
         // save file in documents directory
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];	
 	
         NSString *newFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
@@ -315,10 +315,29 @@
     [super dealloc];
 }
 
+-(void) addSkipBackupAttributeAtPath: (NSString*) path {
+    NSURL *fileUrl = [NSURL fileURLWithPath:path];
+    BOOL isDir = NO;
+    assert([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]);
+    NSError *error = nil;
+    BOOL success = [fileUrl setResourceValue: [NSNumber numberWithBool: YES]
+                                        forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error excluding %@ from backup %@", [fileUrl lastPathComponent], error);
+    }
+    if (isDir){
+        NSArray *itemNames = [ [NSFileManager defaultManager] contentsOfDirectoryAtPath: path error: nil];
+        for (NSString *itemName in itemNames) {
+            NSString *filePath = [path stringByAppendingPathComponent: itemName];
+            [self addSkipBackupAttributeAtPath:filePath];
+        }
+    }
+}
+
 // unzip operation + install content pack
 -(NSString*) unzipFile:(NSString *)fileName withTitle:(NSString*)title withVersion:(NSString*)version {
     NSMutableString *dirName = [@"" mutableCopy];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
     NSString *componentsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Content"];
     NSString *newLocalPath = nil;
@@ -334,7 +353,7 @@
         NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
         NSString *dir = [dirName  substringToIndex:[dirName length]-1];
         newLocalPath = [@"" stringByAppendingFormat:@"%@/Content/%@", documentsDirectory, dir ];
-        
+        [self addSkipBackupAttributeAtPath:newLocalPath];
         NSString *query = [@"" stringByAppendingFormat:@"INSERT INTO content VALUES (?, ?, '', '', ?)"];
         NSArray *args = [NSArray arrayWithObjects:title, newLocalPath, version, nil];
     
@@ -385,7 +404,7 @@
 
 // initialize, i.e. open database and create tables if necessary
 -(BOOL) initDB {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
     NSString *dbPath = [documentsDirectory stringByAppendingPathComponent:@"content.db"];
     BOOL result = false;
@@ -394,6 +413,7 @@
         result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
         query = @"CREATE VIRTUAL TABLE content_search using FTS3(pack,section,content,tokenize=porter)";
         result = [self executeDBStatement:dbPath withQuery:query withArgs:nil];
+        [self addSkipBackupAttributeAtPath:dbPath];
 	}
     NSString *query = @"SELECT * FROM sqlite_master WHERE type='table' AND name='uniqueId'";
     NSMutableArray *resArray = [self readFromDatabase:dbPath withQuery:query withArguments:nil];

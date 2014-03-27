@@ -115,7 +115,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* maslo-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maslo-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -265,8 +265,10 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+
 				1D6058910D05DD3D006BFB54 /* maslo-player.app */,
-				9E37C8D0185B7E1E00CDA292 /* libZipArchive.a */,
+				9E02D01B184E85AE004046C6 /* libZipArchive.a */,
+
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -439,9 +441,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* maslo-player */ = {
+		1D6058900D05DD3D006BFB54 /* maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "maslo-player" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename" */;
 			buildPhases = (
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
@@ -453,9 +455,9 @@
 			dependencies = (
 				301BF551109A68C00062928A /* PBXTargetDependency */,
 			);
-			name = "maslo-player";
+			name = "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename";
 			productName = "maslo-player";
-			productReference = 1D6058910D05DD3D006BFB54 /* maslo-player.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9E37C8CF185B7E1E00CDA292 /* ZipArchive */ = {
@@ -511,8 +513,10 @@
 			);
 			projectRoot = "";
 			targets = (
+
 				1D6058900D05DD3D006BFB54 /* maslo-player */,
-				9E37C8CF185B7E1E00CDA292 /* ZipArchive */,
+				9E02D01A184E85AE004046C6 /* ZipArchive */,
+
 			);
 		};
 /* End PBXProject section */
@@ -647,7 +651,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "maslo-player";
+				PRODUCT_NAME = "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -678,7 +682,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "maslo-player";
+				PRODUCT_NAME = "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -838,7 +842,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "maslo-player" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "maslo-player.temp_caseinsensitive_rename.temp_caseinsensitive_rename" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,

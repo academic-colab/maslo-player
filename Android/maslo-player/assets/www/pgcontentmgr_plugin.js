@@ -43,9 +43,33 @@ function(success, failure, url,destFileName,title, version) {
                      "PGContentManagement", "unzipContent", 
                      [data,title, version]);
     }
-    cordova.exec(downloadSuccess, failure,
+
+    var doDownload = function(fs){
+        var ft = new FileTransfer();
+        var dlPath = androidDirPrefix+destFileName;
+        ft.onprogress = function(pe){
+            var loadText = "Downloading... ";
+            if (pe.lengthComputable) {
+                var perc = Math.floor(pe.loaded / pe.total * 100);
+                loadText =  loadText += perc + "% loaded." ;
+            }
+            
+            $(".ui-loader").find("h1").text(loadText );
+        };
+        
+        var succFun = function(e){
+            $(".ui-loader").find("h1").text("Download complete. Updating...");
+            downloadSuccess(dlPath);
+        };
+        ft.download(processedURL, dlPath, succFun, failure);
+        
+    };
+    
+    window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, doDownload, function(e){alert(e);});
+
+    /*cordova.exec(downloadSuccess, failure,
                  "PGContentManagement", "downloadContent", 
-                 [processedURL,destFileName,title, version, false]);
+                 [processedURL,destFileName,title, version, false]);*/
     return data;
 }
 
@@ -58,9 +82,38 @@ PGContentManagement.prototype.downloadContent =
     }
     var data = "None yet";
     var processedURL = url.replace(/\\ /g, "%20");
-    cordova.exec(success, failure,
+	var doDownload = function(fs){
+	          var ft = new FileTransfer();
+	          var dlPath = androidDirPrefix+destFileName;
+	          ft.onprogress = function(pe){
+	              var loadText = "Downloading... ";
+	              if (pe.lengthComputable) {
+	                  var perc = Math.floor(pe.loaded / pe.total * 100.0);
+					  if (perc > 100) {
+						loadText = "Download complete. Installing...";
+					   } else {
+	                  	loadText =  loadText += perc + "% loaded." ;
+					   }
+	              }
+
+	              $(".ui-loader").find("h1").text(loadText );
+	          };
+
+	          var succFun = function(e){
+	              $(".ui-loader").find("h1").text("Download complete. Installing...");
+	              cordova.exec(success, failure,
+	                           "PGContentManagement", "unzipContent",
+	                           [dlPath,title, version]);
+	          };
+	          ft.download(processedURL, dlPath, succFun, failure);
+
+	      };
+
+	      var doCheck = function(fs){alert(fs.root.fullPath);};
+	      window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, doDownload, function(e){alert(e);});
+    /*cordova.exec(success, failure,
                               "PGContentManagement", "downloadContent", 
-                              [processedURL,destFileName,title, version, wantUZip]);
+                              [processedURL,destFileName,title, version, wantUZip]);*/
     return data;
 }
 

@@ -23,6 +23,9 @@
 package org.academiccolab.masloPlayer;
 
 import android.os.Bundle;
+import android.webkit.WebSettings;
+
+import org.academiccolab.uwexlp.R;
 import org.apache.cordova.*;
 
 /**
@@ -32,6 +35,10 @@ public class masloplayer extends DroidGap {
     @Override
     public void onCreate(Bundle savedInstanceState) {   
         super.onCreate(savedInstanceState);        
-        super.loadUrl(Config.getStartUrl());
+        super.setIntegerProperty("splashscreen", R.drawable.ic_launcher);        
+        super.loadUrl(Config.getStartUrl(), 10000);
+        WebSettings ws = super.appView.getSettings();
+        ws.setSupportZoom(true);
+        ws.setBuiltInZoomControls(true);
     }
 }
