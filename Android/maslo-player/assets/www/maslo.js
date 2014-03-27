@@ -39,7 +39,7 @@ function traverse(pTitle, jsonObj, argPath, appendWhere, limitList) {
     globalPack = argPath;
     argPath = makeURLSane(argPath);
     if( typeof jsonObj == "object" ) {
-        var displayItems = ["text", "image", "video", "audio", "quiz"];
+        var displayItems = ["text", "online", "videoOnlineObject", "image", "video", "audio", "quiz"];
         if (itemInList(jsonObj.type, displayItems) && (limitList == null || itemInList(jsonObj.title, limitList))) {
             var dataPath = documentsDirPrefix+jsonObj.path;
             dataPath =makeURLSane(dataPath);
@@ -583,13 +583,35 @@ function displayContentCore(argPath, type, jsObj){
     argPath = makeURLSane(argPath);
     var desc = getDescription(jsObj, type, argPath);    
     if (type == "text") {
-        var txt = readText(argPath);
-        if (txt)
-            txt = txt.replace(/\<a (.*?)\>(.*?)\<\/a\>/g, '$2'); 
-        else 
-            txt = "";
-        $("#content").append(txt);
-    } else if (type == "image") {
+	        var txt = readText(argPath);
+	        if (txt) {
+	            txt = txt.replace(/\<a (.*?)\>(.*?)\<\/a\>/g, '$2');
+	            txt = txt.replace(/\<iframe (.*?)\>(.*?)\<\/iframe\>/g, '');
+	            txt = txt.replace(/\<img (.*?)\>(.*?)\<\/img\>/g, '');
+	            txt = txt.replace(/\<img (.*?)\>/g, '');
+	            txt = txt.replace(/\<object (.*?)\>(.*?)\<\/object\>/g, '');
+	            txt = txt.replace(/\<video (.*?)\>(.*?)\<\/video\>/g, '');
+	        } else
+	            txt = "";
+	        $("#content").append(txt);
+	    } else if (type == "online" || type == "videoOnlineObject"){
+			var txt = readText(argPath);
+	        if (!txt)             
+	            txt = "";
+	        if (type == "videoOnlineObject")
+	                $("#content").append("<center>"+txt+"</center>");
+	        else
+	            $("#content").append(txt);
+	        $("#content a").each(function(){
+	                             var self = $(this);
+	                             self.click(function(e){
+	                                        var h = self.attr('href');
+	                                        window.open(h, '_system');
+	                                        return false;
+	                                        });
+	        });
+
+		} else if (type == "image") {
         
         
         if (globalDescLen > 256) {
