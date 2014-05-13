@@ -25,7 +25,7 @@ package org.academiccolab.masloPlayer;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 
-import org.academiccolab.uwexlp.R;
+import org.academiccolab.masloPlayer.R;
 import org.apache.cordova.*;
 
 /**
